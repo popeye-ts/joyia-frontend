@@ -1,0 +1,73 @@
+<!--Start of Product Detail Section -->
+            <div class="row app-row">
+                <div class="col-12">
+                  <!--Start of Navigation -->
+                    <div class="mb-3">
+                        <h1>{{pageData.title}}</h1>
+                        <div class="text-zero top-right-button-container">
+                            <button type="button" class="btn btn-primary btn-lg top-right-button mr-1" (click)="reset()">Reset</button>
+                        </div>
+                        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                            <ol class="breadcrumb pt-0">
+                              <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                                    <a href="javascript:void(0)">{{crumb.title}}</a>
+                                </li>
+
+                            </ol>
+                        </nav>
+                    </div>
+
+
+                    <div class="separator mb-5"></div>
+                </div>
+            </div>
+            <!--End of Navigation -->
+
+
+            <!--Start of section -->
+            <div class="container-fluid" >
+              <div class="row app-row">
+            <div class="col-12">
+                                <div class="card mb-4">
+                                    <div id="smartWizardCheck">
+                                        <ul class="card-header">
+                                            <li><a href="#checkStep1" >Client<br /><small>Client's information</small></a></li>
+                                            <li><a href="#checkStep2" >Guarantors<br /><small>All Guarantor's information</small></a></li>
+                                            <li><a href="#checkStep3" >Products<br /><small>All Products</small></a></li>
+                                        </ul>
+
+                                        <div class="card-body">
+                                            <div id="checkStep1">
+                                                <h4 class="pb-2">Client Info</h4>
+                                                <orderClientStep [reset]="resetClient" [clientData]="selectedClient" (removeClient) = "removeClient()"></orderClientStep>
+                                            </div>
+                                            <div id="checkStep2">
+                                                <h4 class="pb-2">Information regarding guarantors</h4>
+                                                <orderGuarantorStep [reset]="resetGuarantors" [selectedGuarantor]="guarantors ? guarantors[0] : undefined " (removeGuarantorEmitter)="removeGuarantor(0)" ></orderGuarantorStep>
+                                                <orderGuarantorStep [reset]="resetGuarantors" *ngIf="guarantorCount==2" [selectedGuarantor]="guarantors? (guarantors.length > 1 ? guarantors[1] :undefined) : undefined " (removeGuarantorEmitter)="removeGuarantor(1)" [second]="true"></orderGuarantorStep>
+                                                <button type="button" class="btn btn-primary d-block mt-3" (click)="addGuarantor()">+</button>
+                                            </div>
+                                            <div id="checkStep3">
+                                                <h4 class="pb-2">Selected products for order</h4>
+                                                <orderProductsStep [reset]="resetProducts" [selectedProducts]="selectedProductTemp" [quantity]="productsQuantity" (remove)="removeProduct($event)"></orderProductsStep>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+              </div>
+            </div>
+</div>
+            <!--End of section -->
+            <!--Start of select section -->
+<selectForOrderForm (itemSelectEmitter)="entitySelected($event)" [title]="getCurrentStepTitle(currentlySelectedStep-1)"></selectForOrderForm>
+<div class="chat-input-container d-flex justify-content-between align-items-center desc">
+    <input class="form-control flex-grow-1 mt-5" type="text" (change)="descChanged($event)" placeholder="Order Description...">
+    <div>
+        <button type="button" [disabled]="validate()" class="btn btn-outline-primary mb-2" data-toggle="modal"
+                                data-target=".bd-example-modal-lg" (click)="updateInfo()">Complete Order<i class="simple-icon-arrow-right ml-2"></i></button>
+
+    </div>
+</div>
+            <!--End of select section -->
+<confirmorder [description]="desc" [resetGuarantors]="resetGuarantors" [resetProducts]="resetProducts" [resetClient]="resetClient" [client]="selectedClient" [guarantors]="guarantors"  [products]="products" [quantity]="productsQuantity"></confirmorder>

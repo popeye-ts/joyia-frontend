@@ -1,0 +1,49 @@
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y-sm bg-default ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 card padding-y-sm card pt-4 products-container" >
+                <!-- Start of order search section -->
+                <cashordersearch></cashordersearch>
+                <!-- End of order search section -->
+
+                <span id="items">
+                    <!-- Start of order products section -->
+                    <cashorderproducts></cashorderproducts>
+                    <!-- End of order products section -->
+                </span>
+            </div>
+            <!-- Start of order summary -->
+            <div class="col-md-5 summary-container">
+                <div class="input-controls" *ngIf="!(selectedOrder$ | async)">
+                    <order-customer-select></order-customer-select>
+                </div>
+                <div class="selected-product" *ngIf="selectedOrder$ | async">
+                    <div class="section-left">
+                        <div class="order-title">
+                            <h2 class="title-label">
+                                Add Batch to order#
+                                <button class="text-order">{{(selectedOrder$ | async)?.order_id}}</button>
+                            </h2>
+                        </div>
+                        <!-- <div class="order-desc">
+                            <button class="view-order-summary">
+                                View order summary
+                            </button>
+                        </div> -->
+                    </div>
+                    <div class="section-right">
+                        <button class="btn-icon-remove" (click)="removeSelectedOrder()">x</button>
+                    </div>
+                </div>
+                <cashordersummary></cashordersummary>
+                <previousOrders ></previousOrders>
+            </div>
+            <!-- End of order summary -->
+        </div>
+    </div><!-- container //  -->
+</section>
+
+<guarantor-form-modal></guarantor-form-modal>
+
+<order-stock-modal></order-stock-modal>

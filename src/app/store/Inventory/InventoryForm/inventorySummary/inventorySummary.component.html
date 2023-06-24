@@ -1,0 +1,123 @@
+    <div class="card">
+        <span id="cart">
+            <table class="table table-hover shopping-cart-wrap scroll">
+                <thead class="text-muted">
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col" width="120">Qty</th>
+                        <th scope="col" width="120">Charged price</th>
+                        <th scope="col" class="text-right" width="200">Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="scroll">
+                    <div *ngIf="someProductsSelected;then itemsList else noItemsUI">here is ignored</div>
+                    <ng-template #itemsList>
+                        <tr class="scroll-items" *ngFor="let product of products$ | async" >
+                            <td>
+                                <figure class="media">
+                                    <div class="img-wrap">
+                                        <!-- <my-img
+                                            [src]="serverImagesPath+product?.image"
+                                            [alt]="'Card image cap'"
+                                            [width]="'97%'"
+                                            [height]="'80px'"
+                                            [maxHeight]="'170px'"
+                                            [borderRadius]="'0.75rem'"
+                                            [class]="'card-img-top'"></my-img> -->
+                        
+                                    </div>
+                                    <figcaption class="media-body">
+                                        <h6 class="title text-truncate">{{product?.name}} </h6>
+                                    </figcaption>
+                                </figure>
+                            </td>
+                            <td class="text-center">
+                                <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group"
+                                    aria-label="...">
+                                    <button type="button" class="m-btn btn btn-default pr0" (click)="quantityChanged(product._id, 'subtract')">
+                                        <i class="glyph-icon simple-icon-minus"></i>                                
+                                    </button>
+    
+                                    <button type="button" class="m-btn btn btn-default" disabled>{{product?.quantity}}</button>
+                                    
+                                    <button type="button" class="m-btn btn btn-default pl0" (click)="quantityChanged(product._id, 'add')">
+                                        <i class="glyph-icon simple-icon-plus"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="price-wrap">
+                                    <var class="price">Rs. 
+                                        <span contenteditable="true" (keydown)="discountChanged($event, product._id)" >
+                                            {{(product?.recieved || product?.price_calculated) }}
+                                        </span>
+                                    </var>
+                                </div> <!-- price-wrap .// -->
+                            </td>
+                            <td class="text-right">
+                                <button class="btn btn-outline-danger" (click)="removeProduct(product._id)"> <i
+                                        class="glyph-icon simple-icon-trash"></i></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #noItemsUI>
+                        <div >
+                            <h3 class="center-heading">
+                                No items selected
+                            </h3>
+                        </div>
+                    </ng-template>
+                    
+                </tbody>
+            </table>
+            <div class="box">
+                <dl class="summary-labels">
+                    <dt>Tax: </dt>
+                    <dd class="float-right">
+                        {{tax$ | async | money}}
+                    </dd>
+                </dl>
+                <dl class="summary-labels">
+                    <dt>Discount:</dt>
+                    <dd class="float-right">
+                        {{discount$ | async | money}}
+                    </dd>
+                </dl>
+                <dl class="summary-labels">
+                    <dt>Sub Total:</dt>
+                    <dd class="float-right">
+                        {{subTotal$  | async | money}}
+                    </dd>
+                </dl>
+                <dl class="summary-labels">
+                    <dt>Total: </dt>
+                    <dd class="float-right h4 b"> 
+                        {{total$ | async | money}} 
+                    </dd>
+                </dl>
+                <div class="btn-section">
+                        <button class="btn btn-error btn-lg btn-block btn-danger float-left w-50" (click)="resetCart()">
+                            <i  class="fa fa-times-circle "></i> Reset 
+                        </button>
+                        <button class="btn  btn-primary btn-lg btn-block float-right w-50" (click)="completeOrder()">
+                            <i class="fa fa-shopping-bag"></i>
+                            <span *ngIf="(orderSubmissionState$ | async) != 'SUBMITTING'">
+                                <span *ngIf="(orderSubmissionState$ | async) == 'PENDING'" >
+                                    Complete
+                                </span>
+                                <span class="icon success" *ngIf="(orderSubmissionState$ | async) == 'ORDER_COMPLETE'" data-toggle="tooltip" data-placement="top"
+                                    title="Everything went right!">
+                                    <i class="simple-icon-check"></i>
+                                </span>
+                                <span class="icon fail" *ngIf="(orderSubmissionState$ | async) == 'SUBMIT_ERROR'" data-toggle="tooltip" data-placement="top"
+                                    title="Something went wrong!">
+                                    <i class="simple-icon-exclamation"></i>
+                                </span>
+                            </span>
+                            <preloader *ngIf="(orderSubmissionState$ | async) =='SUBMITTING' "></preloader>
+                        </button>
+                </div>
+            </div> <!-- box.// -->
+        </span>
+    </div> <!-- card.// -->
+   

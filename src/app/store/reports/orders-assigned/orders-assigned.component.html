@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="col-12">
+      <h1>Order assignment list</h1>
+      <div class="top-right-button-container">
+        <div class="btn-group" *ngIf="!noOrders">
+            <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <!-- <a class="dropdown-item" href="javascript:void(0)" (click)="printData()">
+                <i class="glyph-icon simple-icon-printer"></i>
+                &nbsp;&nbsp;&nbsp; Print</a> -->
+              <a class="dropdown-item" href="javascript:void(0)" (click)="downloadFile()">
+                  <i class="glyph-icon iconsminds-data-download"></i>
+                  &nbsp;&nbsp;&nbsp; Export</a>
+  
+            </div>
+            
+        </div>
+    </div>
+   
+    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb pt-0">
+          <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l = last;" [ngClass]='l ? "active" : "" '>
+                <a href="javascript:void(0)">{{crumb.title}}</a>
+            </li>
+        </ol>
+    </nav>
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-6 mb-4">
+          <ng-select [items]="users$ | async" 
+            [multiple]="true" bindLabel="_id" bindValue="_id"  [closeOnSelect]="false" 
+            typeToSearchText="Please select users for orders report"   
+            placeholder="Select assignee"  
+            [(ngModel)]="selectedUsers"
+            [loading]="peopleLoadingAsyncSearch"
+            [typeahead]="peopleInputAsyncSearch"
+            >
+            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+              <span class="ng-value-label"><img [src]="serverImagesPath.small+item.profile_pic" width="12px" height="12px">
+                {{item.username}}</span>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item">
+              <img [src]="serverImagesPath.small+item.profile_pic" width="12px" height="12px"> {{item.username}}
+            </ng-template>
+          </ng-select> 
+
+      </div>
+      <div class="col-12 col-md-6 col-lg-6 right-side-container">
+        <button type="button" class="btn btn-lg btn-primary" (click)="applyClicked()">
+          <div class="spinner" *ngIf="filtersBeingApplied">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+          </div>
+          <span  *ngIf="!filtersBeingApplied">Apply filters</span>
+        </button>
+        <span class="font-bold stats-count count-stats">
+          Fetched {{ordersLst?.length}} of Filtered {{filteredCount || 0}} records of {{totalCount || 0}}
+        </span>
+        <div class="float-md-right dropdown-as-select" id="pageCountDatatable" >
+            <img src="assets/img/circle_spinner.webp" class="circle_spinner" *ngIf="filtersBeingApplied">
+            <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="records">
+                10
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item active" href="javascript:void(0)">10</a>
+              <a class="dropdown-item " href="javascript:void(0)">20</a>
+              <a class="dropdown-item" href="javascript:void(0)">30</a>
+              <a class="dropdown-item" href="javascript:void(0)">50</a>
+              <a class="dropdown-item" href="javascript:void(0)">100</a>
+              <a class="dropdown-item" href="javascript:void(0)">500</a>
+              <a class="dropdown-item" href="javascript:void(0)">1000</a>
+              <a class="dropdown-item" href="javascript:void(0)">2000</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <table class="table table-striped" id="assigned-tbl">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order </th>
+                <th scope="col">Client </th>
+                <th scope="col">Client Phone</th>
+                <th scope="col">Assigned To</th>
+                <th scope="col">Next Payment Date</th>
+                <th scope="col">Last Payment Date</th>
+                
+                <th scope="col">Guarantors</th>
+                <th scope="col">Grand Total</th>
+                <th scope="col">Total Paid</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let order of ordersLst;let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>
+                  <button (click)="showDetails(order._id)" class="btn btn-outline-info mb-1">
+                    {{order?.order_id}}
+                  </button>
+                </td>                
+                <td>{{order?.client?.personal_info?.name}}</td>
+                <td>{{order?.client?.personal_info?.phone}}</td>
+                <td>{{order?.assigned_to ? order?.assigned_to?.username : order?.created_by?.username}}</td>
+                <td>{{order?.next_payment_date | date}}</td>
+                <td>{{order?.last_payment_time | date}}</td>
+                <td>
+                  <button *ngFor="let g of order.guarantors" class="btn btn-light default mb-1">
+                    {{g?.guarantor_id?.name}}  {{g?.guarantor_id?.phone}}
+                  </button>
+                </td>
+                <td>{{order?.grand_total ? order?.grand_total : order?.total_amount}}</td>
+                <td>{{order?.total_paid}}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+  </div>
+
+</div>

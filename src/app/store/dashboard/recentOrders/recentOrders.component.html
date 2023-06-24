@@ -1,0 +1,90 @@
+<div class="position-absolute card-top-buttons">
+    <button class="btn btn-header-light icon-button">
+        <i class="simple-icon-refresh"></i>
+    </button>
+</div>
+
+<div class="card-body">
+    <h5 class="card-title">Recent Orders</h5>
+
+<div class="scroll dashboard-list-with-thumbs">
+    <ng-container *ngIf="beingLoaded">
+        <div class="d-flex flex-row mb-3" *ngFor="let rcnt of [1,2,3,4,5];">
+            <a class="d-block position-relative" href="javascript:void(0)">
+                <span class="list-thumbnail border-0" >
+                    <my-img
+                        [src]="'spinning-img'"
+                        [alt]="'Card image cap'"
+                        [width]="'127px'"
+                        [height]="'85px'"
+                        [maxHeight]="'100px'"
+                        [borderRadius]="'0.55rem'"
+                        [class]="'card-img-top'">
+                    </my-img>
+                </span>
+            </a>
+            <div class="pl-3 pt-2 pr-2 pb-2">
+                <a href="javascript:void(0)">
+                    <p class="list-item-heading">
+                        <ngx-skeleton-loader
+                            count="1"
+                            appearance="circle"
+                            [theme]="{
+                            width: '250%',
+                            'border-radius': '0.3rem',
+                            height: '20px'
+                            }"
+                        >
+                        </ngx-skeleton-loader>
+                    </p>
+                    <div class="pr-4 d-none d-sm-block">
+                        <p class="text-muted mb-1 text-small">
+                            <ngx-skeleton-loader
+                                count="1"
+                                appearance="circle"
+                                [theme]="{
+                                width: '200%',
+                                'border-radius': '0.3rem',
+                                height: '14px'
+                                }"
+                            >
+                            </ngx-skeleton-loader>
+
+                        </p>
+                    </div>
+                    <div class="text-primary text-small font-weight-medium d-none d-sm-block">
+                        <ngx-skeleton-loader
+                            count="1"
+                            appearance="circle"
+                            [theme]="{
+                            width: '80%',
+                            'border-radius': '0.3rem',
+                            height: '12px'
+                            }"
+                        >
+                        </ngx-skeleton-loader>    
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </ng-container>
+    <div class="d-flex flex-row mb-3" *ngFor="let rcnt of recentOrders;" (click)="viewOrderDetail(rcnt)">
+        <a class="d-block position-relative" href="javascript:void(0)">
+            <img [src]="serverImagesPath.small+rcnt.image" alt="Marble Cake" class="list-thumbnail border-0" />
+            <span class="badge badge-pill badge-theme-2 position-absolute badge-top-right">NEW</span>
+        </a>
+        <div class="pl-3 pt-2 pr-2 pb-2">
+            <a href="javascript:void(0)" (click)="viewOrderDetail(rcnt)">
+                <p class="list-item-heading">{{rcnt.client_name}}</p>
+                <div class="pr-4 d-none d-sm-block">
+                    <p class="text-muted mb-1 text-small">{{rcnt.description}}</p>
+                </div>
+                <div class="text-primary text-small font-weight-medium d-none d-sm-block">
+                    {{rcnt.order_created_at | amTimeAgo}}</div>
+            </a>
+        </div>
+
+    </div>
+</div>
+</div>

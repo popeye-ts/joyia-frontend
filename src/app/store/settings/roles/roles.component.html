@@ -1,0 +1,73 @@
+<div id="accordion">
+       <div class="border" *ngFor="let role of roleData;let i=index;">
+           <button class="btn btn-link collapsed" data-toggle="collapse" [attr.data-target]="'#collapse_'+i" aria-expanded="false" aria-controls="collapseOne">
+               {{role.name}}
+           </button>
+
+           <div id="collapse_{{i}}" class="collapse" data-parent="#accordion" style="">
+               <div class="p-4">
+                 <table class="table table-striped">
+                 <thead>
+                     <tr>
+                        <th scope="col">Sr.</th>
+                         <th scope="col">Resource Name</th>
+                         <th scope="col">Description</th>
+                         <th scope="col">Can view</th>
+                         <th scope="col">Can add</th>
+                         <th scope="col">Can update</th>
+                         <th scope="col">Can delete</th>
+                         <th scope="col">Can Aprrove / Reject </th>
+                         <th scope="col">Can Assign / Forward </th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr *ngFor="let rsrc of role.resource;let j=index;">
+                         <th scope="row">{{j+1}}</th>
+                         <td>{{rsrc.resource_name}}</td>
+                         <td>{{rsrc.resource_desc}}</td>
+                         <td>
+                           <div class="custom-control custom-checkbox mb-4" *ngIf="!isApprovalType(rsrc)&& !isAssignForwardType(rsrc)">
+                                    <input type="checkbox" class="custom-control-input" id="rsrc_{{i+'_'+j}}" (change)="permChange($event,'view')" [attr.data]="rsrc._id" [checked]="rsrc.can_view" [disabled]="role.name.indexOf('Administrator') != -1">
+                                    <label class="custom-control-label" for="rsrc_{{i+'_'+j}}"></label>
+                          </div>
+                          </td>
+                         <td>
+                           <div class="custom-control custom-checkbox mb-4" *ngIf="!isApprovalType(rsrc) && !isAssignForwardType(rsrc)">
+                                    <input type="checkbox" class="custom-control-input" id="rsrcAdd_{{i+'_'+j}}" (change)="permChange($event,'add')" [attr.data]="rsrc._id" [checked]="rsrc.can_add" [disabled]="role.name.indexOf('Administrator') != -1">
+                                    <label class="custom-control-label" for="rsrcAdd_{{i+'_'+j}}"></label>
+                          </div>
+                         </td>
+                         <td>
+                           <div class="custom-control custom-checkbox mb-4" *ngIf="!isApprovalType(rsrc) && !isAssignForwardType(rsrc)">
+                                    <input type="checkbox" class="custom-control-input" id="rsrcEdi_{{i+'_'+j}}" (change)="permChange($event, 'edit')" [attr.data]="rsrc._id" [checked]="rsrc.can_edit" [disabled]="role.name.indexOf('Administrator') != -1">
+                                    <label class="custom-control-label" for="rsrcEdi_{{i+'_'+j}}"></label>
+                          </div>
+                        </td>
+                         <td>
+                           <div class="custom-control custom-checkbox mb-4" *ngIf="!isApprovalType(rsrc) && !isAssignForwardType(rsrc)">
+                                    <input type="checkbox" class="custom-control-input" id="rsrcDel_{{i+'_'+j}}" (change)="permChange($event,'delete')" [attr.data]="rsrc._id" [checked]="rsrc.can_delete" [disabled]="role.name.indexOf('Administrator') != -1">
+                                    <label class="custom-control-label" for="rsrcDel_{{i+'_'+j}}"></label>
+                          </div>
+                         </td>
+                         <td >
+                           <div class="custom-control custom-checkbox mb-4" *ngIf="isApprovalType(rsrc)">
+                                    <input type="checkbox" class="custom-control-input" id="rsrcDel_{{i+'_'+j}}" (change)="permChange($event,'approve_reject')" [attr.data]="rsrc._id" [checked]="rsrc.can_approve_reject" [disabled]="role.name.indexOf('Administrator') != -1">
+                                    <label class="custom-control-label" for="rsrcDel_{{i+'_'+j}}"></label>
+                          </div>
+                         </td>
+                         <td >
+                           <div class="custom-control custom-checkbox mb-4" *ngIf="isAssignForwardType(rsrc)">
+                                    <input type="checkbox" class="custom-control-input" id="rsrcDel_{{i+'_'+j}}" (change)="permChange($event,'assign_forward')" [attr.data]="rsrc._id" [checked]="rsrc.can_assign_forward" [disabled]="role.name.indexOf('Administrator') != -1">
+                                    <label class="custom-control-label" for="rsrcDel_{{i+'_'+j}}"></label>
+                          </div>
+                         </td>
+
+                     </tr>
+                 </tbody>
+             </table>
+               </div>
+           </div>
+       </div>
+
+
+   </div>

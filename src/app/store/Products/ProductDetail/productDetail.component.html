@@ -1,0 +1,225 @@
+              <!--Start of Product Detail Section -->
+                          <div class="row">
+                              <div class="col-12">
+                                <!--Start of Navigation -->
+                                  <div class="mb-3">
+                                      <h1 ><a href="javascript:void(0)" (click)="all()" > {{pageData.title}}</a></h1>
+                                      <div class="text-zero top-right-button-container">
+
+                                        <div class="btn-group" *ngIf="(_permService.hasPermission('Products' , 'edit' ) ) || (_permService.hasPermission('Products' , 'delete' ) )">
+                                            <div class="btn btn-primary btn-lg pl-4 pr-0">
+                                            </div>
+                                            <button type="button"
+                                                class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" uiSref="store.productForm" *ngIf="(_permService.hasPermission('Products' , 'edit' ) )" [uiParams]="{ id: _id  }" >Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0)" *ngIf="(_permService.hasPermission('Products' , 'delete' ) )" (click)="deleteProduct()">Delete</a>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                                          <ol class="breadcrumb pt-0">
+                                            <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                                                  <a href="javascript:void(0)">{{crumb.title}}</a>
+                                              </li>
+
+                                          </ol>
+                                      </nav>
+
+                                  </div>
+
+
+                                  <div class="separator mb-5"></div>
+                              </div>
+                          </div>
+                          <!--End of Navigation -->
+              <!--Begin Main Section  -->
+              <div class="container-fluid">
+         <div class="row">
+               <div class="col-12 col-md-12 col-xl-8 col-left">
+                   <div class="card mb-4">
+                       <div class="card-body">
+
+                           <div class="glide details">
+                               <div class="glide__track" data-glide-el="track">
+                                   <ul class="glide__slides">
+                                       <li class="glide__slide" *ngFor="let img of data.image;">
+                                           <!-- <img alt="detail" src="{{}}"
+                                               class="" /> -->
+                                           <my-img
+                                              [src]="serverImagesPath.large+img"
+                                              [alt]="'Glide'"
+                                              [width]="'782px'"
+                                              [maxWidth]="'100%'"
+                                              [height]="'382px'"
+                                              [maxHeight]="'100%'"
+                                              [borderRadius]="'0.75rem'"
+                                              [class]="'responsive border-0 border-radius img-fluid mb-3'"></my-img>
+                                       </li>
+                                   </ul>
+                               </div>
+                           </div>
+
+                           <div class="glide thumbs">
+                               <div class="glide__track" data-glide-el="track">
+                                   <ul class="glide__slides">
+                                       <li class="glide__slide" *ngFor="let img of data.image;">
+                                           <!-- <img alt="thumb" src="{{}}"
+                                               class="" /> -->
+                                           <my-img
+                                              [src]="serverImagesPath.small+img"
+                                              [alt]="'Glide small'"
+                                              [width]="'60px'"
+                                              [height]="'45px'"
+                                              [maxHeight]="'100%'"
+                                              [borderRadius]="'0.75rem'"
+                                              [class]="'responsive border-0 border-radius img-fluid'"></my-img>
+                                       </li>
+                                   </ul>
+                               </div>
+                               <div class="glide__arrows" data-glide-el="controls">
+                                   <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><i
+                                           class="simple-icon-arrow-left"></i></button>
+                                   <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><i
+                                           class="simple-icon-arrow-right"></i></button>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+                   <!--start of stock info -->
+                   <div class="card" *ngIf="(data && data.stock && data.stock.length)">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs " role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="stock-tab" data-toggle="tab" href="#stock" role="tab" aria-controls="stock" aria-selected="true">Stock</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="stock" role="tabpanel" aria-labelledby="stock-tab">
+
+                                    <p class="font-weight-bold">Stock info</p>
+
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Registration no</th>
+                                                <th scope="col">Engine No</th>
+                                                <th scope="col">Chassis No</th>
+                                                <th scope="col">Key No</th>
+                                                <th scope="col">Color</th>
+                                                <th scope="col">IMEI</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let stk of data?.stock;let i = index;">
+                                                <th scope="row" >{{i}}</th>
+                                                <td>{{stk?.reg_no}}</td>
+                                                <td>{{stk?.engine_no}}</td>
+                                                <td>{{stk?.chasis_no}}</td>
+                                                <td>{{stk?.key_no}}</td>
+                                                <td>
+                                                  <div [style.background-color]="stk.color" class="colors col-md-6">
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                    '{{stk?.imei?.join("' , '")}}'
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   <!--end of stock info -->
+               </div>
+
+               <div class="col-12 col-md-12 col-xl-4 col-right">
+                   <div class="card mb-4">
+                       <div class="position-absolute card-top-buttons">
+                           <button class="btn btn-header-light icon-button">
+                               <i class="simple-icon-refresh"></i>
+                           </button>
+                       </div>
+                       <div class="card-body">
+                           <div class="mb-3">
+                               <div class="post-icon mr-3 d-inline-block font-weight-bold"><a href="javascript:void(0)"><i
+                                           class="iconsminds-notepad mr-1"></i></a> <span>{{inventoryInfoExists ? data.quantityAvailable : 'Not '}}
+                                       Available</span></div>
+                               <div class="post-icon d-inline-block" *ngIf="data.lastSupply"><i class="simple-icon-calendar mr-1"></i>
+                                 <span>{{(data.quantityAvailable != 0 ? 'Last Supply :'+(data.lastSupply | date: 'dd.mm.yy') : 'End Date :'+(data.endDate | date: 'dd.mm.yy') ) }}</span></div>
+                           </div>
+                           <div class="row">
+                               <div class="col-6">
+                                 <p class=" mb-2 clearfix font-weight-bold">{{data.product_display_name}}</p>
+                                 <p class="text-muted text-small mb-2 clearfix">Categories</p>
+                                 <p class="mb-3">
+                                     <a href="javascript:void(0)" *ngFor="let category of data.categories;">
+                                         <span class="badge badge-pill badge-outline-theme-2 mb-1 ">{{category.name}}
+                                         <i class="glyph-icon {{category.icon}}"></i>
+                                         </span>
+                                     </a>
+                                 </p>
+                                 <p class="text-muted text-small mb-2">Colors Available</p>
+                                 <p class="colour-container">
+                                     <span *ngFor="let color of data?.other_info?.colors_available;">
+                                         <div [style.background-color]="color" class="colors col-md-6">
+                                         </div>
+                                     </span>
+                                 </p>
+                               </div>
+                               <div class="col-6">
+                                 <ngx-qrcode
+                                   [elementType]="elementType"
+                                   [errorCorrectionLevel]="correctionLevel"
+                                   [value]="value"
+                                   alt="Demo QR Code"
+                                   cssClass="bshadow">
+                                 </ngx-qrcode>
+                               </div>
+                             </div>
+
+                             <p class="text-muted text-small mb-2 clearfix row">
+                               <span class="col-md-6">Sale price </span>
+                               <span class="col-md-6">{{data?.price?.sale_price}}/_</span>
+                             </p>
+                             <p class="mb-3">
+                                 {{data.description}}
+                             </p>
+                             <div class="border">
+                                  <button class="btn btn-link collapsed" data-toggle="collapse"
+                                      data-target="#other" aria-expanded="false" aria-controls="other">
+                                      Other info
+                                  </button>
+                                  <div id="other" class="collapse" data-parent="#other">
+                                      <div class="p-4">
+                                          <div class="row" *ngFor="let info of otherInfo">
+                                            <ng-container *ngIf="info && info.value">
+                                              <div class="col-md-6 font-weight-bold">{{info?.key}} </div>
+                                              <div class="col-md-6"> {{info?.value}}</div>
+                                            </ng-container>
+                                          </div>
+                                      </div>
+                                  </div>
+                             </div>
+                       </div>
+                   </div>
+
+                   <!-- Similar products -->
+                   <similarProducts [categories]="(data && data.categories ? data.categories[0].name : '')"></similarProducts>
+                   <!-- end of similar products -->
+               </div>
+           </div>
+       </div>
+
+       <!-- preloader -->
+
+              <!--End of Main Menu -->

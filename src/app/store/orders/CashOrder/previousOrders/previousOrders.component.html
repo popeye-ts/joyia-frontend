@@ -1,0 +1,39 @@
+    <div class="card mt-4 d-none d-lg-block" *ngIf="haveData">
+        <div class="card-body">
+            <h5 class="card-title"><span>Previous orders</span><a
+                    class="btn-link float-right text-small pt-1" href="javascript:void(0)">View All</a>
+            </h5>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Order Id</th>
+                                        <th scope="col">Total Amount</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let order of otherOrdersData;index as i">
+                                        <th scope="row">{{i+1}}</th>
+                                        <td class="underline"><a href='javascript:void(0)' (click)="viewDetail(order._id)">
+                                               Order_{{order?.order_id}}
+                                            </a>
+                                        </td>
+                                        <td>{{order?.advance_amount}}</td>
+                                        <td>
+                                            <button class="btn  btn-primary btn-sm btn-block pd-0" (click)="print(order)">
+                                                <span *ngIf="order._id == (order_id$ | async); else notRelated">
+                                                    {{printStatus$ | async}}
+                                                </span>
+                                                  
+                                                <ng-template #notRelated>
+                                                    <span class="glyph-icon simple-icon-printer" >
+                                                    </span>    
+                                                </ng-template>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+              </div>
+      </div>

@@ -1,0 +1,232 @@
+<form [formGroup]="WaiverForm" (ngSubmit)="formSubmitted()" *ngIf="(_permService.hasPermission(rsrcTitle , 'add' ) && showForm && order_data?.order_status != 'complete')">
+  <hr>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="waiverAmount">Waiver Type</label>
+        <select class="form-control datepicker" placeholder="Select waiver type" autocomplete="off" formControlName="waiver_type" (change)="waivedTypeChanged( WaiverForm?.controls?.waiver_type?.value)">
+          <option value="Fixed">Fixed</option>
+          <option value="Percent">Percent</option>
+        </select>
+        <div *ngIf="WaiverForm.controls.waiver_type.invalid && (WaiverForm.controls.waiver_type.dirty || WaiverForm.controls.waiver_type.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="WaiverForm.controls.waiver_type.errors.required">
+            Waiver type is required.
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="waiverAmount">Waiver {{(WaiverForm?.controls?.waiver_type?.value == 'Fixed') ? 'Amount' : 'Percent %'}} </label>
+        <input type="number" class="form-control" formControlName="waiver_value" id="waiverAmount" placeholder="Amount" >
+        <div *ngIf="WaiverForm.controls.waiver_value.invalid && (WaiverForm.controls.waiver_value.dirty || WaiverForm.controls.waiver_value.touched)"
+            class="alert alert-danger">
+          <div *ngIf="WaiverForm.controls.waiver_value.errors.required">
+            Value is required.
+          </div>
+          <div *ngIf="WaiverForm.controls.waiver_value.errors.min">
+            Value cannot be less then 1.
+          </div>
+          <div *ngIf="WaiverForm.controls.waiver_value.errors.max">
+            Percentage Value cannot be greater then 100.
+          </div>
+
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="approvalAuthority">Approval authority</label>
+        <select class="form-control datepicker" id="approvalAuthority" placeholder="Select approval authority" autocomplete="off" formControlName="approval_authority">
+          <option *ngFor="let auth of approvalAuthorties;let i = index;" value="{{auth._id}}" >
+            {{auth.username}}
+          </option>
+        </select>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="reason">Reason</label>
+        <input  type="text" class="form-control" formControlName="reason" placeholder="Reason of waiver">
+        <div *ngIf="WaiverForm.controls.reason.invalid && (WaiverForm.controls.reason.dirty || WaiverForm.controls.reason.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="WaiverForm.controls.reason.errors.required">
+            Reason is required.
+          </div>
+          <div *ngIf="WaiverForm.controls.reason.errors.minlength">
+            Reason must be at least 3 characters long.
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-row">
+  <div class="col-md-9">
+
+  </div>
+  <div class="col-md-3">
+    <button type="submit" class="btn btn-primary mt-3 btnSubmit " [disabled]="!WaiverForm.valid">
+        <span *ngIf="!beingAdded">
+          Add Waiver
+        </span>
+      <preloader *ngIf="beingAdded"></preloader>
+    </button>
+  </div>
+</div>
+
+</form>
+
+<!-- <div class="text-center" *ngIf="order_data.order_status == 'complete'">
+  <h4 class="text-center">
+  Order is complete
+  </h4>
+</div> -->
+<div class="text-center" *ngIf="!(_permService.hasPermission(rsrcTitle , 'view' ) )">
+  <hr>
+  You are not allowed to view {{rsrcTitle}}
+</div>
+<div class="row" *ngIf="(_permService.hasPermission(rsrcTitle , 'view' ) )">
+                <div *ngIf="waiverList?.length ; then haveData ; else noData"></div>
+                <ng-template #noData>
+                  <div class="center spaceTop">
+                  <h3>No waivers attached</h3>
+                  </div>
+                </ng-template>
+                <ng-template  #haveData>
+                <div class="col-12 mb-4 spaceTop">
+                    <table  class="table table-borderless"
+                         datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="instlmntTbl">
+                        <thead>
+                            <tr class="instmnt">
+                              <th scope="col">Sr</th>
+                              <th scope="col">Type</th>
+                              <th scope="col">Value</th>
+                              <th scope="col">Approval Authority</th>
+                              <th scope="col">Reason</th>
+
+                              <th scope="col">Current Status</th>
+                              <th scope="col">Requested date</th>
+                              <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                          <tr *ngFor="let waiver of waiverList;index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{waiver.type}}</td>
+                            <td>{{waiver.value}}</td>
+                            <td>{{waiver.approval_pending_at?.firstname}} {{waiver.approval_pending_at?.lastname}}</td>
+                            <td>{{waiver.reason}}</td>
+                            <td>{{waiver.approval_status}}</td>
+                            <td>{{waiver.created_at | date}}</td>
+                            <td class="actions">
+                              <button class="btn btn-primary" name="edit"
+                              *ngIf="!(_permService.hasPermission(rsrcTitle , 'edit' ) )"
+                                [attr.data]="waiver._id" (click)="editInstlmnt($event , waiver)">
+                                <i class="simple-icon-pencil"  *ngIf="!beingEditWaiver"></i>
+                                <preloader *ngIf="beingEditWaiver"></preloader>
+                              </button>
+
+                              <button class="btn btn-primary btn-multiple-state" name="delete"
+                              *ngIf="!(_permService.hasPermission(rsrcTitle , 'delete' ) )"
+                              [attr.data]="waiver._id"  (click)="deleteWaiver($event)">
+                                <i class="simple-icon-trash" *ngIf="!beingDeletedWaiver"></i>
+                                <preloader *ngIf="beingDeletedWaiver"></preloader>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </ng-template>
+            </div>
+<!--Start of Modal to edit waiver-->
+    <!-- Modal -->
+    <div class="modal fade" id="installmentEditModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Installment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--Edit installment form-->
+                <form [formGroup]="EditWaiverForm" (ngSubmit)="editWaiverFormSubmitted()" *ngIf="true || (_permService.hasPermission(rsrcTitle , 'edit' ) && showForm )">
+                <div class="modal-body">
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="waiverType">Waiver Type</label>
+                              <select class="form-control datepicker" placeholder="Select waiver type" autocomplete="off" formControlName="waiver_type">
+                                <option value="Fixed">Fixed</option>
+                                <option value="Percent">Percent</option>
+                              </select>
+                              <div *ngIf="EditWaiverForm.get('waiver_type').invalid && (EditWaiverForm.get('waiver_type').dirty || EditWaiverForm.get('waiver_type').touched)"
+                                  class="alert alert-danger">
+
+                                <div *ngIf="EditWaiverForm.get('waiver_type').errors.required">
+                                  Type is required.
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="waiverAmount">Waiver Type</label>
+                              <input type="number" class="form-control" formControlName="waiver_type" id="waiverAmount" placeholder="Amount">
+                              <div *ngIf="EditWaiverForm.get('waiver_type').invalid && (EditWaiverForm.get('waiver_type').dirty || EditWaiverForm.get('waiver_type').touched)"
+                                  class="alert alert-danger">
+
+                                <div *ngIf="EditWaiverForm.get('waiver_type').errors.required">
+                                  Value is required.
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="waiverAmount">Waiver Value</label>
+                            <input type="number" class="form-control" formControlName="waiver_value" id="waiverAmount" placeholder="Amount">
+                            <div *ngIf="EditWaiverForm.get('waiver_value').invalid && (EditWaiverForm.get('waiver_value').dirty || EditWaiverForm.get('waiver_value').touched)"
+                                class="alert alert-danger">
+
+                              <div *ngIf="EditWaiverForm.get('waiver_value').errors.required">
+                                Value is required.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="approvalAuthority">Approval authority</label>
+                            <select class="form-control datepicker" placeholder="Select approval authority" autocomplete="off" formControlName="approval_authority">
+                              <option *ngFor="let auth of approvalAuthorties;let i = index;" value="{{auth._id}}" selected="{{i==0?true : false}}">
+                                {{auth.username}}
+                              </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="reason">Reason</label>
+                            <input  type="text" class="form-control" formControlName="reason"
+                                placeholder="Reason of waiver">
+                            <div *ngIf="WaiverForm.controls.reason.invalid && (WaiverForm.controls.reason.dirty || WaiverForm.controls.reason.touched)"
+                                class="alert alert-danger">
+
+                              <div *ngIf="WaiverForm.controls.reason.errors.required">
+                                Reason is required.
+                              </div>
+                              <div *ngIf="WaiverForm.controls.reason.errors.minlength">
+                                Reason must be at least 3 characters long.
+                              </div>
+                            </div>
+                        </div>
+
+                      </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" >
+                      <span *ngIf="!beingEditFormSubmit">Save changes</span>
+                      <preloader *ngIf="beingEditFormSubmit"></preloader>
+                    </button>
+                </div>
+              </form>
+              <!--End of edit installment form-->
+
+            </div>
+        </div>
+    </div>
+<!--End of edit Modal installment-->

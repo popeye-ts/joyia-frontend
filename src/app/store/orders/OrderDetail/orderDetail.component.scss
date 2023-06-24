@@ -1,0 +1,124 @@
+.active{
+  font-weight: bold;
+  }
+.active a{
+  color: blue ;
+
+}
+.topHeart{
+  width:111px;
+}
+.margin{
+  margin-top:12px;
+}
+.img-fluid{
+  width: 100%;
+}
+.img{
+  width: 100%;
+}
+.shake {
+  background-color: #ff0732 !important;
+  color: white;
+  font-weight: bold;
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+.striped tbody tr:nth-of-type(odd) {
+    background-color: #f3f3f3;
+}
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.last{
+  border-top: 2px solid;
+  border-bottom:2px solid;
+  padding: 3px;
+}
+.rating > span:hover:before {
+   content: "\2605";
+   position: absolute;
+}
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}
+.rating{
+  color: #145388;
+  font-size: 2.8rem;
+  text-align: center;
+}
+.shownStars{
+  color: #145388;
+  font-size: 1.8rem;
+}
+.card-date-div{
+  text-align: right;
+  text-decoration: underline;
+  font-weight: bold;
+}
+.badge.badge-top-left {
+    top: 25px;
+    left: -50px;
+}
+.spinning {
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 4000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 4000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

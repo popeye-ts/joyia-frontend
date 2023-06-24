@@ -1,0 +1,99 @@
+
+
+      <!--Start of Client Form Modal -->
+      <div id="clientFormModal" class="modal" tabindex="-1" role="dialog" aria-modal="true" style="padding-right: 16px; display: none;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalGridLabel">Add Client Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="exampleForm" [formGroup]="ClientForm" class="tooltip-label-right" (submit)="addClient()" novalidate>
+                        <div class="row col-12">
+                          <div class="form-group col-4 position-relative error-l-50">
+                              <label>Name</label>
+                              <input type="text" formControlName = "name" name="Name" class="form-control">
+                              <div *ngIf="ClientForm.controls.name.invalid && (ClientForm.controls.name.dirty || ClientForm.controls.name.touched)"
+                                  class="alert alert-danger">
+                                <div *ngIf="ClientForm.controls.name.errors.required">
+                                  Name is required.
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group col-4 position-relative">
+                              <label>Phone</label>
+                              <input type="text" formControlName = "phone" name="Phone" class="form-control" (keypress)="inpPhone($event)" onpaste="return false;" >
+                              <div *ngIf="ClientForm.controls.phone.invalid && (ClientForm.controls.phone.dirty || ClientForm.controls.phone.touched)"
+                                  class="alert alert-danger">
+    
+                                <div *ngIf="ClientForm.controls.phone.errors.required">
+                                  Phone is required.
+                                </div>
+                                <div *ngIf="ClientForm.controls.phone.errors.minlength">
+                                  Phone must be at least 12 characters long.
+                                </div>
+                                <div *ngIf="ClientForm.controls.phone.errors.maxlength">
+                                  Phone must be not exceed 12 characters long.
+                                </div>
+                              </div>
+                          </div>
+    
+                          <div class="form-group col-4 position-relative">
+                              <label>CNIC</label>
+                              <input type="text" formControlName = "cnic" name="CNIC" class="form-control" (keypress)="inputCNIC($event)" onpaste="return false;" >
+                              <div *ngIf="ClientForm.controls.cnic.invalid && (ClientForm.controls.cnic.dirty || ClientForm.controls.cnic.touched)" class="alert alert-danger">
+                                <div *ngIf="ClientForm.controls.cnic.errors.required">
+                                  CNIC is required.
+                                </div>
+                                <div *ngIf="ClientForm.controls.cnic.errors.minlength">
+                                  CNIC must have at least 13 numbers.
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group col-4 position-relative">
+                              <label>Father Name</label>
+                              <input type="text" formControlName = "father_name" name="Father Name" class="form-control">
+                          </div>
+                          <div class="form-group col-4 position-relative">
+                              <label>Father CNIC</label>
+                              <input type="text" formControlName = "father_cnic" name="Father CNIC" class="form-control" (keypress)="inputCNIC($event)" onpaste="return false;" >
+                              <div *ngIf="ClientForm.controls.father_cnic.invalid && (ClientForm.controls.father_cnic.dirty || ClientForm.controls.father_cnic.touched)" class="alert alert-danger">
+                                <div *ngIf="ClientForm.controls.father_cnic.errors.minlength">
+                                  CNIC must have at least 13 numbers.
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group position-relative col-12 error-l-50">
+                              <label>Address</label>
+                              <textarea class="form-control" rows="2" formControlName = "address" name="jQueryDetail" ></textarea>
+                          </div>
+                        </div>
+                        
+                    </form>
+                </div>
+                <!--start of modal footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancel</button>
+                    <button type="submit" (click)="addClient()" [disabled]="!ClientForm.valid" class="btn btn-primary btn-multiple-state" id="btmSubmit">
+                        <preloader *ngIf="opInProgress"></preloader>
+                        <ng-template [ngIf]="!opInProgress">
+                          <span class="icon success" data-toggle="tooltip" data-placement="top"
+                              title="Everything went right!">
+                              <i class="simple-icon-check"></i>
+                          </span>
+                          <span class="icon fail" data-toggle="tooltip" data-placement="top"
+                              title="Something went wrong!">
+                              <i class="simple-icon-exclamation"></i>
+                          </span>
+                          <span class="label">{{id ? 'Update Client' : 'Add Client'}}</span>
+                        </ng-template>
+                    </button>
+                </div>
+                <!--End of modal footer-->
+            </div>
+        </div>
+    </div>
+    <!--End of Client Form Modal -->

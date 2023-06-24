@@ -1,0 +1,252 @@
+                <div class="row">
+                <div class="col-12">
+                    <h1>Products in Inventory</h1>
+
+                    <div class="top-right-button-container">
+                        <button type="button" class="btn btn-primary btn-lg top-right-button mr-1" data-toggle="modal"
+                            data-target="#rightModal" *ngIf="(_permService.hasPermission('Inventory' , 'add' ) )">ADD NEW</button>
+                        <div class="modal fade modal-right" id="rightModal" tabindex="-1" role="dialog"
+                            aria-labelledby="rightModalLabel" aria-hidden="true" *ngIf="(_permService.hasPermission('Inventory' , 'add' ) )">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="rightModalLabel">Add Supply</h5>
+                                        <button type="button" class="close" id="closebtn" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form [formGroup]="InventoryForm" class="tooltip-right-top" id="addToDatatableForm" (ngSubmit)="addInventory()" novalidate>
+                                    <div class="modal-body">
+                                        <p>Submitting below form will add the data to Inventory Table and rows will be
+                                            updated.</p>
+                                            <div class="form-group position-relative">
+                                                <label>Select Product</label>
+                                                <select2  (valueChanged)="selectProductChanged($event)" [options]="{'width':'100%','allowClear': true,
+                                                'placeholder': '','ajax':addProductAjax}" id="optionSelect"></select2>
+                                                <div *ngIf="(InventoryForm.get('product').value == '')"
+                                                    class="alert alert-danger">
+                                                  <div *ngIf="InventoryForm.controls.product.errors.required">
+                                                    A product is required.
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Quantity Available</label>
+                                                <input type="number" min="0"  formControlName = "quantity" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>End Date</label>
+                                                <input type="text"  formControlName = "end" [value]="InventoryForm.get('end').value | date" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Last Supply Date</label>
+                                                <input type="text"  formControlName = "lastSupply" [value]="InventoryForm.get('lastSupply').value | date" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Quantity Recieved</label>
+                                                <input type="number" formControlName = "recieved" class="form-control">
+                                                <div *ngIf="InventoryForm.controls.recieved?.invalid && (InventoryForm.controls.recieved.dirty || InventoryForm.controls.recieved.touched)"
+                                                    class="alert alert-danger">
+
+                                                  <div *ngIf="InventoryForm.controls.recieved.errors.required">
+                                                    Quantity recieved is required.
+                                                  </div>
+                                                  <div *ngIf="InventoryForm.controls.recieved.errors.min">
+                                                    Quantity recieved must be greater then 0.
+                                                  </div>
+                                                </div>
+                                            </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary btn-multiple-state" id="addToDatatable">
+                                            <div class="spinner d-inline-block">
+                                                <div class="bounce1"></div>
+                                                <div class="bounce2"></div>
+                                                <div class="bounce3"></div>
+                                            </div>
+                                            <span class="icon success" data-toggle="tooltip" data-placement="top"
+                                                title="Everything went right!">
+                                                <i class="simple-icon-check"></i>
+                                            </span>
+                                            <span class="icon fail" data-toggle="tooltip" data-placement="top"
+                                                title="Something went wrong!">
+                                                <i class="simple-icon-exclamation"></i>
+                                            </span>
+                                            <span class="label" >Done</span>
+                                        </button>
+                                    </div>
+                                  </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group" *ngIf="!noInventoryData">
+                            <div class="btn btn-primary btn-lg pl-4 pr-0 check-button">
+                                <label class="custom-control custom-checkbox mb-0 d-inline-block">
+                                    <input type="checkbox" class="custom-control-input" id="checkAllDataTables">
+                                    <span class="custom-control-label">&nbsp;</span>
+                                </label>
+                            </div>
+                            <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="dumpStock()" *ngIf="singleSelected()">Edit</a>
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="deleteStock()" >Delete</a>
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="printStock()" >
+                                    {{stockInfoBeingFetched ? 'Fetching report Data...' :  'Export to csv' }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                                <a href="javascript:void(0)" >{{crumb.title}}</a>
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="mb-2">
+                        <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+                            role="button" aria-expanded="true" aria-controls="displayOptions">
+                            {{pageData.title}}
+                            <i class="simple-icon-arrow-down align-middle"></i>
+                        </a>
+                        <div class="collapse dont-collapse-sm" id="displayOptions" *ngIf="!noInventoryData">
+                            <div class="d-block d-md-inline-block">
+                                <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                                    <input class="form-control" placeholder="Search Table" id="searchDatatable">
+                                </div>
+                            </div>
+                            <div class="float-md-right dropdown-as-select" id="pageCountDatatable">
+                                <span class="text-muted text-small">Displaying 1-10 of 40 items </span>
+                                <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="records">
+                                    10
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="javascript:void(0)">5</a>
+                                    <a class="dropdown-item active" href="javascript:void(0)">10</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">20</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">50</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">100</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">200</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="separator"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                    <div *ngIf="noInventoryData ; then noData else haveData"></div>
+                    <!--Handling no data -->
+                    <ng-template #noData>
+                      <div style="text-align:center;">
+                          <img src="assets/img/inventorynotadded.png" alt="No inventory" class="noinventory">
+                          <h1>Inventory has no stock yet </h1>
+                      </div>
+                    </ng-template>
+                    <!--End of no data-->
+                    <ng-template #haveData>
+                    <div class="col-12 mb-4 data-table-rows data-tables-hide-filter" id="datatableRows">
+                            <table class="data-table data-table-scrollable responsive nowrap"
+                                 datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Quantity Available</th>
+                                        <th>End Date</th>
+                                        <th>Last Supply Date</th>
+                                        <th>Category </th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                </tbody>
+                            </table>
+                    </div>
+                    </ng-template>
+              </div>
+
+
+        <!--Taking care of modal on the left -->
+            <div class="modal fade modal-left" id="LeftModalDetails" tabindex="-1" role="dialog"
+                aria-labelledby="LeftModalDetails" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close2">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form [formGroup]="inventoryDetailsForm" (ngSubmit)="addVehicleInventory()">
+                        <div class="modal-body">
+                                <div id="accordion">
+                                    <!--This part is dynamic based on usre entry of no of vehicles-->
+                                    <div formArrayName="vehicles"
+                                    *ngFor="let vehicle of inventoryDetailsForm.get('vehicles')['controls']; let i = index;">
+                                    <div class="border">
+                                    <button class="btn btn-link" type="button" [ngClass]="i==0 ? 'collapsed' : ''" data-toggle="collapse" [attr.data-target]="'#collapse'+i"
+                                        [attr.aria-expanded]="(i==0)" [attr.aria-controls]="'collapse'+i">
+                                        Details of Product # {{i+1}}
+                                    </button>
+
+                                    <!--Start of form part -->
+
+                                    <div id="collapse{{i}}" class="collapse" [ngClass]="i==0 ? 'show' : ''" data-parent="#accordion">
+                                            <div [formGroupName]="i" class="p-4">
+                                            <div class="form-group has-float-label" >
+                                                <input type="text" class="form-control" placeholder="Registration No" formControlName="reg_no" name="" value="">
+                                                <span>Registration No</span>
+                                            </div>
+                                            <div class="form-group has-float-label" >
+                                                <input type="text" class="form-control" placeholder="Engine No" formControlName="engine_no" name="" value="">
+                                                <span>Engine No* </span>
+                                            </div>
+                                            <div class="form-group has-float-label" >
+                                                <input type="text" class="form-control" placeholder="Chassis" formControlName="chasis_no" name="" value="">
+                                                <span>Chassis No* </span>
+                                            </div>
+                                            <div class="form-group has-float-label" >
+                                                <input type="text" class="form-control" placeholder="Key No" formControlName="key_no" name="" value="">
+                                                <span>Key No</span>
+                                            </div>
+                                            <div class="form-group has-float-label" >
+                                                <select class="form-control" formControlName="color">
+                                                <ng-container *ngFor="let col of colorsAvailable; let i = index;">
+                                                    <option   [ngValue]="col" value="{{col}}" [style.background]="col" [selected]="i==0">{{col}}</option>
+                                                </ng-container>
+                                                </select>
+                                                <span>Color</span>
+                                            </div>
+                                            </div>
+                                    </div>
+                                    <!--End of form part -->
+
+                                    </div>
+                                    <!--End of dynamic part-->
+
+                                </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-primary"
+                                data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <!--End of modal on the left -->
+        <!--Start of dump products Modal -->
+        <dumpInventory [inventoryId]="selectedInventoryProduct"></dumpInventory>
+        <!--End of dump Modal Products -->
+        <inventoryDetailModal [details]="selectedInventoryItem"></inventoryDetailModal> 

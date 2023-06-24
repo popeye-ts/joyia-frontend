@@ -1,0 +1,21 @@
+<!-- <div class="form customer-select-container">
+    <input class="chosen-customer" type="text" [value]="selectedClient ? selectedClient.name : 'Walk-In Customer'" placeholder="Type to filter">
+    <button class="add-customer-btn" (click)="showAddCustomerModal()">+</button>
+    <ul class="value-list">
+      <li (click)="selectClient('')">Walk-In Customer</li>
+      <li *ngFor="let client of clientLst;" (click)="selectClient(client)">{{client?.name}} ({{client?.phone}})</li>      
+    </ul>
+</div> -->
+<ng-select 
+  [items]="clients$"
+  bindLabel="label"
+  bindValue="_id"
+  placeholder="Select client"
+  [loading]="customerLoadingAsyncSearch"
+  [typeahead]="customerInputAsyncSearch"
+  [(ngModel)]="selectedClient"
+  (change)="selectClient($event)"
+  #myselect
+  >
+</ng-select>
+<client-form-modal></client-form-modal>

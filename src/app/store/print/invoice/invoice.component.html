@@ -1,0 +1,32 @@
+<table>
+                    <tr class="tabletitle">
+                      <td class="Rate"><h4>Order No:</h4></td>
+                      <td></td>
+                      <td class="payment"><h4> {{order_number$ | async}}</h4></td>
+                    </tr>
+                    <tr class="tabletitle">
+                      <td class="item"><h4>Item</h4></td>
+                      <td class="Hours"><h4>Qty</h4></td>
+                      <td class="Rate"><h4>Sub Total</h4></td>
+                    </tr>
+        
+                    <tr class="service" *ngFor="let product of products$ | async">
+                      <td class="tableitem"><p class="itemtext">{{product?.product_id?.product_display_name}}</p></td>
+                      <td class="tableitem"><p class="itemtext">{{product?.quantity}}</p></td>
+                      <td class="tableitem"><p class="itemtext">Rs. {{product?.quantity*product?.rate_each}}</p></td>
+                    </tr>
+        
+        
+                    <tr class="tabletitle">
+                      <td></td>
+                      <td class="Rate"><h4>Tax</h4></td>
+                      <td class="payment"><h4>Rs. {{(tax$ | async ) || 0}}</h4></td>
+                    </tr>
+        
+                    <tr class="tabletitle">
+                      <td></td>
+                      <td class="Rate"><h4>Total</h4></td>
+                      <td class="payment"><h4>Rs. {{ total$ | async }}</h4></td>
+                    </tr>
+        
+                  </table>

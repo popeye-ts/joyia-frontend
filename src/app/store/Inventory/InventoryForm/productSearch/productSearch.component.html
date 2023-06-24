@@ -1,0 +1,28 @@
+<span  action="#" class="search-wrap">
+   
+    <div class="input-group mt-4">
+        <!-- <select2 [options]="select2Options" (valueChanged) = "updateCategories($event)" class="catSelect" [value]="selectedCategories">
+            <option *ngFor="let op of categories;" value="{{op.icon}}" [attr.selected]="">{{op.title}}</option>
+          </select2> -->
+        <select2 [options]="select2Options" (valueChanged) = "updateSelectedProduct($event)" 
+        class="form-control select2-single  mr-3"  placeholder="Select Product" data-width="100%">
+            <option label="">Select product</option>
+
+            <optgroup label="{{category.name}}" *ngFor="let category of products">
+
+                <option value="{{product?._id}}" *ngFor="let product of category.products">{{product?.product_display_name}}</option>
+            </optgroup>
+        </select2>
+        <input type="text" [attr.value]="searchLabel" class="form-control" placeholder="Enter Barcode" id="search-inp">        
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit" (click)="addItem()">
+                <div class="spinner" *ngIf="beingLoaded">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                  </div>
+                <i class="simple-icon-plus" *ngIf="!beingLoaded"></i>
+            </button>
+        </div>
+    </div>
+</span> <!-- search-wrap .end// -->

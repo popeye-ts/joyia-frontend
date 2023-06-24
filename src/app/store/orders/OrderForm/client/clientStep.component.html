@@ -1,0 +1,89 @@
+<div class="card-body">
+
+
+                            <form [formGroup]="clientForm">
+                                <div class="form-row">
+                                                  <div class="col-12 list" data-check-all="checkAll" *ngIf="clientData">
+                                                      <div class="card d-flex flex-row mb-3">
+                                                          <div class="d-flex flex-grow-1 min-width-zero">
+                                                              <div
+                                                                  class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
+                                                                  <a class="list-item-heading mb-0 truncate w-40 w-xs-100" href="Pages.Product.Detail.html">
+                                                                      {{clientData?.personal_info?.name}}
+                                                                  </a>
+                                                                  <p class="mb-0 text-muted text-small w-15 w-xs-100">{{clientData?.personal_info?.phone}}</p>
+                                                                  <p class="mb-0 text-muted text-small w-15 w-xs-100">{{clientData?.personal_info?.cnic}}</p>
+                                                                  <div class="w-15 w-xs-100">
+                                                                      <span class="badge badge-pill badge-secondary">View</span>
+                                                                  </div>
+                                                              </div>
+                                                              <label class="mb-1 align-self-center pr-4">
+
+                                                                  <span class="glyph-icon simple-icon-trash" (click)="remove()">&nbsp;</span>
+                                                              </label>
+                                                          </div>
+                                                      </div>
+                                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputName">Name</label>
+                                        <input type="text" formControlName="name" class="form-control"  placeholder="Name">
+
+                                        <div *ngIf="clientForm.controls.name.invalid && (clientForm.controls.name.dirty || clientForm.controls.name.touched)" class="alert alert-danger">
+                                            <div *ngIf="clientForm.controls.name.errors.required">
+                                              Name is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPhone">Phone</label>
+                                        <input type="text" formControlName="phone" class="form-control" (keypress)="inpPhone($event)" placeholder="Phone">
+
+                                        <div *ngIf="clientForm.controls.phone.invalid && (clientForm.controls.phone.dirty || clientForm.controls.phone.touched)" class="alert alert-danger">
+                                            <div *ngIf="clientForm.controls.phone.errors.required">
+                                              Phone is required.
+                                            </div>
+
+                                            <div *ngIf="clientForm.controls.phone.errors.minlength">
+                                              Phone must be at least 12 characters long.
+                                            </div>
+                                            <div *ngIf="clientForm.controls.phone.errors.maxlength">
+                                              Phone must be not exceed 12 characters long.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress">Address</label>
+                                    <input type="text" formControlName="address" class="form-control"
+                                        placeholder="1234 Main St">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputCNIC">CNIC</label>
+                                    <input type="text" formControlName="cnic"  class="form-control" (keypress)="inputCNIC($event)"  placeholder="XXXXX-XXXXXXX-X">
+
+                                    <div *ngIf="clientForm.controls.cnic.invalid && (clientForm.controls.cnic.dirty || clientForm.controls.cnic.touched)" class="alert alert-danger">
+                                      <div *ngIf="clientForm.controls.cnic.errors.required">
+                                        CNIC is required.
+                                      </div>
+                                      <div *ngIf="clientForm.controls.cnic.errors.minlength">
+                                        CNIC must have at least 13 numbers.
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputFather">Father Name</label>
+                                        <input type="text" formControlName="fName" class="form-control" >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputFCNIC">Father CNIC</label>
+                                        <input type="text" formControlName="fCnic" class="form-control" (keypress)="inputCNIC($event)" >
+                                        <div *ngIf="clientForm.controls.fCnic.invalid && (clientForm.controls.fCnic.dirty || clientForm.controls.fCnic.touched)" class="alert alert-danger">
+                                          <div *ngIf="clientForm.controls.fCnic.errors.minlength">
+                                            CNIC must have at least 13 numbers.
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>

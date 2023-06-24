@@ -1,0 +1,87 @@
+<!--Modal to account  -->
+
+<div class="modal fade accountFormModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add account  </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                 <div class="col-12">
+                     <div class="card mb-4">
+                         <div class="card-body">
+                           <!--Search bar -->
+                           <h5 class="mb-4">
+                              <form [formGroup]="AccountForm" (ngSubmit)="addAccount()" class="input-group">
+                               <div class="form-group col-md-4">
+                                   <label for="inputEmail4">Account Title</label>
+                                   <input type="text" class="form-control" placeholder="Enter the title" id="Label" formControlName="title">
+                                   <div *ngIf="AccountForm.controls.title?.invalid && (AccountForm.controls.title.dirty || AccountForm.controls.title.touched)"
+                                       class="alert alert-danger">
+
+                                     <div *ngIf="AccountForm.controls.title.errors.required">
+                                       Title is required.
+                                     </div>
+                                     <div *ngIf="AccountForm.controls.title.errors.minlength">
+                                       Title must be at least 4 characters long.
+                                     </div>
+                                   </div>
+                               </div>
+                               <div class="form-group col-md-4 ">
+                                   <label for="inputEmail4">Account Type </label>
+                                   <select type="text" class="form-control" placeholder="Selected icon" id="iconSelected" formControlName="account_type" >
+                                     <ng-container *ngFor="let accTyp of accountTypeList">
+                                       <option value="{{accTyp._id}}" selected >{{accTyp.title}}</option>
+                                     </ng-container>
+                                   </select>
+                                   <div *ngIf="AccountForm.controls.account_type?.invalid && (AccountForm.controls.account_type.dirty || AccountForm.controls.account_type.touched)"
+                                       class="alert alert-danger">
+
+                                     <div *ngIf="AccountForm.controls.account_type.errors.required">
+                                       Account type is required.
+                                     </div>
+                                   </div>
+                                </div>
+                                <div class="form-group col-md-4 ">
+                                    <label for="inputEmail4">Parent </label>
+                                    <!-- <select2 class="select2-multiple form-control" data-height="100%" data-width="100%" [options]="{'width':'100%' , 'height':'100%','allowClear': true,
+                                    'placeholder': '---Select Parent---',
+                                    'minimumInputLength': 3,'ajax':searchParentAjax}" (valueChanged)="changedParent($event)"> -->
+                                    <select2 class="select2-multiple form-control" data-height="100%" data-width="100%" [options]="{'width':'100%' , 'height':'100%','allowClear': true,
+                                    'placeholder': '---Select parent---','ajax':searchParentAjax}" (valueChanged)="changedParent($event)" id="parentSelect2">
+                                    </select2>
+                                    <input type="hidden" class="form-control"  formControlName="parent" >
+                                    <div *ngIf="AccountForm.controls.parent?.invalid && (AccountForm.controls.parent.dirty || AccountForm.controls.parent.touched)"
+                                        class="alert alert-danger">
+
+                                      <div *ngIf="AccountForm.controls.parent.errors.required">
+                                        Parent is required.
+                                      </div>
+                                    </div>
+                                </div>
+                                 <div class="col-8">&nbsp;</div>
+                                <div class="form-group col-4">
+                                    <label for="inputEmail4">&nbsp; </label>
+                                    <button class="btn btn-outline-secondary float-right" type="submit" >
+                                      <span *ngIf="!beingAdded">
+                                        Add account
+                                      </span>
+                                    <preloader *ngIf="beingAdded"></preloader>
+
+                                    </button>
+                                </div>
+                              </form>
+                           </h5>
+                         </div>
+                       </div>
+                </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<!--End of Modal to add account  -->

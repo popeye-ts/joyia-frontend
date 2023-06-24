@@ -1,0 +1,115 @@
+
+
+<div class="row">
+<div class="col-12">
+    <h1>{{pageData.title}}</h1>
+
+    <div class="top-right-button-container" *ngIf="(_permService.hasPermission('Guarantors' , 'edit' ) ) || (_permService.hasPermission('Guarantors' , 'delete' ) )">
+        <div class="btn-group">
+            <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="javascript:void(0)" *ngIf="(_permService.hasPermission('Guarantors' , 'edit' ) )" (click)="enableFormFields()">Update</a>
+                <a class="dropdown-item" href="javascript:void(0)" *ngIf="(_permService.hasPermission('Guarantors' , 'delete' ) )" (click)="deleteGuarantor()">Delete</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb pt-0">
+          <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                <a href="javascript:void(0)">{{crumb.title}}</a>
+            </li>
+        </ol>
+    </nav>
+    <div class="mb-2">
+        <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+            role="button" aria-expanded="true" aria-controls="displayOptions">
+            {{pageData.title}}
+            <i class="simple-icon-arrow-down align-middle"></i>
+        </a>
+    </div>
+    <div class="separator"></div>
+</div>
+</div>
+<!--Start of Guarantor form -->
+<div class="row mt-2">
+
+
+    <div class="col-12 col-lg-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form id="exampleForm" [formGroup]="GuarantorForm" class="tooltip-label-right" (submit)="addGuarantor()" novalidate>
+                    <div class="row col-12">
+                      <div class="form-group col-4 position-relative error-l-50">
+                          <label>Name</label>
+                          <input type="text" formControlName = "name" name="Name" class="form-control">
+                      </div>
+                      <div class="form-group col-4 position-relative">
+                          <label>Phone</label>
+                          <input type="text" formControlName = "phone" name="Phone" class="form-control" (keypress)="inpPhone($event)" onpaste="return false;" >
+                          <div *ngIf="GuarantorForm.controls.phone.invalid && (GuarantorForm.controls.phone.dirty || GuarantorForm.controls.phone.touched)"
+                              class="alert alert-danger">
+
+                            <div *ngIf="GuarantorForm.controls.phone.errors.required">
+                              Phone is required.
+                            </div>
+                            <div *ngIf="GuarantorForm.controls.phone.errors.minlength">
+                              Phone must be at least 12 characters long.
+                            </div>
+                            <div *ngIf="GuarantorForm.controls.phone.errors.maxlength">
+                              Phone must be not exceed 12 characters long.
+                            </div>
+                          </div>
+                      </div>
+
+                      <div class="form-group col-4 position-relative">
+                          <label>CNIC</label>
+                          <input type="text" formControlName = "cnic" name="CNIC" class="form-control" (keypress)="inputCNIC($event)" onpaste="return false;" >
+                          <div *ngIf="GuarantorForm.controls.cnic.invalid && (GuarantorForm.controls.cnic.dirty || GuarantorForm.controls.cnic.touched)" class="alert alert-danger">
+                            <div *ngIf="GuarantorForm.controls.cnic.errors.minlength">
+                              CNIC must have at least 13 numbers.
+                            </div>
+                          </div>
+                      </div>
+                      <div class="form-group col-4 position-relative">
+                          <label>Father Name</label>
+                          <input type="text" formControlName = "father_name" name="Father Name" class="form-control">
+                      </div>
+                      <div class="form-group col-4 position-relative">
+                          <label>Father CNIC</label>
+                          <input type="text" formControlName = "father_cnic" name="Father CNIC" class="form-control" (keypress)="inputCNIC($event)" onpaste="return false;" >
+                          <div *ngIf="GuarantorForm.controls.father_cnic.invalid && (GuarantorForm.controls.father_cnic.dirty || GuarantorForm.controls.father_cnic.touched)" class="alert alert-danger">
+                            <div *ngIf="GuarantorForm.controls.father_cnic.errors.minlength">
+                              CNIC must have at least 13 numbers.
+                            </div>
+                          </div>
+                      </div>
+                      <div class="form-group position-relative col-8 error-l-50">
+                          <label>Address</label>
+                          <textarea class="form-control" rows="2" formControlName = "address" name="jQueryDetail" ></textarea>
+                      </div>
+                    </div>
+                    <button type="submit" *ngIf="!GuarantorForm.disabled" [disabled]="!GuarantorForm.valid" class="btn btn-primary btn-multiple-state" id="btmSubmit">
+                        <preloader *ngIf="opInProgress"></preloader>
+                        <ng-template [ngIf]="!opInProgress">
+                          <span class="icon success" data-toggle="tooltip" data-placement="top"
+                              title="Everything went right!">
+                              <i class="simple-icon-check"></i>
+                          </span>
+                          <span class="icon fail" data-toggle="tooltip" data-placement="top"
+                              title="Something went wrong!">
+                              <i class="simple-icon-exclamation"></i>
+                          </span>
+                          <span class="label">{{id ? 'Update Guarantor' : 'Add Guarantor'}}</span>
+                        </ng-template>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--End of Guarantor form -->

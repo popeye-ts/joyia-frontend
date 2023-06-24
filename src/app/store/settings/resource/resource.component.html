@@ -1,0 +1,17 @@
+<div class="row">
+	<div class="col-12 col-md-12 col-xl-12 col-left">
+		<div class="card">
+			<div class="card-body">
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
+                        <ng-container *ngFor="let res of resourceLst">
+                            <p class="font-weight-bold text-underline">{{res.name}} :-</p>
+                            <p>{{res.desc}}</p>
+                        </ng-container>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

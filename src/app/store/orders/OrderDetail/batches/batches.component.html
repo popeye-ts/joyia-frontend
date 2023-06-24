@@ -1,0 +1,98 @@
+<div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">All batches</h5>
+                            <table class="table table-hover"
+                                data-order="[[ 1, &quot;desc&quot; ]]" style="border-collapse:collapse;">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                  <ng-container *ngFor="let batch of batchesData;let bi =index;">
+                                      <tr colspan="6" data-toggle="collapse" [attr.data-target]="'#row_'+bi" class="accordion-toggle batch">
+                                          <td scope="row">Batch {{bi+1}}</td>
+                                          <td>
+                                              <p class="">Total Paid</p>
+                                          </td>
+                                          <td colspan="2">
+                                              <p class="text-light">{{batch.total_paid}}</p>
+                                          </td>
+                                          <td colspan="2">
+                                              <p class="">Created On</p>
+                                          </td>
+                                          <td >
+                                            <p class="text-light">{{batch.created_at | date:'dd.MM.yy'}}</p>
+                                          </td>
+                                      </tr>
+
+                                      <tr>
+                                          <th scope="col">Sr</th>
+                                          <th scope="col">Product Name</th>
+                                          <th scope="col">Quantity</th>
+                                          <th scope="col">Rate(Each)</th>
+                                          <th scope="col">Discount</th>
+                                          <th scope="col">Markup</th>
+                                          <th scope="col">Total Paid</th>
+                                      </tr>
+                                      <ng-container *ngFor="let prod of batch.products;let i =index;">
+                                        <tr colspan="6" data-toggle="collapse" [attr.data-target]="'#row_'+i" [class]="'accordion-toggle' + (prod?.stock?.length ? ' have-stock' : '') ">
+                                            <td scope="row">{{i+1}}</td>
+                                            <td>
+                                                <p class="list-item-heading">{{(prod.product_id ?  prod.product_id.product_display_name : "Not provided")}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-muted">{{prod.quantity}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-muted">{{prod.rate_each}}</p>
+                                            </td>
+                                            <td>
+                                              <p class="text-muted">{{prod.discount}}</p>
+                                          </td>
+                                          <td>
+                                            <p class="text-muted">{{prod.markup ? prod.markup+' %' : 'N/A'}} </p>
+                                          </td>
+                                            <td>
+                                              <span class="text-muted">Rs. {{(prod.rate_each*prod.quantity)+(prod.rate_each*prod.quantity*(prod.markup || 1)/100)-prod.discount}}/_</span>
+                                              <span class="ml-3 glyph-icon simple-icon-arrow-right" *ngIf="prod?.stock?.length"></span>
+                                            </td>
+                                        </tr>
+                                        <!--products detail -->
+                                        <tr class="p" >
+                        				            <td colspan="8" class="hiddenRow col-12" >
+                        					            <div class="accordian-body collapse" id="row_{{i}}">
+                                                <table class="border-top" *ngFor="let item of prod?.stock;let indNo = index;">
+                                                    <tr>
+                                                      <td>No</td>
+                                                      <td>{{indNo+1}}</td>
+                                                      <td>Engine No</td>
+                                                      <td>{{item.engine_no}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td>Chassis No</td>
+                                                      <td>{{item.chasis_no}}</td>
+                                                      <td>Key No</td>
+                                                      <td>{{item.key_no}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td>Registration No</td>
+                                                      <td>{{item.reg_no}}</td>
+                                                      <td>Key No</td>
+                                                      <td>{{item.color}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td>IMEI </td>
+                                                      <td>"{{item.imei.join('" , "')}}"</td>
+                                                      <td>Universal Code</td>
+                                                      <td>{{item.universal_code}}</td>
+                                                    </tr>
+                                                </table>
+                        					        	</div>
+                        				        	</td>
+                        				        </tr>
+                                        <!--end of product detail -->
+                                      </ng-container>
+                                  <!-- end of batches -->
+                                  </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+</div>

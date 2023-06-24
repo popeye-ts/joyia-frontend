@@ -1,0 +1,48 @@
+<div class="col-md-12 col-sm-6 col-lg-12 col-12 mb-4" *ngFor="let guarantor of guarantorsData; index as i;">
+                            <div class="card ">
+                              <div class="card-header">
+                                    <span class="list-item-heading mb-1 ">
+                                      Guarantor {{i+1}}
+                                    </span>
+                                    <div class="text-zero top-right-button-container mt-4">
+                                        <a uiSref="store.guarantorform" [uiParams]="{id:guarantor._id}"
+                                        class="btn btn-primary btn-lg top-right-button mr-1 text-white"
+                                        *ngIf="(_permService.hasPermission(rsrcTitle , 'edit' ))">
+                                          Edit
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+
+                                      <table class="table">
+                                        <tbody>
+                                        <tr>
+                                        <th scope="row">Name</th>
+                                        <td>{{guarantor.name}}</td>
+                                        </tr>
+                                        <tr>
+                                        <th scope="row">Father Name</th>
+                                        <td>{{guarantor.father_name}}</td>
+                                        </tr>
+
+                                        <tr>
+                                        <th scope="row">Phone</th>
+                                        <td>{{guarantor.phone}}</td>
+                                        </tr>
+                                        <tr>
+                                        <th scope="row">CNIC</th>
+                                        <td>{{guarantor.cnic}}</td>
+                                        </tr>
+                                        <tr>
+                                        <th scope="row">Address</th>
+                                        <td>{{guarantor.address}}</td>
+                                        </tr>
+
+                                        </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+</div>

@@ -1,0 +1,43 @@
+name: Deploy site on push
+
+on: 
+  push:
+    branches: 
+      - master
+  workflow_dispatch:
+
+jobs:
+  web-deploy:
+
+    name: Deploy Joyia Motors App
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v2.3.2
+
+    - name: Use Node.js 14 LTS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+      
+    - name: Install NPM Modules
+      run: npm install
+
+    - name: Build Project
+      run: npm run build-prod 
+
+    - name: reset package-lock.json
+      run: git checkout package-lock.json
+
+    - name: deploy file to server
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      with:
+        username: ${{ secrets.FTP_USERNAME }}
+        server: ${{ secrets.FTP_SERVER }}
+        ssh_private_key: ${{ secrets.FTP_SSH_KEY }}        
+        port: ${{ secrets.FTP_PORT }}
+        password : ${{ secrets.FTP_PASSWORD }}
+        local_path: './dist/store/*'
+        remote_path: './'
+        args: '-o ConnectTimeout=5'

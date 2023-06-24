@@ -1,0 +1,68 @@
+<div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">All products</h5>
+                            <table class="table table-hover"
+                                data-order="[[ 1, &quot;desc&quot; ]]" style="border-collapse:collapse;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Sr</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Sale price(Each)</th>
+                                        <th scope="col">Discount</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <ng-container *ngFor="let prod of productsData;let i =index;">
+                                    <tr colspan="6" data-toggle="collapse" [attr.data-target]="'#row_'+i" class="accordion-toggle">
+                                        <td scope="row">{{i+1}}</td>
+                                        <td>
+                                            <p class="list-item-heading">{{(prod.product_id ?  prod.product_id.product_display_name : "Not provided")}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted">{{prod.quantity}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted">{{prod.rate_each}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted">{{prod.discount}}</p>
+                                        </td>
+                                        <td>
+                                          <p class="text-muted">Rs. {{(prod.rate_each*prod.quantity)-prod.discount}}/_</p>
+                                        </td>
+                                    </tr>
+                                    <!--products detail -->
+                                    <tr class="p" >
+                    				            <td colspan="8" class="hiddenRow col-12" >
+                    					            <div class="accordian-body collapse" id="row_{{i}}">
+                                            <table class="border-top" *ngFor="let veh of prod?.vehicles;let vehNo = index;">
+                                                <tr>
+                                                  <td>No</td>
+                                                  <td>{{vehNo+1}}</td>
+                                                  <td>Engine No</td>
+                                                  <td>{{veh.engine_no}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <td>Chassis No</td>
+                                                  <td>{{veh.chasis_no}}</td>
+                                                  <td>Key No</td>
+                                                  <td>{{veh.key_no}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <td>Registration No</td>
+                                                  <td>{{veh.reg_no}}</td>
+                                                  <td>Key No</td>
+                                                  <td>{{veh.color}}</td>
+                                                </tr>
+                                            </table>
+                    					        	</div>
+                    				        	</td>
+                    				        </tr>
+                                    <!--end of product detail -->
+                                  </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+</div>

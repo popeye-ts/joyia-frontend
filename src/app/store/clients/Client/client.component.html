@@ -1,0 +1,146 @@
+                <div class="row">
+                <div class="col-12">
+                    <h1>All Clients</h1>
+
+                    <div class="top-right-button-container">
+                        <button type="button" class="btn btn-primary btn-lg top-right-button mr-1" data-toggle="modal"
+                            data-target="#rightModal" *ngIf="(_permService.hasPermission('Clients' , 'add' ) )">ADD NEW</button>
+                        <div class="modal fade modal-right" id="rightModal" tabindex="-1" role="dialog"
+                            aria-labelledby="rightModalLabel" aria-hidden="true" *ngIf="(_permService.hasPermission('Clients' , 'add' ) )">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <form [formGroup]="ClientForm" (ngSubmit)="addClient()" class="tooltip-right-top" id="addToDatatableForm" novalidate>
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="rightModalLabel">Add New</h5>
+                                        <button type="button" class="close" id="closebtn" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <p>Submitting below form will add a client.</p>
+                                            <div class="form-group position-relative">
+                                                <label>Name</label>
+                                                <input type="text" formControlName = "name" name="Name" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Phone</label>
+                                                <input type="text" formControlName = "phone" name="Phone" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>address</label>
+                                                <input type="text" formControlName = "address" name="Address" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>CNIC</label>
+                                                <input type="text" formControlName = "cnic" name="cnic" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Father Name</label>
+                                                <input type="text" formControlName = "father_name" name="Stock" class="form-control">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Father CNIC</label>
+                                                <input type="text" formControlName = "father_cnic" name="Father CNIC" class="form-control">
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button [disabled]="!ClientForm.valid" class="btn btn-primary btn-multiple-state" id="addToDatatable">
+                                            <div class="spinner d-inline-block">
+                                                <div class="bounce1"></div>
+                                                <div class="bounce2"></div>
+                                                <div class="bounce3"></div>
+                                            </div>
+                                            <span class="icon success" data-toggle="tooltip" data-placement="top"
+                                                title="Everything went right!">
+                                                <i class="simple-icon-check"></i>
+                                            </span>
+                                            <span class="icon fail" data-toggle="tooltip" data-placement="top"
+                                                title="Something went wrong!">
+                                                <i class="simple-icon-exclamation"></i>
+                                            </span>
+                                            <span class="label">Add </span>
+                                        </button>
+                                    </div>
+                                  </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <div class="btn btn-primary btn-lg pl-4 pr-0 check-button">
+                                <label class="custom-control custom-checkbox mb-0 d-inline-block">
+                                    <input type="checkbox" class="custom-control-input" id="checkAllDataTables">
+                                    <span class="custom-control-label">&nbsp;</span>
+                                </label>
+                            </div>
+                            <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                          <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                                <a href="javascript:void(0)">{{crumb.title}}</a>
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="mb-2">
+                        <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+                            role="button" aria-expanded="true" aria-controls="displayOptions">
+                            {{pageData.title}}
+                            <i class="simple-icon-arrow-down align-middle"></i>
+                        </a>
+                        <div class="collapse dont-collapse-sm" id="displayOptions">
+                            <div class="d-block d-md-inline-block">
+                                <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                                    <input class="form-control" placeholder="Search Table" id="searchDatatable">
+                                </div>
+                            </div>
+                            <div class="float-md-right dropdown-as-select" id="pageCountDatatable">
+                                <span class="text-muted text-small">Displaying 1-10 of 40 items </span>
+                                <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="records">
+                                    10
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                  <a class="dropdown-item active" href="javascript:void(0)">10</a>
+                                  <a class="dropdown-item " href="javascript:void(0)">20</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">30</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">50</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">100</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="separator"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                    <div class="col-12 mb-4 data-table-rows data-tables-hide-filter" id="clientsTable">
+                            <table class="data-table data-table-scrollable responsive nowrap"
+                                 datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>CNIC</th>
+                                        <th>Father Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+              </div>

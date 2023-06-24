@@ -1,0 +1,102 @@
+<div class="row">
+<div class="col-12">
+    <h1>All Pending Payments</h1>
+
+    <div class="top-right-button-container">
+        <div class="btn-group" *ngIf="!noOrders">
+            <div class="btn btn-primary btn-lg pl-4 pr-0 check-button">
+                <label class="custom-control custom-checkbox mb-0 d-inline-block">
+                    <input type="checkbox" class="custom-control-input" id="checkAllDataTables">
+                    <span class="custom-control-label">&nbsp;</span>
+                </label>
+            </div>
+            <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="javascript:void(0)" (click)="printData()">
+                  <i class="glyph-icon simple-icon-printer"></i>
+                  &nbsp;&nbsp;&nbsp; Print</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb pt-0">
+          <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                <a href="javascript:void(0)">{{crumb.title}}</a>
+            </li>
+        </ol>
+    </nav>
+    <div class="mb-2">
+        <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+            role="button" aria-expanded="true" aria-controls="displayOptions">
+            {{pageData.title}}
+            <i class="simple-icon-arrow-down align-middle"></i>
+        </a>
+        <div class="collapse dont-collapse-sm" id="displayOptions" *ngIf="!noOrders">
+            <div class="d-block d-md-inline-block">
+                <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top"> 
+                    <input class="form-control" id="searchDatatable" placeholder="Search Table" #paymentsSearch>
+                </div>
+                <div class="spinner" id="searchLoader" *ngIf="beingSearched">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+                </div>
+
+            </div>
+            <div class="float-md-right dropdown-as-select" id="pageCountDatatable" >
+                <span class="text-muted text-small">Displaying 1-10 of 40 items </span>
+                <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="records">
+                    10
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item active" href="javascript:void(0)">10</a>
+                    <a class="dropdown-item" href="javascript:void(0)">20</a>
+                    <a class="dropdown-item" href="javascript:void(0)">50</a>
+                    <a class="dropdown-item" href="javascript:void(0)">100</a>
+                    <a class="dropdown-item" href="javascript:void(0)">500</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="separator"></div>
+</div>
+</div>
+
+<div class="row">
+<div *ngIf="noOrders ; then noData else haveData"></div>
+<!--Handling no data -->
+<ng-template #noData>
+<div style="text-align:center;" class="noPayments">
+    <img src="assets/img/allDone.png" alt="No inventory" class="noPaymentsImg">
+    <div><h1>No pending payments </h1></div>
+</div>
+</ng-template>
+<!--End of no data-->
+<ng-template #haveData>
+    <div class="col-12 mb-4 data-table-rows data-tables-hide-filter">
+            <table class="data-table data-table-scrollable responsive nowrap"
+                 datatable [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger" id="printTables">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Products</th>
+                        <th>Total Payment</th>
+                        <th>Total Paid</th>
+                        <th>Expected Payment Date </th>
+                        <th>Last Payment Time </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+</ng-template>
+</div>

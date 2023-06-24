@@ -1,0 +1,38 @@
+<ng-select 
+  [items]="guarantorLst"
+  bindLabel="label"
+  bindValue="_id"
+  [placeholder]="placeholder"
+  [loading]="guarantorLoadingAsyncSearch"
+  [typeahead]="guarantorInputAsyncSearch"
+  [(ngModel)]="selectedGuarantors"
+  (change)="selectGuarantor( $event)"
+  #myselect
+  >
+</ng-select>
+<!-- 
+<div class="form guarantor1-select-container">
+  <h6 class="label">Guarantor 1:</h6>
+    <input class="chosen-guarantor1" type="text" [value]="(selectedGuarantors && selectedGuarantors[0] )? selectedGuarantors[0].name : 'Select Guarantor'" 
+    (focus)="inputFocussed($event)" (blur)="inputBlurred($event)"
+    placeholder="Type to filter">
+    <button class="add-customer-btn" (click)="showAddGuarantorModal()">+</button>
+    <button class="remove-customer-btn" (click)="unSelectGuarantor1({})">-</button>
+    <ul class="value-list guarantor-ul">
+      <li *ngFor="let guarantor of guarantorLst;" (click)="selectGuarantor1(guarantor)">{{guarantor?.name}} ({{guarantor.phone || guarantor.cnic}})</li>      
+    </ul>
+</div>
+<div class="form guarantor2-select-container">
+  <h6 class="label">Guarantor 2:</h6>
+
+  <input class="chosen-guarantor2" type="text" [value]="(selectedGuarantors && selectedGuarantors.length > 1 && selectedGuarantors[1]) ? selectedGuarantors[1].name : 'Select Guarantor'" 
+  (focus)="inputFocussed($event)" (blur)="inputBlurred($event)"
+  placeholder="Type to filter">
+  <button class="add-customer-btn" (click)="showAddGuarantorModal()">+</button>
+  <button class="remove-customer-btn" (click)="unSelectGuarantor2({})">-</button>
+  <ul class="value-list guarantor-ul">
+    <li *ngFor="let guarantor of guarantorLst;" (click)="selectGuarantor2(guarantor)">{{guarantor?.name}} ({{guarantor.phone || guarantor.cnic}})</li>
+  </ul>
+</div>
+-->
+<guarantor-form-modal></guarantor-form-modal>

@@ -1,0 +1,32 @@
+    <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">Product Categories</h5>
+            <div class="dashboard-donut-chart chart text-center">
+                <ng-container *ngIf="beingLoaded">
+                <ngx-skeleton-loader
+                    count="1"
+                    appearance="circle"
+                    [theme]="{
+                    width: '55%',
+                    'border-radius': '50%',
+                    height: '200px'
+                    }"
+                >
+                </ngx-skeleton-loader>
+                <ngx-skeleton-loader
+                [theme]="{
+                    'clear':'both',
+                    width: '40%',
+                    'border-radius': '0',
+                    height: '20px'
+                }"
+                >
+                </ngx-skeleton-loader>
+                </ng-container>
+                <ng-container *ngIf="!beingLoaded">
+                    <canvas id="polarChart"></canvas>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+ 

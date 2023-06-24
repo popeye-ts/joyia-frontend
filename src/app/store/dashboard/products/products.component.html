@@ -1,0 +1,64 @@
+    <div class="card dashboard-link-list">
+        <div class="card-body">
+            <h5 class="card-title">Latest Products</h5>
+            
+            <div class="d-flex flex-row" *ngIf="beingLoaded">
+                <div class="w-50">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1" *ngFor = "let i of [80,60,70,67,45,85,79];">
+                            <a href="javascipt:void(0)">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                    width: i+'px',
+                                    'border-radius': '0',
+                                    height: '15px'
+                                }"
+                                >
+                                </ngx-skeleton-loader>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="w-50">
+                    <ul class="list-unstyled mb-0">
+
+                        <li class="mb-1" *ngFor = "let i of [90,67,85,95,39,82,20,90];">
+                            <a href="javascipt:void(0)">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                    width: i+'px',
+                                    'border-radius': '0',
+                                    height: '15px'
+                                }"
+                                >
+                                </ngx-skeleton-loader>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="d-flex flex-row" *ngIf="!beingLoaded">
+                <div class="w-50">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1" *ngFor = "let prod of dataFirstColumn;">
+                            <a href="javascript:void(0)" (click)="showDetail(prod.product_id)">{{prod.name}}</a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="w-50">
+                    <ul class="list-unstyled mb-0">
+
+                        <li class="mb-1" *ngFor = "let prod of dataSecondColumn;">
+                            <a href="javascript:void(0)" (click)="showDetail(prod.product_id)">{{prod.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>

@@ -1,0 +1,269 @@
+<!--Start of Product Detail Section -->
+            <div class="row">
+                <div class="col-12">
+                  <!--Start of Navigation -->
+                    <div class="mb-3">
+                        <h1>{{pageData.title}}</h1>
+                        <div class="text-zero top-right-button-container">
+                            <button type="button" class="btn btn-primary btn-lg top-right-button mr-1"
+                            data-toggle="modal" (click)="showModal()" [attr.data-whatever]="'@fat'">
+                              Add {{currentlySelected}}
+                            </button>
+
+                        </div>
+                        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                            <ol class="breadcrumb pt-0">
+                              <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                                    <a href="javascript:void(0)">{{crumb.title}}</a>
+                                </li>
+
+                            </ol>
+                        </nav>
+
+                    </div>
+
+
+                    <div class="separator mb-5"></div>
+                </div>
+            </div>
+            <!--End of Navigation -->
+<!--Begin Main Section  -->
+  <div class="container-fluid">
+    <div class="row">
+     <div class="col-12 col-md-12 col-xl-12 col-left">
+         <div class="card">
+             <div class="card-header">
+               <ul class="nav nav-tabs separator-tabs ml-0" role="tablist">
+                      <li class="nav-item">
+                          <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true" (click)="setSelected('users')">USERS</a>
+                      </li>
+
+                      <li class="nav-item">
+                          <a class="nav-link" id="second-tab" data-toggle="tab" href="#second" role="tab" aria-controls="second" aria-selected="false" (click)="setSelected('roles')">ROLES</a>
+                      </li>
+
+                      <li class="nav-item">
+                          <a class="nav-link" id="third-tab" data-toggle="tab" href="#third" role="tab" aria-controls="third" aria-selected="false" (click)="setSelected('resources')">RESOURCE</a>
+                      </li>
+                  </ul>
+             </div>
+             <div class="card-body">
+                 <div class="tab-content">
+                   <!--start of gfirst tab -->
+                     <div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
+                            <users-list></users-list>
+                     </div>
+                     <!--End of first tab-->
+
+                     <!--start of second tab -->
+                     <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab" >
+                       <roleSettings></roleSettings>
+                     </div>
+                     <!--End of second tab -->
+
+                     <!--start of third tab -->
+                     <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab">
+                      <resource></resource>
+                     </div>
+                     <!--End of third tab -->
+                 </div>
+             </div>
+         </div>
+     </div>
+
+
+    </div>
+  </div>
+<!--End of Main Menu -->
+
+
+<!--Start of Modal -->
+    <div class="modal fade" id="FormModal" tabindex="-1" role="dialog"
+                                    aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalContentLabel">New {{currentlySelected}}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <!--Modal Body for user -->
+                  <div class="modal-body" >
+                    <div *ngIf="(currentlySelected=='User'); then userFormModalBody ;else roleFormModalBody;"></div>
+                    <ng-template #roleFormModalBody>
+                      <form [formGroup]="RoleForm" (ngSubmit)="addRole()"  id="RoleForm">
+                          <div class="form-group">
+                              <label for="recipient-name"
+                                  class="col-form-label">Role Name:</label>
+                              <input type="text" class="form-control" id="role-name" formControlName="name">
+                              <div *ngIf="RoleForm.controls.name.invalid && (RoleForm.controls.name.dirty || RoleForm.controls.name.touched)"
+                                  class="alert alert-danger">
+
+                                <div *ngIf="RoleForm.controls.name.errors.required">
+                                  Name is required.
+                                </div>
+                                <div *ngIf="RoleForm.controls.name.errors.minlength">
+                                  Name must be at least 3 characters long.
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                             <label for="message-text" class="col-form-label">Description:</label>
+                             <textarea class="form-control" formControlName="description"></textarea>
+                             <div *ngIf="RoleForm.controls.description.invalid && (RoleForm.controls.description.dirty || RoleForm.controls.description.touched)"
+                                 class="alert alert-danger">
+
+                               <div *ngIf="RoleForm.controls.description.errors.required">
+                                 Description is required.
+                               </div>
+                               <div *ngIf="RoleForm.controls.description.errors.minlength">
+                                 Description must be at least 10 characters long.
+                               </div>
+                             </div>
+                         </div>
+
+                      </form>
+                    </ng-template>
+                    <!--End of Modal Body for user -->
+
+                    <!--Start of Modal Body for Role -->
+                    <ng-template #userFormModalBody>
+                      <form [formGroup]="userForm" (ngSubmit)="addUser()" id="userForm">
+                          <div class="row">
+                            <!--Image section-->
+                            <div class="profile-img">
+                              <img [src]="serverImagesPath.large+(usersData?.profile_pic || defaultProfilePic)" id="profile-image-new" alt=""/>
+                              <div class="file btn btn-lg btn-primary change-photo">
+                                  Change Photo
+                                  <input type="file" name="file" accept="image/*" (change)="loadFile($event)"/>
+                              </div>
+                            </div>
+                            <!--End of image section -->
+                          </div>
+                          <!--start of First Name section -->
+                          <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                    <label for="recipient-name"
+                                        class="col-form-label">First Name:</label>
+                                    <input type="text" class="form-control"  formControlName="firstname">
+                                    <div *ngIf="userForm.controls.firstname.invalid && (userForm.controls.firstname.dirty || userForm.controls.firstname.touched)"
+                                        class="alert alert-danger">
+
+                                      <div *ngIf="userForm.controls.firstname.errors.required">
+                                        First name is required.
+                                      </div>
+                                      <div *ngIf="userForm.controls.firstname.errors.minlength">
+                                        First name must be at least 3 characters long.
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="recipient-name"
+                                        class="col-form-label">Last Name:</label>
+                                    <input type="text" class="form-control"  formControlName="lastname">
+                                    <div *ngIf="userForm.controls.lastname.invalid && (userForm.controls.lastname.dirty || userForm.controls.lastname.touched)"
+                                        class="alert alert-danger">
+
+                                      <div *ngIf="userForm.controls.lastname.errors.required">
+                                        Last name is required.
+                                      </div>
+                                      <div *ngIf="userForm.controls.lastname.errors.minlength">
+                                        Last name must be at least 3 characters long.
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                              <!--End of First name section -->
+                              <!--Start of Email Section -->
+                            </div>
+                              <div class="form-group">
+                                  <label for="recipient-name"
+                                      class="col-form-label">Email:</label>
+                                  <input type="text" class="form-control"  formControlName="email">
+                                  <div *ngIf="userForm.controls.email.invalid && (userForm.controls.email.dirty || userForm.controls.email.touched)"
+                                      class="alert alert-danger">
+
+                                    <div *ngIf="userForm.controls.email.errors.required">
+                                      Email is required.
+                                    </div>
+                                    <div *ngIf="userForm.controls.email.errors.email">
+                                      Invalid email entered.
+                                    </div>
+                                  </div>
+                              </div>
+                              <!--End of Email section -->
+                              <!--Start of phone section -->
+                              <div class="form-group">
+                                  <label for="recipient-name"
+                                      class="col-form-label">Phone:</label>
+                                  <input type="text" class="form-control"  formControlName="phone" (keypress)="inpPhone($event)">
+                                  <div *ngIf="userForm.controls.phone.invalid && (userForm.controls.phone.dirty || userForm.controls.phone.touched)"
+                                      class="alert alert-danger">
+
+                                    <div *ngIf="userForm.controls.phone.errors.required">
+                                      Phone is required.
+                                    </div>
+                                    <div *ngIf="userForm.controls.phone.errors.minlength">
+                                      Phone must be at least 12 characters long.
+                                    </div>
+                                    <div *ngIf="userForm.controls.phone.errors.maxlength">
+                                      Phone must be not exceed 12 characters long.
+                                    </div>
+                                  </div>
+                              </div>
+                              <!--End of phone section -->
+                              <!--Start of username section-->
+                              <div class="form-group">
+                                  <label for="recipient-name"
+                                      class="col-form-label">UserName:</label>
+                                  <input type="text" class="form-control"  formControlName="username">
+                                  <div *ngIf="userForm.controls.username.invalid && (userForm.controls.username.dirty || userForm.controls.username.touched)"
+                                      class="alert alert-danger">
+
+                                    <div *ngIf="userForm.controls.username.errors.required">
+                                      User name is required.
+                                    </div>
+                                    <div *ngIf="userForm.controls.username.errors.minlength">
+                                      User name must be at least 3 characters long.
+                                    </div>
+                                  </div>
+                              </div>
+                              <!--End of username section -->
+                              <!--start of password section -->
+                              <div class="form-group">
+                                  <label for="recipient-name"
+                                      class="col-form-label">Password:</label>
+                                  <input type="text" class="form-control"  formControlName="password">
+                                  <div *ngIf="userForm.controls.password.invalid && (userForm.controls.password.dirty || userForm.controls.password.touched)"
+                                      class="alert alert-danger">
+
+                                    <div *ngIf="userForm.controls.password.errors.required">
+                                      Password is required.
+                                    </div>
+                                    <div *ngIf="userForm.controls.password.errors.minlength">
+                                      Password must be at least 5 characters long.
+                                    </div>
+                                  </div>
+                              </div>
+                              <!--End of password -->
+                      </form>
+                    </ng-template>
+                    <!--End of Modal Body for Role -->
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary"
+                          data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary"
+                      [disabled]="!((currentlySelected=='User') ? userForm.valid : RoleForm.valid )"
+                      (click)="(currentlySelected == 'User') ? addUser() : addRole() "
+                      >
+                        <span *ngIf="!requestInProgress">Add {{currentlySelected}}</span>
+                        <preloader *ngIf="requestInProgress"></preloader>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+<!--End of Modal -->

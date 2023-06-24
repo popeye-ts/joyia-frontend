@@ -1,0 +1,172 @@
+                <div class="row">
+                <div class="col-12">
+                    <h1>All Finances</h1>
+
+                    <div class="top-right-button-container">
+                        <button type="button" class="btn btn-primary btn-lg top-right-button mr-1" data-toggle="modal"
+                            data-target="#rightModal">ADD NEW</button>
+                        <div class="modal fade modal-right" id="rightModal" role="dialog"
+                            aria-labelledby="rightModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+
+                                <div class="modal-content">
+                                  <form [formGroup]="FinanceForm" class="tooltip-right-top" (ngSubmit)="addFinance()" novalidate>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="rightModalLabel">Add New</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Submitting below form will add a new finance row to the table.</p>
+                                            <div class="form-group position-relative">
+                                                <label>Account </label>
+                                                <select2 class="select2-multiple form-control" data-height="100%" data-width="100%" [options]="{'width':'100%' , 'height':'100%','allowClear': true,
+                                                'placeholder': '---Select account---','ajax':addAccountAjax}" (valueChanged)="selectAccountChanged($event)" >
+                                                </select2>
+                                                <div *ngIf="FinanceForm.controls.account?.invalid && (FinanceForm.controls.account.dirty || FinanceForm.controls.account.touched)"
+                                                    class="alert alert-danger">
+                                                  <div *ngIf="FinanceForm.controls.account.errors.required">
+                                                    Account is required.
+                                                  </div>
+                                                </div>
+                                                <input type="hidden" name="accountInput" value=" " formControlName="account">
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Type</label>
+                                                <input type="text" formControlName ="type" name="type" class="form-control" readonly>
+
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Amount</label>
+                                                <input type="number" formControlName = "amount" class="form-control">
+                                                <div *ngIf="FinanceForm.controls.amount?.invalid && (FinanceForm.controls.amount.dirty || FinanceForm.controls.amount.touched)"
+                                                    class="alert alert-danger">
+                                                  <div *ngIf="FinanceForm.controls.amount.errors.required">
+                                                    Amount is required.
+                                                  </div>
+                                                  <div *ngIf="FinanceForm.controls.amount.errors.min">
+                                                    Amount must be greater then 0.
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Description</label>
+                                                <input type="text" formControlName = "description" name="description" class="form-control">
+                                                <div *ngIf="FinanceForm.controls.description?.invalid && (FinanceForm.controls.description.dirty || FinanceForm.controls.description.touched)"
+                                                    class="alert alert-danger">
+                                                  <div *ngIf="FinanceForm.controls.description.errors.required">
+                                                    Description is required.
+                                                  </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary btn-multiple-state" >
+                                            <div class="spinner d-inline-block" *ngIf="currentState != 100">
+                                                <div class="bounce1"></div>
+                                                <div class="bounce2"></div>
+                                                <div class="bounce3"></div>
+                                            </div>
+                                            <span class="icon success" data-toggle="tooltip" data-placement="top"
+                                                title="Everything went right!" *ngIf="currentState != 200">
+                                                <i class="simple-icon-check"></i>
+                                            </span>
+                                            <span class="icon fail" data-toggle="tooltip" data-placement="top"
+                                                title="Something went wrong!" *ngIf="currentState != 300">
+                                                <i class="simple-icon-exclamation"></i>
+                                            </span>
+                                            <span class="label">Done</span>
+                                        </button>
+                                    </div>
+                                  </form>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="btn-group" *ngIf="!noFinances">
+                            <div class="btn btn-primary btn-lg pl-4 pr-0 filter-button">
+                              <i class="glyph-icon glyphicon iconsminds-filter-2" *ngIf="filtersHidden" (click)="toggleFilters(false)"></i>
+                              <i class="glyph-icon glyphicon iconsminds-close"  *ngIf="!filtersHidden" (click)="toggleFilters(true)"></i>
+                            </div>
+                            <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="downloadFile()">Print</a>
+                                <a *ngIf="!markedList?.length" class="dropdown-item" href="javascript:void(0)" (click)="selectAll()">Select All</a>
+                                <a *ngIf="markedList?.length" class="dropdown-item" href="javascript:void(0)" (click)="unSelectAll()">Unselect All</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item" *ngFor = "let crumb of pageData.breadcrumbs">
+                                <a href="javascript:void(0)">{{crumb.title}}</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                    <!--Start of filters -->
+                    <financefilters (applyFiltersEmitter)="applyFilters($event)"></financefilters>
+                    <!--End of filters -->
+
+                    <div class="mb-2">
+                        <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+                            role="button" aria-expanded="true" aria-controls="displayOptions">
+                            {{pageData.title}}
+                            <i class="simple-icon-arrow-down align-middle"></i>
+                        </a>
+                        <div class="collapse dont-collapse-sm" id="displayOptions">
+                            <div class="d-block d-md-inline-block">
+                                <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                                    <input class="form-control" placeholder="Search Table" id="searchDatatable">
+                                </div>
+                            </div>
+                            <div class="float-md-right dropdown-as-select" id="financeCountDatatable">
+                              <span class="text-muted text-small" *ngIf="!dataLengthChanged"> {{numFinances}}</span>
+                              <img src="assets/img/circle_spinner.webp" class="circle_spinner" *ngIf="dataLengthChanged">
+                              <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="records">
+                                  10
+                              </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="javascript:void(0)">5</a>
+                                    <a class="dropdown-item active" href="javascript:void(0)">10</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">20</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">100</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">500</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">2000</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="separator"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                    <div class="col-12 mb-4 data-table-rows data-tables-hide-filter">
+                            <table class="data-table data-table-scrollable responsive nowrap"
+                                id="tbl-finance"
+                                datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger">
+                                <thead>
+                                    <tr>
+                                        <th>Account Name</th>
+                                        <th>Other</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Created By</th>                                        
+                                        <th>Created At</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+              </div>

@@ -1,0 +1,93 @@
+    <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">Best Sellers</h5>
+            <table class="data-table data-table-standard responsive nowrap"
+                datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" >
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Sales</th>
+                        <th>Sold Quantity</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="beingLoaded">
+                    <tr *ngFor = "let product of [2,3,5,6,7,8.3,5,2]">
+                        <td>
+                            <p class="list-item-heading">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                  width: '70%',
+                                  'border-radius': '0',
+                                  height: '20px'
+                                }"
+                                >
+                              </ngx-skeleton-loader>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-muted">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                  width: '70%',
+                                  'border-radius': '0',
+                                  height: '20px'
+                                }"
+                                >
+                              </ngx-skeleton-loader>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="text-muted">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                  width: '70%',
+                                  'border-radius': '0',
+                                  height: '20px'
+                                }"
+                                >
+                              </ngx-skeleton-loader>
+                            </p>
+                         </td>
+                        <td>
+                            <p class="text-muted">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                  width: '70%',
+                                  'border-radius': '0',
+                                  height: '20px'
+                                }"
+                                >
+                              </ngx-skeleton-loader>
+                            </p>
+                        </td>
+                    </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!beingLoaded">
+                    <tr *ngFor = "let product of bestSellers">
+                        <td>
+                            <p class="list-item-heading">{{product.name}}</p>
+                        </td>
+                        <td>
+                            <p class="text-muted">{{product.quantity * product.price | currency : 'Rs '}}</p>
+                        </td>
+                        <td>
+                            <p class="text-muted">{{product.quantity}}</p>
+                         </td>
+                        <td>
+                            <p class="text-muted">
+                                <ng-container *ngFor="let cat of product.categories">
+                                    <span class="badge badge-pill badge-primary mb-1">
+                                        <i class="{{cat.icon}}"></i>
+                                        {{cat.name}}
+                                    </span>
+                                </ng-container>
+                            </p>
+                        </td>
+                    </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>

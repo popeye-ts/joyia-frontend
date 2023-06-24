@@ -1,0 +1,79 @@
+.ActiveLink{
+  background: lightblue;
+}
+.active{
+  font-weight: bold;
+  }
+.active a{
+  color: blue !important;
+
+}
+
+
+#searchLoader{
+  background-size: cover !important;
+    width: 35px;
+    height: 22px;
+    display: inline-block;
+}
+.container-tooltip{
+  cursor :help;
+}
+.ng-tooltip {
+  position: absolute;
+  max-width: 150px;
+  font-size: 14px;
+  text-align: center;
+  color: #f8f8f2;
+  padding: 3px 8px;
+  background: #282a36;
+  border-radius: 4px;
+  z-index: 1000;
+  opacity: 0;
+}
+.ng-tooltip:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+}
+.ng-tooltip-top:after {
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: black transparent transparent transparent;
+}
+.ng-tooltip-show {
+  opacity: 1;
+}
+.selectedIcon {
+    background: lightsteelblue;
+    border-radius: 14px;
+    color: white;
+}
+.mind-icons{
+  cursor: pointer;
+}
+.right{
+  float: right;
+}
+.NoDataDiv{
+  width: 100%;
+  text-align: center;
+}
+
+
+@keyframes bars1 {
+  0% {
+    background-color: #145388;
+  }
+  25% {
+    background-color: #145388;
+  }
+  50% {
+    background-color: #145388;
+  }
+  100% {
+    background-color: #145388;
+  }
+}

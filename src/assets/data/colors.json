@@ -1,0 +1,418 @@
+[{
+	"name": "maroon",
+	"rgb": "#800000"
+}, {
+	"name": "dark red",
+	"rgb": "#8B0000"
+}, {
+	"name": "brown",
+	"rgb": "#A52A2A"
+}, {
+	"name": "firebrick",
+	"rgb": "#B22222"
+}, {
+	"name": "crimson",
+	"rgb": "#DC143C"
+}, {
+	"name": "red",
+	"rgb": "#FF0000"
+}, {
+	"name": "tomato",
+	"rgb": "#FF6347"
+}, {
+	"name": "coral",
+	"rgb": "#FF7F50"
+}, {
+	"name": "indian red",
+	"rgb": "#CD5C5C"
+}, {
+	"name": "light coral",
+	"rgb": "#F08080"
+}, {
+	"name": "dark salmon",
+	"rgb": "#E9967A"
+}, {
+	"name": "salmon",
+	"rgb": "#FA8072"
+}, {
+	"name": "light salmon",
+	"rgb": "#FFA07A"
+}, {
+	"name": "orange red",
+	"rgb": "#FF4500"
+}, {
+	"name": "dark orange",
+	"rgb": "#FF8C00"
+}, {
+	"name": "orange",
+	"rgb": "#FFA500"
+}, {
+	"name": "gold",
+	"rgb": "#FFD700"
+}, {
+	"name": "dark golden rod",
+	"rgb": "#B8860B"
+}, {
+	"name": "golden rod",
+	"rgb": "#DAA520"
+}, {
+	"name": "pale golden rod",
+	"rgb": "#EEE8AA"
+}, {
+	"name": "dark khaki",
+	"rgb": "#BDB76B"
+}, {
+	"name": "khaki",
+	"rgb": "#F0E68C"
+}, {
+	"name": "olive",
+	"rgb": "#808000"
+}, {
+	"name": "yellow",
+	"rgb": "#FFFF00"
+}, {
+	"name": "yellow green",
+	"rgb": "#9ACD32"
+}, {
+	"name": "dark olive green",
+	"rgb": "#556B2F"
+}, {
+	"name": "olive drab",
+	"rgb": "#6B8E23"
+}, {
+	"name": "lawn green",
+	"rgb": "#7CFC00"
+}, {
+	"name": "chart reuse",
+	"rgb": "#7FFF00"
+}, {
+	"name": "green yellow",
+	"rgb": "#ADFF2F"
+}, {
+	"name": "dark green",
+	"rgb": "#006400"
+}, {
+	"name": "green",
+	"rgb": "#008000"
+}, {
+	"name": "forest green",
+	"rgb": "#228B22"
+}, {
+	"name": "lime",
+	"rgb": "#00FF00"
+}, {
+	"name": "lime green",
+	"rgb": "#32CD32"
+}, {
+	"name": "light green",
+	"rgb": "#90EE90"
+}, {
+	"name": "pale green",
+	"rgb": "#98FB98"
+}, {
+	"name": "dark sea green",
+	"rgb": "#8FBC8F"
+}, {
+	"name": "medium spring green",
+	"rgb": "#00FA9A"
+}, {
+	"name": "spring green",
+	"rgb": "#00FF7F"
+}, {
+	"name": "sea green",
+	"rgb": "#2E8B57"
+}, {
+	"name": "medium aqua marine",
+	"rgb": "#66CDAA"
+}, {
+	"name": "medium sea green",
+	"rgb": "#3CB371"
+}, {
+	"name": "light sea green",
+	"rgb": "#20B2AA"
+}, {
+	"name": "dark slate gray",
+	"rgb": "#2F4F4F"
+}, {
+	"name": "teal",
+	"rgb": "#008080"
+}, {
+	"name": "dark cyan",
+	"rgb": "#008B8B"
+}, {
+	"name": "aqua",
+	"rgb": "#00FFFF"
+}, {
+	"name": "cyan",
+	"rgb": "#00FFFF"
+}, {
+	"name": "light cyan",
+	"rgb": "#E0FFFF"
+}, {
+	"name": "dark turquoise",
+	"rgb": "#00CED1"
+}, {
+	"name": "turquoise",
+	"rgb": "#40E0D0"
+}, {
+	"name": "medium turquoise",
+	"rgb": "#48D1CC"
+}, {
+	"name": "pale turquoise",
+	"rgb": "#AFEEEE"
+}, {
+	"name": "aqua marine",
+	"rgb": "#7FFFD4"
+}, {
+	"name": "powder blue",
+	"rgb": "#B0E0E6"
+}, {
+	"name": "cadet blue",
+	"rgb": "#5F9EA0"
+}, {
+	"name": "steel blue",
+	"rgb": "#4682B4"
+}, {
+	"name": "corn flower blue",
+	"rgb": "#6495ED"
+}, {
+	"name": "deep sky blue",
+	"rgb": "#00BFFF"
+}, {
+	"name": "dodger blue",
+	"rgb": "#1E90FF"
+}, {
+	"name": "light blue",
+	"rgb": "#ADD8E6"
+}, {
+	"name": "sky blue",
+	"rgb": "#87CEEB"
+}, {
+	"name": "light sky blue",
+	"rgb": "#87CEFA"
+}, {
+	"name": "midnight blue",
+	"rgb": "#191970"
+}, {
+	"name": "navy",
+	"rgb": "#000080"
+}, {
+	"name": "dark blue",
+	"rgb": "#00008B"
+}, {
+	"name": "medium blue",
+	"rgb": "#0000CD"
+}, {
+	"name": "blue",
+	"rgb": "#0000FF"
+}, {
+	"name": "royal blue",
+	"rgb": "#4169E1"
+}, {
+	"name": "blue violet",
+	"rgb": "#8A2BE2"
+}, {
+	"name": "indigo",
+	"rgb": "#4B0082"
+}, {
+	"name": "dark slate blue",
+	"rgb": "#483D8B"
+}, {
+	"name": "slate blue",
+	"rgb": "#6A5ACD"
+}, {
+	"name": "medium slate blue",
+	"rgb": "#7B68EE"
+}, {
+	"name": "medium purple",
+	"rgb": "#9370DB"
+}, {
+	"name": "dark magenta",
+	"rgb": "#8B008B"
+}, {
+	"name": "dark violet",
+	"rgb": "#9400D3"
+}, {
+	"name": "dark orchid",
+	"rgb": "#9932CC"
+}, {
+	"name": "medium orchid",
+	"rgb": "#BA55D3"
+}, {
+	"name": "purple",
+	"rgb": "#800080"
+}, {
+	"name": "thistle",
+	"rgb": "#D8BFD8"
+}, {
+	"name": "plum",
+	"rgb": "#DDA0DD"
+}, {
+	"name": "violet",
+	"rgb": "#EE82EE"
+}, {
+	"name": "magenta<b> / </b>fuchsia",
+	"rgb": "#FF00FF"
+}, {
+	"name": "orchid",
+	"rgb": "#DA70D6"
+}, {
+	"name": "medium violet red",
+	"rgb": "#C71585"
+}, {
+	"name": "pale violet red",
+	"rgb": "#DB7093"
+}, {
+	"name": "deep pink",
+	"rgb": "#FF1493"
+}, {
+	"name": "hot pink",
+	"rgb": "#FF69B4"
+}, {
+	"name": "light pink",
+	"rgb": "#FFB6C1"
+}, {
+	"name": "pink",
+	"rgb": "#FFC0CB"
+}, {
+	"name": "antique white",
+	"rgb": "#FAEBD7"
+}, {
+	"name": "beige",
+	"rgb": "#F5F5DC"
+}, {
+	"name": "bisque",
+	"rgb": "#FFE4C4"
+}, {
+	"name": "blanched almond",
+	"rgb": "#FFEBCD"
+}, {
+	"name": "wheat",
+	"rgb": "#F5DEB3"
+}, {
+	"name": "corn silk",
+	"rgb": "#FFF8DC"
+}, {
+	"name": "lemon chiffon",
+	"rgb": "#FFFACD"
+}, {
+	"name": "light golden rod yellow",
+	"rgb": "#FAFAD2"
+}, {
+	"name": "light yellow",
+	"rgb": "#FFFFE0"
+}, {
+	"name": "saddle brown",
+	"rgb": "#8B4513"
+}, {
+	"name": "sienna",
+	"rgb": "#A0522D"
+}, {
+	"name": "chocolate",
+	"rgb": "#D2691E"
+}, {
+	"name": "peru",
+	"rgb": "#CD853F"
+}, {
+	"name": "sandy brown",
+	"rgb": "#F4A460"
+}, {
+	"name": "burly wood",
+	"rgb": "#DEB887"
+}, {
+	"name": "tan",
+	"rgb": "#D2B48C"
+}, {
+	"name": "rosy brown",
+	"rgb": "#BC8F8F"
+}, {
+	"name": "moccasin",
+	"rgb": "#FFE4B5"
+}, {
+	"name": "navajo white",
+	"rgb": "#FFDEAD"
+}, {
+	"name": "peach puff",
+	"rgb": "#FFDAB9"
+}, {
+	"name": "misty rose",
+	"rgb": "#FFE4E1"
+}, {
+	"name": "lavender blush",
+	"rgb": "#FFF0F5"
+}, {
+	"name": "linen",
+	"rgb": "#FAF0E6"
+}, {
+	"name": "old lace",
+	"rgb": "#FDF5E6"
+}, {
+	"name": "papaya whip",
+	"rgb": "#FFEFD5"
+}, {
+	"name": "sea shell",
+	"rgb": "#FFF5EE"
+}, {
+	"name": "mint cream",
+	"rgb": "#F5FFFA"
+}, {
+	"name": "slate gray",
+	"rgb": "#708090"
+}, {
+	"name": "light slate gray",
+	"rgb": "#778899"
+}, {
+	"name": "light steel blue",
+	"rgb": "#B0C4DE"
+}, {
+	"name": "lavender",
+	"rgb": "#E6E6FA"
+}, {
+	"name": "floral white",
+	"rgb": "#FFFAF0"
+}, {
+	"name": "alice blue",
+	"rgb": "#F0F8FF"
+}, {
+	"name": "ghost white",
+	"rgb": "#F8F8FF"
+}, {
+	"name": "honeydew",
+	"rgb": "#F0FFF0"
+}, {
+	"name": "ivory",
+	"rgb": "#FFFFF0"
+}, {
+	"name": "azure",
+	"rgb": "#F0FFFF"
+}, {
+	"name": "snow",
+	"rgb": "#FFFAFA"
+}, {
+	"name": "black",
+	"rgb": "#000000"
+}, {
+	"name": "dim gray / dim grey",
+	"rgb": "#696969"
+}, {
+	"name": "gray / grey",
+	"rgb": "#808080"
+}, {
+	"name": "dark gray / dark grey",
+	"rgb": "#A9A9A9"
+}, {
+	"name": "silver",
+	"rgb": "#C0C0C0"
+}, {
+	"name": "light gray / light grey",
+	"rgb": "#D3D3D3"
+}, {
+	"name": "gainsboro",
+	"rgb": "#DCDCDC"
+}, {
+	"name": "white smoke",
+	"rgb": "#F5F5F5"
+}, {
+	"name": "white",
+	"rgb": "#FFFFFF"
+}]

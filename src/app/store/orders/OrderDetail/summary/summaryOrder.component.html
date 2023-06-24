@@ -1,0 +1,40 @@
+<div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">All products</h5>
+                            <table class="table table-hover"
+                                data-order="[[ 1, &quot;desc&quot; ]]">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Sr</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Sale price(Each)</th>
+                                        <th scope="col">Discount</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let prod of productsData;index as i;">
+                                        <td scope="row">{{i+1}}</td>
+                                        <td>
+                                            <p class="list-item-heading">{{(prod.productInfo ?  prod.productInfo.product_display_name : "Not provided")}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted">{{prod.quantity}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted">{{prod.rate_each}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted">{{prod.discount}}</p>
+                                        </td>
+                                        <td>
+                                          <p class="text-muted">Rs. {{(prod.rate_each*prod.quantity)-prod.discount}}/_</p>
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>

@@ -1,0 +1,48 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ] ,
+    "paths" : {
+      "@store/*" :["src/app/store/*"],
+      "@services/*" : ["src/app/store/services/*"],
+      "@helpers/*" : ["src/app/store/helpers/*"],
+      "@interfaces/*" : ["src/app/store/interfaces/*"],
+      "@models/*" : ["src/app/store/models/*"] ,
+      "@guards/*" : ["src/app/store/guards/*"],
+      "@ui/*" : ["src/app/store/UI/*"],
+      "@environments/*" : ["src/environments/*"],
+      "@assets/*" : ["src/assets/*"] ,
+      "@settings/*" : ["src/app/store/settings/*"],
+      "@/*" : ["src/app/*"],
+      "@reducers/*" : ["src/app/Redux/reducers/*"],
+      "@actions/*" : ["src/app/Redux/actions/*"],
+      "@selectors/*" : ["src/app/Redux/selectors/*"],
+
+      "@allEffects" : ["src/app/Redux/effects/index.effects"],
+      "@stateInterface" : ["src/app/Redux/state/allStates.ts"],
+      "@utilities/*" : ["src/app/store/utils/*"],
+      "@actionTypes" : ["src/app/Redux/actions/stateActions"]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "skipLibCheck": true,
+  }
+}

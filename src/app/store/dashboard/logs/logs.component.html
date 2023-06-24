@@ -1,0 +1,67 @@
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Logs</h5>
+
+            <div class="scroll dashboard-logs">
+
+                <table class="table table-sm table-borderless">
+
+                    <tbody>
+                        <ng-container *ngIf="beingLoaded">
+                            <tr *ngFor="let i of [40 , 80 ,30, 95 , 55 , 79, 45]">
+                                <td>
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width: '40%',
+                                        'border-radius': '0',
+                                        height: '20px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </td>
+                                <td>
+                                    <span class="font-weight-medium">
+                                        <ngx-skeleton-loader
+                                        [theme]="{
+                                            width: i+'%',
+                                            'border-radius': '0',
+                                            height: '20px'
+                                        }"
+                                        >
+                                        </ngx-skeleton-loader>    
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <span class="text-muted">
+                                        <ngx-skeleton-loader
+                                        [theme]="{
+                                            width: '40%',
+                                            'border-radius': '0',
+                                            height: '20px'
+                                        }"
+                                        >
+                                        </ngx-skeleton-loader>
+        
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="!beingLoaded">
+                        <tr *ngFor="let log of logs;">
+                            <td>
+                                <span [class]="'log-indicator align-middle '+(log.severity == 'success' ? 'border-success' : log.severity == 'error' ? 'border-danger' : 'border-theme-2')"></span>
+                            </td>
+                            <td>
+                                <span class="font-weight-medium">{{log.comment}}</span>
+                            </td>
+                            <td class="text-right">
+                                <span class="text-muted">{{log.created_at | date: 'dd/MM hh:mm'}}</span>
+                            </td>
+                        </tr>
+                        
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

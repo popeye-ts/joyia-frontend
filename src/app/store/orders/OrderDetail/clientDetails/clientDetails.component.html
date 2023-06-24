@@ -1,0 +1,38 @@
+<ng-container *ngIf="clientData?.length ; then haveData ; else noData">
+</ng-container>
+<ng-template #noData>
+  <h3 class="text-center">Client is deleted or not found.</h3>
+</ng-template>
+<ng-template #haveData>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th scope="row">Name</th>
+        <td>{{clientData ? clientData[0].personal_info.name : ''}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Father Name</th>
+        <td>{{clientData ? clientData[0].personal_info.father_name : ''}}</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Phone</th>
+        <td>{{clientData ? clientData[0].personal_info.phone : ''}}</td>
+      </tr>
+      <tr>
+        <th scope="row">CNIC</th>
+        <td>{{clientData ? clientData[0].personal_info.cnic: ''}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Address</th>
+        <td>{{clientData ? clientData[0].personal_info.address: ''}}</td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <div class="text-zero top-right-button-container" *ngIf="(_permService.hasPermission(rsrcTitle , 'edit' ))">
+      <a uiSref="store.clientform" [uiParams]="{id:client_id}" class="btn btn-primary btn-lg top-right-button mr-1 text-white" >Edit
+      </a>
+    </div>
+</ng-template>

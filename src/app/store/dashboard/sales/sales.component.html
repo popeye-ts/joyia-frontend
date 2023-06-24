@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="position-absolute card-top-buttons">
+
+                <button class="btn btn-header-light icon-button" type="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="simple-icon-refresh"></i>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-right mt-3 salesMenu">
+                    <a class="dropdown-item active" href="javascript:void(0)" (click)="redraw('weekly')">Weekly Sales</a>
+                    <a class="dropdown-item" href="javascript:void(0)" (click)="redraw('monthly')">Monthly Sales</a>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">Sales</h5>
+                <div class="dashboard-line-chart chart text-center">
+                    <div *ngIf="beingLoaded">
+                        <span *ngFor="let i of arr" >
+                        <ngx-skeleton-loader
+                                count="1"
+                                appearance="circle"
+                                [theme]="{
+                                width: '40px',
+                                'border-radius': '0rem',
+                                height: i+'px',
+                                'margin-right' : '40px'
+                                }"
+                            >
+                        </ngx-skeleton-loader>
+                        </span>
+                    </div>
+                    <ng-container if="!beingLoaded">
+                        <canvas id="salesChart" ></canvas>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

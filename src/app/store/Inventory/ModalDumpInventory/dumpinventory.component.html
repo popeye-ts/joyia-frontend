@@ -1,0 +1,84 @@
+        <!--Start of dump products Modal -->
+        <div id="dumpModal" class="modal" tabindex="-1" role="dialog" aria-modal="true" style="padding-right: 16px; display: none;">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalGridLabel">Dump Products in Inventory</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row modalArttrs">
+
+
+                              <div class="col-md-3 mx-auto border">Name</div>
+                              <div class="col-md-3 mx-auto border">
+                                  <a href="javascript:void(0)" uiSref="store.productdetail" [uiParams]="{id:inventoryData?.product?._id}">
+                                    {{inventoryData?.product?.product_display_name}}
+                                  </a>
+                                </div>
+
+                              <div class="col-md-3 mx-auto border">Quantity Available</div>
+                              <div class="col-md-3 mx-auto border">{{inventoryData?.quantity_available}}</div>
+
+                              <div class="col-md-3 mx-auto border">End Date</div>
+                              <div class="col-md-3 mx-auto border">{{inventoryData?.end_date | date}}</div>
+
+                              <div class="col-md-3 mx-auto border">Last Supply Date</div>
+                              <div class="col-md-3 mx-auto border">{{inventoryData?.last_supply_date | date}}</div>
+
+                              <!--For vehicles to show stock -->
+
+                              <div class="col-12 row mt-5">
+                                  <div *ngIf="stockList?.length ; then haveData"></div>
+                                  <ng-template  #haveData>
+                                    <div class="col-12 mb-4 spaceTop">
+                                        <table  class="table table-borderless"
+                                             datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                                            <thead>
+                                                  <tr>
+                                                      <th scope="col">#</th>
+                                                      <th scope="col">Registration no</th>
+                                                      <th scope="col">Engine No</th>
+                                                      <th scope="col">Chassis No</th>
+                                                      <th scope="col">Key No</th>
+                                                      <th scope="col">Color</th>
+                                                      <th scope="col">Action</th>
+                                                  </tr>
+                                            </thead>
+                                            <tbody >
+                                              <tr *ngFor="let stk of stockList;let i = index;">
+                                                  <th scope="row" >{{i+1}}</th>
+                                                  <td>{{stk?.reg_no}}</td>
+                                                  <td>{{stk?.engine_no}}</td>
+                                                  <td>{{stk?.chasis_no}}</td>
+                                                  <td>{{stk?.key_no}}</td>
+                                                  <td>
+                                                    <div [style.background-color]="stk.color" class="colors col-md-6">
+                                                    </div>
+                                                  </td>
+                                                  <td>
+                                                    <input type="checkbox" class="chckStock" [attr.data-id]="stk._id">
+                                                  </td>
+                                              </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                  </ng-template>
+                              </div>
+
+                              <!--End section for vehicles stock -->
+                            </div>
+                        </div>
+                    </div>
+                    <!--start of modal footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="dumpProductStock()">Dump</button>
+                    </div>
+                    <!--End of modal footer-->
+                </div>
+            </div>
+        </div>
+        <!--End of dump Modal Products -->

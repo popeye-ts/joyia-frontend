@@ -1,0 +1,56 @@
+<div class="card mb-12 mt-3">
+    <div class="card-body">
+        <table class="table table-bordered inventory-table">
+            <thead></thead>
+            <tbody>
+                <tr [class]="'single-inv-item'+(selectedCell && (selectedCell[0] == i) ? ' selected' : '' )" *ngFor="let item of draftProducts || [];let i = index;">
+                    <td class="Serial">{{i+1}}</td>
+                    <td class="product">
+                        <label class="sr-only" for="inlineFormInputName2">Name</label>
+                        <select class="form-control mb-2 mr-sm-2 w-100" id="inlineFormInputName2" placeholder="Product" (change)="selectProduct($event , i)">
+                            <option value="{{item.product_name || ''}}">{{item.product_name || 'Please select'}}</option>
+                            <option *ngFor="let prod of products;" value="{{prod._id}}" [selected]="item.product_id == prod._id" [attr.data]="item.product_id +'__'+ prod._id">{{prod.product_display_name}}</option>
+                        </select>
+                    </td>
+                    <td class="product-ean">
+                        <label class="sr-only" for="inlineFormInputGroupUsername2">EAN</label>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">EAN#</div>
+                            </div>
+                            <input type="text" class="form-control" id="inlineFormInputGroupUsername2"
+                                placeholder="EAN No#" value="{{item?.ean}}" (change)="eanChanged(i , $event)" >
+                                
+                        </div>
+                    </td>
+                    <td class="product-imei">
+                       <div class="" *ngFor="let stock of item?.stockItems || [];let itemIndex = index" >
+                            <hr *ngIf="itemIndex >0">
+                            <label class="sr-only" for="inlineFormInputGroupUsername2">Barcode</label>
+ 
+                            <button class="input-btn add-imei" (click)="addImei(i , 0 )" *ngIf="(stock?.barcode?.length == 0)">
+                                <div class="input-group-text">Add</div>
+                            </button>
+                            <div [class]="'input-group mb-2 mr-sm-2 '+(isCellSelected(i , itemIndex+imeInd) ? 'selected-cell ' : '' )" *ngFor="let bc of stock?.barcode || [' '];let imeInd = index">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">IMEI #{{imeInd+1}}</div>
+                                </div>
+                                <input type="text" class="form-control" id="inlineFormInputGroupUsername2"
+                                    placeholder="IMEI" value="{{bc}}" (click)="changeFocussed(i , itemIndex , imeInd)" (change)="changeBarCode(i , itemIndex , imeInd , $event)"> 
+                                <div class="input-group-prepend delete-imei" (click)="deleteImei(i , itemIndex , imeInd)">
+                                    <div class="input-group-text">Delete</div>
+                                </div>
+                                <div class="input-group-prepend add-imei" (click)="addImei(i , itemIndex )">
+                                    <div class="input-group-text">Add</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="action"> 
+                        <span (click)="deleteRow(i , 0)" class="deleteRow">Delete</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>       
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="icon-cards-row">
+    <div class="glide dashboard-numbers">
+        <div class="glide__track" data-glide-el="track">
+            <ul class="glide__slides" *ngIf="beingLoaded">
+                <li class="glide__slide" *ngFor="let card of [1,2,3,4,5];">
+                    <a href="javascript:void(0)" class="card">
+                        <div class="card-body text-center">
+                            <ngx-skeleton-loader
+                                count="1"
+                                appearance="circle"
+                                [theme]="{
+                                width: '40%',
+                                'border-radius': '1.75rem',
+                                height: '60px'
+                                }"
+                            >
+                            </ngx-skeleton-loader>
+                            <p class="card-text mb-0">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                width: '70%',
+                                'border-radius': '0',
+                                height: '20px'
+                                }"
+                                >
+                            </ngx-skeleton-loader>
+                            </p>
+                            <p class="lead text-center">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                width: '50%',
+                                'border-radius': '0',
+                                height: '25px'
+                                }"
+                                >
+                            </ngx-skeleton-loader>
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>        
+            <ul class="glide__slides" *ngIf="!beingLoaded">
+                <li class="glide__slide" *ngFor="let card of cards;">
+                    <a href="javascript:void(0)" class="card">
+                        <div class="card-body text-center">
+                            <i [class]="card.icon"></i>
+                            <p class="card-text mb-0">{{card.label}}</p>
+                            <p class="lead text-center">{{shortenLargeNumber(card.value, 0) }}</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

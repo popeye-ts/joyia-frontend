@@ -1,0 +1,186 @@
+            <div class="row">
+                <div class="col-12">
+                    <h1>All Pending Orders</h1>
+
+                    <div class="top-right-button-container">
+                        <a  uiSref="store.orderform" class="btn btn-primary btn-lg top-right-button mr-1"
+                            *ngIf="(_permService.hasPermission(rsrcTitle , 'add' ) )">Add New</a>
+                        <div class="btn-group" *ngIf="!noOrders">
+                            <div class="btn btn-primary btn-lg pl-4 pr-0 filter-button">
+                              <i class="glyph-icon glyphicon iconsminds-filter-2" *ngIf="filtersHidden" (click)="toggleFilters(false)"></i>
+                              <i class="glyph-icon glyphicon iconsminds-close"  *ngIf="!filtersHidden" (click)="toggleFilters(true)"></i>
+                            </div>
+                            <button type="button" class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                              <a class="dropdown-item" href="javascript:void(0)" (click)="printData()">
+                                <i class="glyph-icon simple-icon-printer"></i>
+                                &nbsp;&nbsp;&nbsp; Print</a>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                          <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                                <a href="javascript:void(0)">{{crumb.title}}</a>
+                            </li>
+                        </ol>
+                    </nav>
+                    <!--Start of filters -->
+                    <filters (applyFiltersEmitter)="applyFilters($event)"></filters>
+                    <!--End of filters -->
+                    <div class="mb-2">
+                        <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+                            role="button" aria-expanded="true" aria-controls="displayOptions">
+                            {{pageData.title}}
+                            <i class="simple-icon-arrow-down align-middle"></i>
+                        </a>
+                        <div class="collapse dont-collapse-sm" id="displayOptions" *ngIf="!noOrders">
+                            <div class="d-block d-md-inline-block">
+                                <div [ngClass]="[beingSearched ? 'search' : 'search-sm']" class="d-inline-block float-md-left mr-1 mb-1 align-top" >
+                                    <input class="" placeholder="Search Table" id="searchDatatable" #ordersSearch>
+                                    <div class="spinner" *ngIf="beingSearched">
+                                      <div class="bounce1"></div>
+                                      <div class="bounce2"></div>
+                                      <div class="bounce3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="float-md-right dropdown-as-select" id="pageCountDatatable" >
+                                <span class="text-muted text-small" *ngIf="!dataLengthChanged"> {{numOrders}}</span>
+                                <img src="assets/img/circle_spinner.webp" class="circle_spinner" *ngIf="dataLengthChanged">
+                                <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="records">
+                                    10
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                  <a class="dropdown-item active" href="javascript:void(0)">10</a>
+                                  <a class="dropdown-item " href="javascript:void(0)">20</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">30</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">50</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">100</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">500</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">1000</a>
+                                  <a class="dropdown-item" href="javascript:void(0)">2000</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row">
+              <div *ngIf="noOrders ; then noData else haveData"></div>
+              <!--Handling no data -->
+              <ng-template #noData>
+                <div style="text-align:center;" class="noOrders">
+                    <img src="assets/img/noOrders.svg" alt="No inventory" class="">
+                    <div><h1>No orders yet </h1></div>
+                </div>
+              </ng-template>
+              <!--End of no data-->
+              <ng-template #haveData>
+                    <div class="card d-flex flex-row mb-3 w-100" *ngFor = "let i of dataBeingFetchedFirstTime ? [90,67,85,95,39,82,20,90] : [];">
+                        <div class="d-flex flex-grow-1 min-width-zero">
+                            <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">                            
+                                <a class="list-item-heading mb-0 truncate w-40 w-xs-100 mt-0" href="javascript:void(0)" >
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '145px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </a>
+                                <a class="list-item-heading mb-0 truncate w-40 w-xs-100 mt-0" href="javascript:void(0)" >
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '145px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </a>
+                                <a class="list-item-heading mb-0 truncate w-40 w-xs-100 mt-0" href="javascript:void(0)" >
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '145px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </a>
+                                <p class="mb-0 text-muted text-small w-15 w-xs-100">
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '80px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </p>
+                                <p class="mb-0 text-muted text-small w-15 w-xs-100">
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '95px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </p>
+                                <div class="w-15 w-xs-100">
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '60px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </div>
+                            </div>
+                        <label class="custom-control custom-checkbox mb-1 align-self-center mr-4">
+                            <ngx-skeleton-loader
+                            [theme]="{
+                                width : '40px',
+                                'border-radius': '0',
+                                height: '15px'
+                            }"
+                            >
+                            </ngx-skeleton-loader>
+
+                        </label>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-4 data-table-rows data-tables-hide-filter" [style.visibility]="dataBeingFetchedFirstTime?'hidden':''">
+                            <table class="data-table data-table-scrollable responsive nowrap"
+                                 datatable [dtOptions]="dtOptions"
+                                [dtTrigger]="dtTrigger" id="printTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Products</th>
+                                        <th>Total Payment</th>
+                                        <th>Total Paid</th>
+                                        <th>Last Payment Time </th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+              </ng-template>
+              </div>

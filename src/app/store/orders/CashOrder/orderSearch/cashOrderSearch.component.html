@@ -1,0 +1,49 @@
+<span  action="#" class="search-wrap">
+    <div class="input-group">
+        <input type="text" [attr.value]="searchLabel" class="form-control" placeholder="Search" id="search-inp">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+                <div class="spinner" *ngIf="beingLoaded">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                  </div>
+                <i class="simple-icon-magnifier" *ngIf="!beingLoaded"></i>
+            </button>
+        </div>
+    </div>
+</span> <!-- search-wrap .end// -->
+
+<ul class="nav bg radius nav-pills nav-fill mb-3 bg mt-2" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active show" data-toggle="pill" href="#nav-tab-card" (click)="categoryChanged('all')">
+            <i class="fa fa-tags"></i> All</a>
+    </li>
+    <ng-template [ngIf]="!beingLoaded">
+        <li class="nav-item" *ngFor="let category of categoryList">
+            <a class="nav-link" data-toggle="pill" href="#nav-tab-paypal" (click)="categoryChanged(category.title)">
+                <i class="{{category.icon}}"></i>
+               {{category.title}}
+            </a>
+        </li>
+    </ng-template>
+    <ng-template [ngIf]="beingLoaded">
+        <li class="nav-item" *ngFor="let a of [1,2,3,4]">
+            <a class="nav-link" data-toggle="pill" href="javascript:void(0)" >
+                <ngx-skeleton-loader
+                    count="1"
+                    appearance="circle"
+                    [theme]="{
+                        width: '125px',
+                        'border-radius': '0.75rem',
+                        height: '25px',
+                        'max-height': '210px'
+                    }"
+                >
+                </ngx-skeleton-loader>
+            </a>
+        </li>
+    </ng-template>
+    
+
+</ul>

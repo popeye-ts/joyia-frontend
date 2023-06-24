@@ -1,0 +1,63 @@
+<!--Select Product section -->
+<div class="app-menu selectEntity">
+            <ul class="nav nav-tabs card-header-tabs ml-0 mr-0 mb-1" role="tablist">
+                <li class="nav-item w-100 text-center">
+                    <a class="nav-link active" id="first-tab" data-toggle="tab" href="#firstFull" role="tab"
+                        aria-selected="true">All {{title}}</a>
+                </li>
+            </ul>
+
+            <div class="p-4 h-100 ">
+                <div class="form-group">
+                    <input type="text" (keyup)="search($event)" class="form-control rounded" placeholder="Search">
+                </div>
+                <div class="tab-content h-100">
+                    <div class="tab-pane fade show active  h-100" id="firstFull" role="tabpanel"
+                        aria-labelledby="first-tab">
+
+                        <div class="scroll">
+                            <div class="ent-row d-flex flex-row mb-1 border-bottom pb-3 mb-3" *ngFor="let ent of entityList;" (click)="selectEntity(ent.all , currentModule=='Products' , fetchStockInfo(ent.all._id))">
+                                <a class="d-flex" href="javascript:void(0);">
+                                    <!-- <img
+                                    alt="Profile Picture"
+                                    src="{{}}"
+                                    class=""> -->
+                                    <my-img
+                                       [src]="serverImagesPath+(ent.all.image ? ent.all.image[0] : 'profile-avatar.png')"
+                                       [alt]="'Profile pic'"
+                                       [width]="'53px'"
+                                       [height]="'40px'"
+                                       [maxHeight]="'80px'"
+                                       [borderRadius]="'0.75rem'"
+                                       [class]="'img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall'"></my-img>
+                                </a>
+                                <div class="d-flex flex-grow-1 min-width-zero" [ngClass]="(currentModule=='Products' && !(fetchStockInfo(ent.all._id).available) ) ? 'not-allowed':''" >
+                                    <div
+                                        class="pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                                        <div class="min-width-zero">
+                                            <a href="javascript:void(0);">
+                                                <p class=" mb-0 truncate">{{ent.key0}}</p>
+                                            </a>
+                                            <p class="mb-1 text-muted text-small">{{ent.key1}}</p>
+                                            <p class="mb-1 text-muted text-small text-danger" *ngIf="currentModule=='Products' && !fetchStockInfo(ent.all._id).available">Out of stock</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a class="app-menu-button d-inline-block d-xl-none" href="javascript:void(0)">
+                <i class="simple-icon-options"></i>
+            </a>
+        </div>
+
+
+
+
+
+<!--End of select Product section-->

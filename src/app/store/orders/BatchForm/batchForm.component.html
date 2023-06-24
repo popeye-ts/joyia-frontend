@@ -1,0 +1,51 @@
+<!--Start of Product Detail Section -->
+<div class="row app-row">
+  <div class="col-12">
+    <!--Start of Navigation -->
+    <div class="mb-3">
+      <h1>{{pageData.title}}</h1>
+      <div class="text-zero top-right-button-container">
+        <button type="button" class="btn btn-primary btn-lg top-right-button mr-1" (click)="reset()">Reset</button>
+      </div>
+      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+        <ol class="breadcrumb pt-0">
+          <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+            <a href="javascript:void(0)">{{crumb.title}}</a>
+          </li>
+
+        </ol>
+      </nav>
+    </div>
+
+
+    <div class="separator mb-5"></div>
+  </div>
+</div>
+<!--End of Navigation -->
+
+
+<!--Start of section -->
+<div class="container-fluid" >
+  <div class="row app-row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div id="smartWizardCheck">
+          <div class="card-body">
+            <div id="checkStep3">
+              <h4 class="pb-2">Selected products for order</h4>
+              <orderProductsStep [reset]="resetProducts" [selectedProducts]="selectedProductTemp" [quantity]="productsQuantity" (remove)="removeProduct($event)"></orderProductsStep>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" [disabled]="validate()" class="btn btn-outline-primary mr-2" data-toggle="modal"
+    data-target=".bd-example-modal-lg" >Add Batch<i class="simple-icon-arrow-right ml-2"></i></button>
+  </div>
+</div>
+<!--End of section -->
+<!--Start of select section -->
+<selectForOrderForm (itemSelectEmitter)="entitySelected($event)" [title]="'Products'"></selectForOrderForm>
+<!--End of select section -->
+<confirmorder [order_id]="_id" [description]="desc"  [resetProducts]="resetProducts" [products]="products" [quantity]="productsQuantity"></confirmorder>

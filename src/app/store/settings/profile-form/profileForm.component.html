@@ -1,0 +1,164 @@
+<div class="row">
+  <div class="col-12 col-md-12 col-xl-12 col-left">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="mb-4">Update profile</h5>
+        <form [formGroup]="userForm" id="userForm">
+          <!--start of First Name section -->
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label"
+                  >Email:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="email"
+                />
+                <div
+                  *ngIf="
+                    userForm.controls.email.invalid &&
+                    (userForm.controls.email.dirty ||
+                      userForm.controls.email.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="userForm.controls.email.errors.required">
+                    Email is required.
+                  </div>
+                  <div *ngIf="userForm.controls.email.errors.email">
+                    Invalid email entered.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <!--Start of username section-->
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label"
+                  >UserName:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="username"
+                />
+                <div
+                  *ngIf="
+                    userForm.controls.username.invalid &&
+                    (userForm.controls.username.dirty ||
+                      userForm.controls.username.touched)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="userForm.controls.username.errors.required">
+                    User name is required.
+                  </div>
+                  <div *ngIf="userForm.controls.username.errors.minlength">
+                    User name must be at least 3 characters long.
+                  </div>
+                </div>
+              </div>
+              <!--End of username section -->
+            </div>
+            <!--End of First name section -->
+            <!--Start of Email Section -->
+          </div>
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="recipient-name" class="col-form-label"
+                >First Name:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="firstname"
+              />
+              <div
+                *ngIf="
+                  userForm.controls.firstname.invalid &&
+                  (userForm.controls.firstname.dirty ||
+                    userForm.controls.firstname.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="userForm.controls.firstname.errors.required">
+                  First name is required.
+                </div>
+                <div *ngIf="userForm.controls.firstname.errors.minlength">
+                  First name must be at least 3 characters long.
+                </div>
+              </div>
+            </div>
+
+            <!--End of Email section -->
+            <!--Start of phone section -->
+            <div class="form-group col-6">
+              <label for="recipient-name" class="col-form-label">Phone:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="phone"
+                (keypress)="inpPhone($event)"
+              />
+              <div
+                *ngIf="
+                  userForm.controls.phone.invalid &&
+                  (userForm.controls.phone.dirty ||
+                    userForm.controls.phone.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="userForm.controls.phone.errors.required">
+                  Phone is required.
+                </div>
+                <div *ngIf="userForm.controls.phone.errors.minlength">
+                  Phone must be at least 12 characters long.
+                </div>
+                <div *ngIf="userForm.controls.phone.errors.maxlength">
+                  Phone must be not exceed 12 characters long.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End of phone section -->
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="recipient-name" class="col-form-label"
+                >Last Name:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="lastname"
+              />
+              <div
+                *ngIf="
+                  userForm.controls.lastname.invalid &&
+                  (userForm.controls.lastname.dirty ||
+                    userForm.controls.lastname.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="userForm.controls.lastname.errors.required">
+                  Last name is required.
+                </div>
+                <div *ngIf="userForm.controls.lastname.errors.minlength">
+                  Last name must be at least 3 characters long.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of user status -->
+
+		  <button type="button" class="btn btn-primary float-right" [disabled]="!userForm.valid" (click)="updateUser()"  >
+			<span *ngIf="!requestInProgress"> Update</span>
+			<preloader *ngIf="requestInProgress"></preloader>
+		  </button>
+		  
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

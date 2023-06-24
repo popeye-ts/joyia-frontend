@@ -1,0 +1,130 @@
+
+            <div class="row">
+              <!--Start of bread crimbs-->
+                <div class="col-12">
+                    <h1>Dashboard</h1>
+                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                        <ol class="breadcrumb pt-0">
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">Home</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="javascript:void(0)">Library</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Data</li>
+                        </ol>
+                    </nav>
+                    <div class="separator mb-5"></div>
+                </div>
+                <!--End of bread crumbs-->
+
+                <div class="col-lg-12 col-xl-6">
+                    <!-- Start of cardStats -->
+                      <cardStats ></cardStats>
+                    <!-- end of card stats -->
+                    <!-- start of sales  -->
+                      <sales ></sales>
+                    <!-- end of sales -->
+                </div>
+                <!-- start of recentOrders -->
+                <div class="col-xl-6 col-lg-12 mb-4">
+                    <div class="card">
+                        <recentOrders ></recentOrders>
+                    </div>
+                </div>
+                <!-- end of recentOrders -->
+            </div>
+
+            <div class="row">
+              <!-- start of categories -->
+              <div class="col-md-12 col-lg-4 mb-4">
+                <categories ></categories>
+              </div>
+              <!-- end of categories -->
+                <!-- start of logs -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <logs></logs>
+                </div>
+                <!-- end of logs -->
+                <!-- start of Tickets -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <pendingPayments ></pendingPayments>
+                </div>
+                <!-- end of Tickets -->
+            </div>
+
+
+            <div class="row">
+                <!-- start of calendar -->
+                <div class="col-xl-6 col-lg-12 mb-4">
+                  <calendar></calendar>
+                  </div>
+                <!-- end of calendar -->
+                <!-- start of bestSellers -->
+                <div class="col-xl-6 col-lg-12 mb-4">
+                  <bestSellers ></bestSellers>
+                  </div>
+                <!-- end of bestSellers -->
+            </div>
+
+
+
+            <div class="row">
+                <!-- start of summaryStats -->
+                <div class="col-lg-4 col-sm-12 mb-4">
+                  <summaryStats ></summaryStats>
+                </div>
+                <!-- end of summaryStats -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card dashboard-sq-banner justify-content-end">
+                        <div class="card-body justify-content-end d-flex flex-column">
+                            <span class="badge badge-pill badge-theme-3 align-self-start mb-3">DORE</span>
+                            <p class="lead text-white">MAGIC IS IN THE DETAILS</p>
+                            <p class="text-white">Yes, it is indeed!</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- start of products -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <products></products>
+                </div>
+                <!-- end of products -->
+            </div>
+
+
+            <!-- start of cardStatsSortable -->
+              <cardStatsSortable></cardStatsSortable>
+            <!-- end of cardStatsSortable -->
+
+            <div class="row">
+              <!-- start of allOrdersChart -->
+              <div class="col-md-6 col-sm-12 mb-4">
+                  <cashOrdersChart></cashOrdersChart>
+              </div>
+                <!-- end of allOrdersChart -->
+                <!-- start of completedOrdersChart -->
+                <div class="col-md-6 col-sm-12 mb-4">
+                  <installmentOrdersChart></installmentOrdersChart>
+                </div>
+                <!-- end of completedOrdersChart -->
+            </div>
+
+            <div class="row">
+              <!--start of otherStats Right -->
+              <div class="col-md-6 col-lg-12 col-xl-4 " *ngIf="false">
+                <otherStatsLeft [data]="infoData"></otherStatsLeft>
+              </div>
+
+                <!--end of otherStats right -->
+              <!-- start of orderForm -->
+              <div class="col-md-6 col-xl-4 col-lg-6 col-sm-12 mb-4 " *ngIf="false">
+                <orderForm></orderForm>
+              </div>
+              <!-- end of orderForm -->
+
+              <!-- start of otherStats Right -->
+              <div class="col-xl-4 col-lg-6 mb-4 " *ngIf="false">
+                <otherStatsRight></otherStatsRight>
+              </div>
+              <!-- end of otherStats -->
+            </div>

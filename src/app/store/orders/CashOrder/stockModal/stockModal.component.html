@@ -1,0 +1,53 @@
+  <!--Start of the modal -->
+    <div id="order-stock-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Stock Items</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Start of Stock Modal -->                
+                    <h2 *ngIf="stockBeingFetched; else dataFetched;" class="text-center">
+                            Fetching Details....
+                    </h2>
+                    <ng-template #dataFetched>
+                                <table class="table ">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Barcodes</th>
+                                            <th scope="col">Other Info </th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                   
+                                    <tbody >
+                                        <tr *ngFor="let item of stockLst;let i = index" [class]="i==activeIndex ? 'active-item' : ''">
+                                            <th scope="row">{{i+1}}</th>
+                                            <td> 
+                                                <span class="badge badge-pill badge-outline-secondary mb-1"  *ngFor="let i of item.imei">{{i}}</span>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <input type ="checkbox" class="" (change)="itemChecked(item , i , $event)" [checked]="item.checked" />
+                                            </td>
+                                        </tr>                                       
+                                    </tbody>
+                                </table>
+                    </ng-template>
+                            
+                    <!-- End of Stock Modal -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="addToCart()">Add to cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--End of Modal -->

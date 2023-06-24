@@ -1,0 +1,38 @@
+.active{
+  font-weight: bold;
+  }
+.active a{
+  color: blue !important;
+
+}
+.product_detail .badge{
+  cursor: pointer;
+}
+.noPayments{
+  width: 100%;
+
+}
+.noPaymentsImg{
+  height: 340px;
+}
+.deleted{
+  color: grey;
+  text-decoration: line-through;
+}
+.btnWaiverLoader{
+  width: 8px;
+}
+.line-through{
+  text-decoration: line-through;
+}
+.popover{
+  margin-top: 27px;
+}
+.btn-update-waiver{
+  border-radius: 3px;
+  background: #145388;
+  color: white;
+}
+.ApprovalStatus{
+  text-transform: capitalize;
+}

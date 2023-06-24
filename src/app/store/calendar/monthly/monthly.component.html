@@ -1,0 +1,24 @@
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+  <div class="cal-cell-top">
+    <span class="cal-day-badge" *ngIf="day.badgeTotal > 3">{{ day.badgeTotal }}</span>
+    <span class="cal-day-number">{{ day.date | calendarDate :'monthViewDayNumber':locale }}</span>
+  </div>
+  <div class="cell-totals">
+    <span
+      *ngFor="let group of day.eventGroups"
+      class="badge badge-{{ group[0] }}">
+      {{ group[1].length }}
+    </span>
+  </div>
+</ng-template>
+<mwl-calendar-month-view
+  [viewDate]="viewDate"
+  [events]="events"
+  [refresh]="refresh"
+  [activeDayIsOpen]="activeDayIsOpen"
+  [cellTemplate]="customCellTemplate"
+  (dayClicked)="dayClicked($event.day)"
+  (eventClicked)="handleEvent('Clicked', $event.event)"
+  (eventTimesChanged)="eventTimesChanged($event)"
+>
+</mwl-calendar-month-view>

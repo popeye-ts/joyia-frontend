@@ -1,0 +1,104 @@
+<div class="card-body ">
+
+
+                            <form [formGroup]="productForm">
+                                <div class="form-row">
+                                  <!--User selected products -->
+                                  <div class="card question d-flex mb-4 edit-quesiton col-12" data-check-all="checkAll" *ngFor="let product of products;let i= index;">
+                                                <div class="d-flex flex-grow-1 min-width-zero" [ngClass]="product.class ? product.class : ''">
+                                                    <div
+                                                        class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center" id="item_{{product._id}}">
+                                                            <span class="heading-number d-inline-block ">
+                                                              {{quantity[product._id] ? quantity[product._id] : 1}}
+                                                            </span>
+                                                            <a class="list-item-heading mb-0 truncate w-40 w-xs-100" href="Pages.Product.Detail.html">
+                                                                <img alt="Product Image Picture" class="img-thumbnail border-0 rounded-circle mr-3 list-thumbnail align-self-center xsmall"
+                                                                src="{{serverImagesPath+product.image[0]}}">
+                                                                {{product ? product.product_display_name : 0}}
+                                                            </a>
+                                                            <p class=" mb-0 text-muted text-small w-15 w-xs-100 font-weight-bold">
+                                                                {{ (quantity[product._id] ? quantity[product._id] : 1) * (product ? (product.price ? product.price.sale_price : 0):0) | currency : 'PKR ' }}/
+                                                            </p>
+                                                            <p class="mb-0 text-muted text-small w-15 w-xs-100"><u>{{(product ? (product.quantity_available ? product.quantity_available : 0 ) : 0) }} Available</u></p>
+                                                            <p class="mb-0 text-muted text-small w-15 w-xs-100">{{(product ? (product.price ? product.price.sale_price :0) : 0) | currency  : 'PKR  '}}/</p>
+                                                    </div>
+                                                    <div
+                                                        class="custom-control custom-checkbox pl-1 align-self-center pr-4">
+                                                        <button class="btn btn-outline-theme-3 icon-button edit-button">
+                                                            <i class="simple-icon-pencil"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-theme-3 icon-button view-button">
+                                                            <i class="simple-icon-trash" (click)="remove(product)"></i>
+                                                        </button>
+                                                        <button
+                                                            class="btn btn-outline-theme-3 icon-button rotate-icon-click"
+                                                            type="button"
+                                                            data-toggle="collapse"
+                                                            [attr.data-target]="'#item_'+i"
+                                                            aria-expanded="false"
+                                                            aria-controls="item_">
+                                                            <i class="simple-icon-arrow-down with-rotate-icon"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!--Start of collapsable section-->
+                                                <div class="collapse question-collapse" id="item_{{i}}">
+                                                    <div class="card-body pt-0">
+                                                        <div class="edit-mode">
+                                                            <div class="form-group mb-3">
+                                                                <label class="text-muted text-small mb-2">Product description</label>
+                                                                <p> {{product ? product.description : 0}} </p>
+                                                            </div>
+                                                            <div class="separator mb-4"></div>
+
+                                                            <!--Vehicle specific section-->
+                                                            <div class="form-group" *ngIf="product.stock">
+                                                                <label class="d-block">Select particular </label>
+
+                                                                    <div class="input-group mb-3" *ngFor="let sel of fakeArray(quantity[product._id]);let selIndex = index;">
+                                                                        <div class="input-group-prepend">
+                                                                            <label class="input-group-text" for="inputGroupSelect_{{selIndex}}">{{product?.categories[0].name}} {{selIndex+1}}</label>
+                                                                        </div>
+                                                                        <select class="custom-select" id="inputGroupSelect_{{selIndex}}">
+                                                                            <option
+                                                                              *ngFor="let pr of product.stock;let opt = index;"
+                                                                              value="{{pr._id}}"
+                                                                              [attr.data]="pr"
+                                                                              [selected]="selIndex == opt">
+                                                                              {{pr.engine_no}}
+                                                                            </option>
+                                                                        </select>
+
+
+                                                                    </div>
+                                                            </div>
+                                                            <!--End of vehicle specific section-->
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <!--End of collapsable section-->
+                                            </div>
+                                  <!--End of User selected products-->
+
+                                  <!--None selected section-->
+                                  <div class="col-12 list" data-check-all="checkAll" *ngIf="products.length == 0" >
+                                        <div class="card d-flex flex-row mb-3">
+                                            <div class="d-flex flex-grow-1 min-width-zero">
+                                                <div
+                                                    class="card-body justify-content-center align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
+                                                   No Products Selected yet
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+                                  <!--end of none selected products -->
+
+                                  <!--Start of product detail -->
+
+                                  <!--End of product detail -->
+                                </div>
+                            </form>
+</div>

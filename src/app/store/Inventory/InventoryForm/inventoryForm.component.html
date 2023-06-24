@@ -1,0 +1,33 @@
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y-sm bg-default ">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 card padding-y-sm card ">
+                <!-- Start of order search section -->
+                <inventorySearch></inventorySearch>
+                <!-- End of order search section -->
+
+                <span id="items">
+                  <!-- Start of order products section -->
+                  <inventoryProducts [draftProducts]="draftProducts" [selectedCell] = "selectedCell"></inventoryProducts>
+                  <!-- End of order products section -->
+                </span>
+ 
+                <div class="submit-buttons">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal" (click)="resetForm()">Reset</button>
+                  <button type="button" class="btn btn-primary" (click)="submitForm()">
+                    <div class="spinner d-inline-block" *ngIf="shownSpinner">
+                      <div class="bounce1"></div>
+                      <div class="bounce2"></div>
+                      <div class="bounce3"></div>
+                    </div>
+                    <span *ngIf="!shownSpinner">
+                      Submit
+                    </span>
+                  </button>
+                </div>
+
+          </div>
+        </div>
+    </div><!-- container //  -->
+</section>

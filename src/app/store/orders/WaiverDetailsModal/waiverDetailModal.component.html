@@ -1,0 +1,159 @@
+<!--Start of Modal for Waiver Detail-->
+    <!-- Modal -->
+    <div class="modal fade" id="waiversDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Waiver Details of Order:&nbsp;&nbsp;{{orderData?.order?.order_id}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--Edit Woiver Modal Body-->
+                <div class="modal-body">
+                  <div *ngIf="noWaivers ; then noData else haveData"></div>
+                  <!--Handling no data -->
+                  <ng-template #noData>
+                  <div style="text-align:center;" class="noPayments">
+                      <img src="assets/img/nothingToDo.png" alt="No inventory" class="noPaymentsImg">
+                      <div><h1>Hurrah... <br>This order have no pending <span style="color:blue;font-weight:bold;">Waivers</span> </h1></div>
+                  </div>
+                  </ng-template>
+                  <!--End of no data-->
+                  <ng-template #haveData>
+                    <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Payment type</th>
+                                  <th scope="col"></th>
+                                  <th scope="col"></th>
+                                  <th scope="col"></th>
+                                  <th scope="col"></th>
+                                  <th scope="col">Amount</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+
+                            <tr>
+                                <th scope="row">1</th>
+                                <th colspan="1">Initial payments</th>
+                                <th colspan="3">Description</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td></td>
+                                <td colspan="4">Initial payment recieved on {{orderData?.order?.created_at}}</td>
+                                <td>{{orderData?.order?.advance_amount}}</td>
+                            </tr>
+
+                            <ng-container
+                              *ngIf="orderData?.on_full_payment ; then full_payment_order; else installment_order">
+                            </ng-container>
+
+                            <ng-template #installment_order>
+                              <tr>
+                                  <th scope="row">3</th>
+                                  <th colspan="1">Installments</th>
+                                  <th colspan="4">Description</th>
+                                  <td></td>
+                              </tr>
+                              <tr *ngFor="let finance of extractInstallments(orderData?.order?.finances); let index = index">
+                                  <th scope="row">{{index+4}}</th>
+                                  <td></td>
+                                  <th colspan="4">{{finance.comment}}</th>
+                                  <td>{{finance?.amount}}</td>
+                              </tr>
+
+                            </ng-template>
+                            <ng-template [ngIf]="extractWaivers(orderData?.order?.finances).length > 0">
+                              <tr>
+                                  <th scope="row">{{extractInstallments(orderData?.order?.finances).length+4}}</th>
+                                  <th colspan="1">Waivers </th>
+                                  <th colspan="4">Description</th>
+                                  <td></td>
+                              </tr>
+                              <tr *ngFor="let finance of extractWaivers(orderData?.order?.finances); let index = index">
+                                  <th scope="row">{{extractInstallments(orderData?.order?.finances).length+index+5}}</th>
+                                  <td></td>
+                                  <th colspan="4">Waiver approved on {{finance.updated_at | date}}</th>
+                                  <td>{{finance?.amount}}</td>
+                              </tr>
+                            </ng-template>
+                            <ng-template #full_payment_order>
+                              <tr>
+                                  <th scope="row">3</th>
+                                  <th colspan="5">Payments</th>
+                                  <td></td>
+                              </tr>
+                              <tr *ngFor="let finance of orderData?.order?.finances; let index = index">
+                                  <th scope="row">{{index+4}}</th>
+                                  <td></td>
+                                  <th colspan="4">Payment made on {{finance.created_at | date}}</th>
+                                  <td>{{finance?.amount}}</td>
+                              </tr>
+                            </ng-template>
+                            <tr>
+                                <th scope="row">{{orderData?.order?.finances.length+(extractWaivers(orderData?.order?.finances).length ? 5 : 4)}}</th>
+                                <th colspan="1">Pending Waivers</th>
+                                <th colspan="3">Reason</th>
+                                <th >Waiver Status</th>
+                                <td></td>
+                            </tr>
+                            <tr *ngFor="let waiver of orderData?.order?.waivers; let index = index">
+                                <th scope="row">{{orderData?.order?.finances.length+index+(extractWaivers(orderData?.order?.finances).length ? 6 : 5)  }}</th>
+                                <td></td>
+                                <th colspan="3">{{waiver.reason}}</th>
+                                <th class="ApprovalStatus">
+                                  <span *ngIf="waiver.approval_status != 'pending'">{{waiver.approval_status}}</span>
+
+
+                                  <button
+                                    *ngIf="(_permService.hasPermission('Waiver Approvals' , 'approve_reject') && waiver.approval_status == 'pending')"
+                                    (click)="selectWaiver(waiver._id)"
+                                    class="btn btn-update-waiver"
+                                    mwlConfirmationPopover
+                                    [popoverTitle]="popoverTitle"
+                                    [popoverMessage]="popoverMessage"
+                                    [confirmText]="confirmText"
+                                    [cancelText]="cancelText"
+                                    [placement]="'top'"
+                                    (confirm)="updateWaiver('accepted')"
+                                    (cancel)="updateWaiver('rejected')"
+                                    confirmButtonType="danger"
+                                    cancelButtonType="outline-secondary"
+                                    (click)="confirmClicked = false; cancelClicked = false"
+                                    [appendToBody]="true"
+                                  >
+                                    Update
+                                  </button>
+                                </th>
+                                <td [class]="waiver.approval_status=='rejected' ? 'line-through' : ''">
+                                  {{waiver?.calculated_value || 0}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{orderData?.order?.waivers.length + orderData?.order?.finances.length+(extractWaivers(orderData?.order?.finances).length ? 6 : 5)}}</th>
+                                <td colspan="4">Mark</td>
+                                <th>Total :</th>
+                                <td>{{total_amount}}</td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </ng-template>
+                </div>
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" *ngIf="!noWaivers" (click)="saveChanges()">
+                      <span *ngIf="!beingEditFormSubmit">Save changes</span>
+                      <preloader *ngIf="beingEditFormSubmit"></preloader>
+                    </button>
+                </div>
+                <!-- End of waiver modal body -->
+
+            </div>
+        </div>
+    </div>
+<!--End of Waiver Detail Modal-->

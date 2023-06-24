@@ -1,0 +1,218 @@
+<!--Start of Modal -->
+<div class="modal fade" id="UserDetailModal" tabindex="-1" role="dialog"
+   aria-hidden="true">
+   <div class="modal-dialog modal-custom" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalContentLabel">User Detail Modal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body" >
+          <!-- Start of Modal Body -->
+          <div class="emp-profile">
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img [src]="serverImagesPath.large+(userData?.profile_pic || defaultProfilePic)" id="profile-image" alt=""/>
+                            <div class="file btn btn-lg btn-primary change-photo">
+                                Change Photo
+                                <input type="file" name="file" accept="image/*" (change)="loadFile($event)"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h5>
+                                        {{userData?.username}}
+                                    </h5>
+                                    <h6>
+                                        {{userData?.roles[0]?.role_name}}
+                                    </h6>
+                                    <p class="proile-rating" *ngIf="!isUserFormShown">RANKINGS : <span>8/10</span></p>
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist" *ngIf="!isUserFormShown">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                                                Permissions
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="other-settings-tab" data-toggle="tab" href="#other-settings" role="tab" aria-controls="other-settings" aria-selected="false">
+                                                Other Settings
+                                            </a>
+                                        </li>
+                                    </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="profile-edit-btn" (click)="toggleUserForm()">
+                            {{isUserFormShown ? 'Back to View Mode' : 'Edit Profile'}}
+                        </button>
+                        <button type="button" class="btn btn-danger mt-1 support-btn" (click)="forceLogout()">
+                            <span *ngIf="enforcingLogingOut">
+                              Logging user out....
+                            </span>
+                            <span class="glyph-icon simple-icon-logout" *ngIf="!enforcingLogingOut">
+                              Force Logout                                                      
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-work">
+                            <p>STORE </p>
+                            <a href="javascript:void(0)">{{userData?.store?.store_title}}</a><br/>
+                            <p>OTHERS</p>
+                            <a href="javascript:void(0)">Orders Creator</a><br/>
+                        </div>
+                    </div>
+                    <div [class]="'col-md-8 row '+(isUserFormShown ? 'user-form-row' : '')">
+                        <div class="col-11" *ngIf="isUserFormShown ; else viewDetails">
+                            <user-form [userData]="userData"></user-form>
+                        </div>
+                        <ng-template #viewDetails>
+                        <div class="col-12 tab-content profile-tab" id="myTabContent" >
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>First Name</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p>{{userData?.firstname}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Last Name</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p>{{userData?.lastname}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p>{{userData?.email}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Phone</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p>{{userData?.phone}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label>Created At</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p>{{userData?.created_at | date: 'dd.MM.yyyy hh:mm'}}</p>
+                                            </div>
+                                        </div>
+                            </div> 
+                            <div class="tab-pane fade text-center" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        
+                                <div class="row" *ngIf="userData?.role?.length; else noRole">
+                                    <div class="row col-12 permissions-container" *ngFor="let perm of permsLst">
+                                        <div class="col-md-3">
+                                            <label>{{perm.resource_name}}</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p>{{getPermString(perm)}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-template #noRole>
+                                    <img src="assets/img/sorry_no_role.png" class="no-role">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>No role</label><br/>
+                                            <p>Seems like no role is assigned yet</p>
+                                        </div>
+                                    </div>
+    
+                                </ng-template>
+                            </div>
+
+                            <!-- Start of other settings -->
+                            <div class="tab-pane fade text-center" id="other-settings" role="tabpanel" aria-labelledby="other-settings-tab">        
+                                <div class="row col-12" >
+                                    <div class="col-md-3">
+                                        <label>Assign Role</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <select (change)="changeRole($event)" class="form-control">
+                                                <option value="" [selected]="!(userData?.roles[0]?.role_id)">Select role</option>
+                                                <option *ngFor="let role of rolesLst;let i=index;" [value]="role._id" [disabled]="(role.role_type == 'admin') ? true : false" [selected]="(role._id == (userData?.roles[0]?.role_id)) ? true : false">
+                                                    {{role.name}}
+                                                </option>
+                                            </select>                
+                                        </div>                                          
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-primary float-right" (click)="assignRole()">
+                                            <span *ngIf="!assigningRole">Assign</span>
+                                            <preloader *ngIf="assigningRole"></preloader>
+                                        </button>                                        
+                                    </div>
+                                </div>
+                                <div class="row col-12" >
+                                    <div class="col-md-3">
+                                        <label>Preferred Color</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <input type="color" [attr.value]="((userData?.preferences?.color) || '#008000')" (change)="updateSelectedColor($event)">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-primary float-right" (click)="updatePreference('color')">
+                                            <span *ngIf="!updatingPreference">Update color</span>
+                                            <preloader *ngIf="updatingPreference"></preloader>
+                                        </button>                                        
+                                    </div>
+                                </div>
+                                <div class="row col-12" >
+                                    <div class="col-md-3">
+                                        <label>Change Password</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <input name="user-password" type="password" class="form-control" placeholder="Change password" [(ngModel)]="password">                
+                                        </div>                                          
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-primary float-right" (click)="changePassword()">
+                                            <span *ngIf="!updatingPassword">Update Password</span>
+                                            <preloader *ngIf="updatingPassword"></preloader>
+                                        </button>                                        
+                                    </div>
+                                </div>
+                                
+
+                            </div>
+                            <!-- End of other settings -->
+                        </div>
+                        </ng-template>
+                    </div>
+                </div>
+              </div>           
+        </div>
+          <!-- End of Modal Body -->
+         </div>
+         
+      </div>
+    </div>
+  </div>
+  <!--End of Modal -->

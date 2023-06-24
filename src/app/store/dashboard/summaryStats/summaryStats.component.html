@@ -1,0 +1,54 @@
+    <div class="card dashboard-progress">
+        <div class="position-absolute card-top-buttons">
+            <button class="btn btn-header-light icon-button">
+                <i class="simple-icon-refresh"></i>
+            </button>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Statistics Summary</h5>
+            <ng-container *ngIf="beingLoaded">
+            <div class="mb-4" *ngFor="let i of [40,70,100,45,30,80]">
+                <p class="mb-2">
+                    <span>
+                        <ngx-skeleton-loader
+                        [theme]="{
+                            width: i+'%',
+                            'border-radius': '0',
+                            height: '5px'
+                        }"
+                        >
+                        </ngx-skeleton-loader>
+                    </span>
+                    <span class="float-right text-muted">
+                       
+                    </span>
+                </p>
+                <div class="progress">
+                    <ngx-skeleton-loader
+                    [theme]="{
+                        width: i+'%',
+                        'border-radius': '0',
+                        height: '2px'
+                    }"
+                    >
+                    </ngx-skeleton-loader>
+                </div>
+            </div>
+            </ng-container>
+            <ng-container *ngIf="!beingLoaded">
+            <div class="mb-4" *ngFor="let stat of statistics; let i = index ;">
+                <p class="mb-2">
+                    <span>{{stat.label}}</span>
+                    <span class="float-right text-muted">{{shortenLargeNumber(stat.obtained , 0 )}}/{{shortenLargeNumber (stat.total , 0) }}</span>
+                </p>
+                <div class="progress">
+                    <div class="progress-bar" [ngStyle]="{ 'width': (stat.obtained / stat.total )* 100 + '%' }">
+                    </div>
+                </div>
+            </div>
+            </ng-container>
+
+
+
+        </div>
+    </div>

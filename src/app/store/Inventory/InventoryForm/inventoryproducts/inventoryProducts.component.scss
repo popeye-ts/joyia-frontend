@@ -1,0 +1,32 @@
+.single-inv-item{
+  padding-top: 5px;
+  border-bottom: 3px solid lightgrey;
+  padding-bottom: 5px;
+}
+.delete-imei:hover{
+  background: red;
+  color: white;
+  font-weight: bolder;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.deleteRow:hover{
+  color: red;
+  font-weight: bolder;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.add-imei:hover{
+  background: green;
+  color: white;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.selected{
+  background: #dbd786 !important;
+  border-left: 5px solid #f5a40e;
+}
+.selected-cell {
+  background: floralwhite !important;
+  border-left: 2px solid red;
+}

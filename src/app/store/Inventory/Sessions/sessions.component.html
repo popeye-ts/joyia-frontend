@@ -1,0 +1,212 @@
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y-sm bg-default ">
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-12">
+                <div class="mb-2">
+                    <h1>QR Sessions</h1>
+                    <div class="top-right-button-container">
+                        <a  uiSref="store.sessiondetail" class="btn btn-primary btn-lg top-right-button mr-1"
+                            *ngIf="(_permService.hasPermission(rsrcTitle , 'add' ) )">Add New</a>
+                        <div class="btn-group">
+                            <div class="btn btn-primary btn-lg pl-4 pr-0 check-button">
+                                <label class="custom-control custom-checkbox mb-0 d-inline-block">
+                                    <input type="checkbox" class="custom-control-input" id="checkAll">
+                                    <span class="custom-control-label">&nbsp;</span>
+                                </label>
+                            </div>
+                            <button type="button"
+                                class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                                <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="mb-2" *ngIf="dataBeingFetchedFirstTime || sessions.length">
+                    <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+                        role="button" aria-expanded="true" aria-controls="displayOptions">
+                        Display Options
+                        <i class="simple-icon-arrow-down align-middle"></i>
+                    </a>
+                    <div class="collapse d-md-block" id="displayOptions">
+                        <div class="d-block d-md-inline-block">
+                            <div class="btn-group float-md-left mr-1 mb-1">
+                                <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Order By
+                                </button>
+                                <div class="dropdown-menu" hidden>
+                                    <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                                </div>
+                            </div>
+                            <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                                <input placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="float-md-right dropdown-as-select" id="pageCountDatatable" >
+                        <span class="text-muted text-small m-3" *ngIf="!dataLengthChanged"> {{"Showing "+(filters.limit > total ? total : filters.limit) +" of "+total}}</span>
+                        <img src="assets/img/circle_spinner.webp" class="circle_spinner" *ngIf="dataLengthChanged">
+                        <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="records">
+                            {{filters.limit}}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a [class]="'dropdown-item '+(count == filters.limit ? 'active' : '' )" href="javascript:void(0)" *ngFor="let count of [10, 20 , 30 , 100 , 200 , 500 , 1000]" 
+                          (click)="changeNumberOfRecords(count)">
+                            {{count}}
+                          </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator mb-5"></div>
+    
+                <div class="list disable-text-selection" data-check-all="checkAll" *ngIf="dataBeingFetchedFirstTime || sessions.length">
+                    <!-- <div class="d-flex flex-row" *ngIf="shownSpinner">
+                        <div class="w-50">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-1" *ngFor = "let i of [80,60,70,67,45,85,79];">
+                                    <a href="javascipt:void(0)">
+                                        <ngx-skeleton-loader
+                                        [theme]="{
+                                            width: i+'px',
+                                            'border-radius': '0',
+                                            height: '15px'
+                                        }"
+                                        >
+                                        </ngx-skeleton-loader>
+                                    </a>
+                                </li>
+        
+                            </ul>
+                        </div>
+        
+                    </div> -->
+                    
+                    <div class="card d-flex flex-row mb-3" *ngFor = "let i of dataBeingFetchedFirstTime ? [90,67,85,95,39,82,20,90] : [];">
+                        <div class="d-flex flex-grow-1 min-width-zero">
+                            <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">                            
+                                <a class="list-item-heading mb-0 truncate w-40 w-xs-100 mt-0" href="javascript:void(0)" >
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '145px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </a>
+                                <p class="mb-0 text-muted text-small w-15 w-xs-100">
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '80px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </p>
+                                <p class="mb-0 text-muted text-small w-15 w-xs-100">
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '95px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </p>
+                                <div class="w-15 w-xs-100">
+                                    <ngx-skeleton-loader
+                                    [theme]="{
+                                        width : '60px',
+                                        'border-radius': '0',
+                                        height: '15px'
+                                    }"
+                                    >
+                                    </ngx-skeleton-loader>
+                                </div>
+                            </div>
+                        <label class="custom-control custom-checkbox mb-1 align-self-center mr-4">
+                            <ngx-skeleton-loader
+                            [theme]="{
+                                width : '40px',
+                                'border-radius': '0',
+                                height: '15px'
+                            }"
+                            >
+                            </ngx-skeleton-loader>
+
+                        </label>
+                        </div>
+                    </div>  
+                    <div class="card d-flex flex-row mb-3" *ngFor="let session of dataBeingFetchedFirstTime ? [] : sessions;">
+                        <div class="d-flex flex-grow-1 min-width-zero">
+                            <div
+                                class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
+                                <a class="list-item-heading mb-0 truncate w-40 w-xs-100 mt-0"
+                                    href="javascript:void(0)" >
+                                    <i [class]="(session.current_status == 'synced' ? 'simple-icon-check' : 'simple-icon-refresh' )+ ' heading-icon'" simple-icon-check></i>
+                                    <span class="align-middle d-inline-block">{{session.name}}</span>
+                                </a>
+                                <p class="mb-0 text-muted text-small w-15 w-xs-100">Total {{session.files.length}} files</p>
+                                <p class="mb-0 text-muted text-small w-15 w-xs-100">{{session.created_at | date: 'dd/MM/yy hh:mm'}}</p>
+                                <div class="w-15 w-xs-100">
+                                    <span [class]="'badge badge-pill badge-'+(session.current_status == 'synced' ? 'success' : 'secondary')">{{session.current_status}}</span>
+                                </div>
+                            </div>
+                            <label class="custom-control custom-checkbox mb-1 align-self-center mr-4">
+                                <a href="javascript:void(0)" (click)="showDetails(session._id)">View </a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-sessions-container" *ngIf="dataBeingFetchedFirstTime ? false : (sessions.length==0) ">
+                    <img src="assets/img/empty_item.svg" class="img-no-data" />
+                    <span class="font-bold font-no-data">No sessions found</span>
+                </div>
+
+                <!-- Start of Pagination -->
+                <nav *ngIf="dataBeingFetchedFirstTime ? false : sessions.length">
+                    <ul class="pagination pagination-sm justify-content-center mb-0">
+                        <li class="page-item" (click)="showPage(1)">
+                            <a class="page-link first" href="javascript:void(0)">
+                                <i class="simple-icon-control-start"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" (click)="showPage(currentPage-1)">
+                            <a class="page-link prev" href="javascript:void(0)">
+                                <i class="simple-icon-arrow-left"></i>
+                            </a>
+                        </li>
+                        <li [class]="'page-item '+(currentPage == page ? 'active disabled' : '')" (click)="showPage(page)" *ngFor="let page of pages;">
+                            <a class="page-link" href="javascript:void(0)">{{page}}</a>
+                        </li>
+                        <li class="page-item" (click)="showPage(currentPage+1)">
+                            <a class="page-link next" href="javascript:void(0)" aria-label="Next">
+                                <i class="simple-icon-arrow-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" (click)="showPage(pages[pages.length-1])">
+                            <a class="page-link last" href="javascript:void(0)">
+                                <i class="simple-icon-control-end"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End of Pagination -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

@@ -1,0 +1,141 @@
+<ng-container *ngIf="clientData?.length ; then haveData ; else noData">
+</ng-container>
+<ng-template #noData>
+  <form [formGroup]="ClientForm">
+    <div class="row">
+      <div class="input-group mb-3 col-sm-12 col-md-6 ">
+        <div class="w-100 form-group input-group ">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Name</span>
+          </div>
+          <input type="text" formControlName = "name"  class="form-control" aria-label="First Name">
+        </div>
+        <div class="w-100 error-div">
+          <div *ngIf="ClientForm.controls.name.invalid && (ClientForm.controls.name.dirty || ClientForm.controls.name.touched)" class="alert alert-danger">
+            <div *ngIf="ClientForm.controls.name.errors.required">
+              Please enter Name.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 col-sm-12 col-md-6 position-relative">
+        <div class="w-100 form-group input-group ">
+          <div class="input-group-prepend">
+            <span class="input-group-text">CNIC</span>
+          </div>
+          <input type="text" formControlName = "cnic" class="form-control" aria-label="CNIC" (keydown)="inputCNIC($event)">
+        </div>
+        <div class="w-100 error-div">
+          <div *ngIf="ClientForm.controls.cnic.invalid && (ClientForm.controls.cnic.dirty || ClientForm.controls.cnic.touched)" class="alert alert-danger">
+            <div *ngIf="ClientForm.controls.cnic.errors.minlength">
+              CNIC must have at least 13 numbers.
+            </div>
+            <div *ngIf="ClientForm.controls.cnic.errors.required">
+              Please enter CNIC.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-group mb-3 col-sm-12 col-md-6">
+        <div class="w-100 form-group input-group ">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Phone</span>
+          </div>
+          <input type="text" formControlName = "phone" class="form-control" aria-label="Phone" (keydown)="inpPhone($event)">
+        </div>
+        <div class="w-100 error-div">
+          <div *ngIf="ClientForm.controls.phone.invalid && (ClientForm.controls.phone.dirty || ClientForm.controls.phone.touched)" class="alert alert-danger">
+            <div *ngIf="ClientForm.controls.phone.errors.minlength">
+              Phone must have at least 11 numbers.
+            </div>
+            <div *ngIf="ClientForm.controls.phone.errors.required">
+              Please enter Phone.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-group mb-3 col-sm-12 col-md-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Father Name</span>
+        </div>
+        <input type="text" formControlName = "father_name" class="form-control" aria-label="Father Name">
+      </div>
+      <div class="input-group mb-3 col-sm-12 col-md-6">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Father CNIC</span>
+        </div>
+        <input type="text" formControlName = "father_cnic" class="form-control" aria-label="Father CNIC" (keydown)="inputCNIC($event)">
+        <div *ngIf="ClientForm.controls.father_cnic.invalid && (ClientForm.controls.father_cnic.dirty || ClientForm.controls.father_cnic.touched)" class="alert alert-danger">
+          <div *ngIf="ClientForm.controls.father_cnic.errors.minlength">
+            CNIC must have at least 13 numbers.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-group col-12">
+        <div class="input-group-prepend h-100">
+          <span class="input-group-text">Address</span>
+        </div>
+        <textarea  formControlName = "address" class="form-control" aria-label="With textarea"></textarea>
+      </div>
+    </div>
+    
+    <button [disabled]="!ClientForm.valid" [class]="'float-right mt-2 btn btn-primary btn-multiple-state '+btnStatusClass" (click)="submitForm()">
+      <div class="spinner d-inline-block">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+      <span class="icon success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Everything went right!" aria-describedby="tooltip678812">
+        <i class="simple-icon-check"></i> 
+      </span>
+      <span class="icon fail" data-toggle="tooltip" data-placement="top" title="" data-original-title="Something went wrong!">
+        <i class="simple-icon-exclamation"></i> 
+      </span>
+      <span class="label">{{client_id ? 'Update CRM' : 'CreateCRM'}}</span>
+    </button>
+    </form>
+</ng-template>
+<ng-template #haveData>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th scope="row">Name</th>
+        <td>{{clientData ? clientData[0].personal_info.name : ''}}</td>
+      </tr>
+      
+      <tr>
+        <th scope="row">Phone</th>
+        <td>{{clientData ? clientData[0].personal_info.phone : ''}}</td>
+      </tr>
+      <tr>
+        <th scope="row">CNIC</th>
+        <td>{{clientData ? clientData[0].personal_info.cnic: ''}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Father Name</th>
+        <td>{{clientData ? clientData[0].personal_info.father_name : ''}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Father CNIC</th>
+        <td>{{clientData ? clientData[0].personal_info.father_cnic : ''}}</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Address</th>
+        <td>{{clientData ? clientData[0].personal_info.address: ''}}</td>
+      </tr>
+
+      </tbody>
+    </table>
+
+    <div class="text-zero top-right-button-container" *ngIf="(_permService.hasPermission(rsrcTitle , 'edit' ))">
+      <a uiSref="store.clientform" [uiParams]="{id:client_id}" class="btn btn-primary btn-lg top-right-button mr-1 text-white" >Edit
+      </a>
+    </div>
+</ng-template>

@@ -1,0 +1,241 @@
+<div class="container-fluid disable-text-selection library-app">
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <h1>{{pageData.title}}</h1>
+                <div class="text-zero top-right-button-container">
+                    <button type="button" class="btn btn-primary btn-lg top-right-button mr-1" (click)="submit()"  *ngIf="form_status == 'pending'">
+                        <span *ngIf="!beingSubmit" >Submit</span>
+                        <preloader *ngIf="beingSubmit"></preloader>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-lg top-right-button mr-1" (click)="viewForm()"  *ngIf="form_status == 'synced'">
+                        <span *ngIf="!beingFormFetch" >View Form</span>
+                        <preloader *ngIf="beingFormFetch"></preloader>
+                    </button>
+                      
+                    <div class="btn-group">
+                        <div class="btn btn-primary btn-lg pl-4 pr-0 check-button">
+                            <label class="custom-control custom-checkbox mb-0 d-inline-block">
+                                <input type="checkbox" class="custom-control-input" id="checkAll">
+                                <span class="custom-control-label"></span>
+                            </label>
+                        </div>
+                        <button type="button"
+                            class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                            <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+                        </div>
+                    </div>
+                </div>
+                <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                    <ol class="breadcrumb pt-0">
+                        <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                            <a href="javascript:voide(0)" >{{crumb.title}}</a>
+                        </li>
+                    </ol>
+                </nav>
+
+            </div>
+            <div class="separator mb-5"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-xl-4 mb-4 drop-area-container" *ngIf="form_status == 'pending'">
+            <div class="card drop-area">
+                <div class="card-body">
+                    <button class="btn btn-primary upload-btn"  (click)="uploadAllFiles()"> Upload All Files</button>
+
+                    <span  action="/file-upload">
+                        <div class="dropzone ">
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-8 list disable-text-selection" data-check-all="checkAll">
+            <ng-container *ngIf="id; else addSection">
+                <div class="row" *ngIf="(!files || !files.length)">
+                    
+                    <h3  class="col-12 text-center">
+                        No images uploaded yet!
+                    </h3>
+                </div>
+            </ng-container>
+          
+            <ng-template #addSection>
+                <div *ngIf="(!files || !files.length)" class="row">
+                    <h3 class="col-12 text-center">
+                        Please upload images with barcode
+                    </h3>
+                </div>
+                
+            </ng-template>
+            <div class="row" *ngIf="files?.length">
+                <div [class]="(file.barcode ? '' : 'col-xxl-4')+ 'col-xl-6 col-12'" *ngFor="let file of files">
+                    <div class="card d-flex flex-row mb-4 media-thumb-container">
+                        <a class="d-flex align-self-center" href="javascript:void(0)">
+                            <img [src]="serverImagesPath+file.id" alt="uploaded image"  class="list-media-thumbnail responsive border-0" />
+                        </a>
+                        <div class="d-flex flex-grow-1 min-width-zero">
+                            <div
+                                class="card-body align-self-center d-flex flex-column justify-content-between min-width-zero align-items-lg-center">
+                                <a href="javascript:void(0)" class="w-100">
+                                    <p class="list-item-heading mb-1 truncate">{{file.name}}</p>
+                                </a>
+                                <p class="mb-1 text-muted text-small w-100 truncate" *ngIf="file.product_name">
+                                    <b>Product Name</b> &nbsp; {{file?.product_name.trim()}}
+                                </p>
+                                <p class="mb-1 text-muted text-small w-100 truncate" *ngIf="file.barcode && file.barcode.join()!='00000000000'">
+                                    <b>Barcode</b> &nbsp; ['{{file?.barcode.join("','")}}']
+                                </p>
+
+                                <p class="mb-1 text-muted text-small w-100 truncate">{{file.uploaded_at | date: 'dd.MM.yy hh:mm'}}</p>
+                            </div>
+                            <div class="pl-1 align-self-center" >
+                                <label class="custom-control" *ngIf="form_status != 'pending'" (click)="showDetails(file)">
+                                    View
+                                </label>
+                                <label class="custom-control custom-checkbox mb-0" *ngIf="form_status == 'pending'">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-label"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Start of left modal -->
+<div class="modal fade modal-right select-from-library" id="libraryModal" tabindex="-1" role="dialog"
+aria-labelledby="libraryModal" aria-hidden="true" data-backdrop="static" >
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Select from Library</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body scroll pt-0 pb-0 mt-4 mb-4">
+            <div class="accordion" id="accordion">
+                <div class="mb-2">
+                    <button class="btn btn-link p-0 folder-button-collapse" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="icon-container">
+                            <i class="simple-icon-arrow-down"></i>
+                        </span>
+                        <span class="folder-name">All Images </span>
+                    </button>
+                    <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                        <div class="list disable-text-selection">
+                            <div class="row">
+
+                                <div *ngFor="let file of files;" class="col-6 mb-1 sfl-item-container"
+                                    data-preview-path="img/chocolate-cake-thumb.jpg"
+                                    data-path="img/chocolate-cake-thumb.jpg"
+                                    data-label="chocolate-cake-thumb.jpg">
+                                    <div class="card d-flex mb-2 p-0 media-thumb-container">
+                                        <div class="d-flex align-self-stretch">
+                                            <img [src]="serverImagesPath+file.id" alt="uploaded image"
+                                                class="list-media-thumbnail responsive border-0" />
+                                        </div>
+                                        <div class="d-flex flex-grow-1 min-width-zero">
+                                            <div
+                                                class="card-body pr-1 pt-2 pb-2 align-self-center d-flex min-width-zero">
+                                                <div class="w-100">
+                                                    <p class="truncate mb-0">{{file.name}}</p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="custom-control custom-checkbox pl-1 pr-1 align-self-center">
+                                                <label class="custom-control custom-checkbox mb-0">
+                                                    <input type="checkbox" class="custom-control-input">
+                                                    <span class="custom-control-label"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <nav class="mt-4 mb-3">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item ">
+                                <a class="page-link first" href="javascript:void(0)" (click)='change(1)'>
+                                    <i class="simple-icon-control-start"></i>
+                                </a>
+                            </li>
+                            <li class="page-item ">
+                                <a class="page-link prev" href="javascript:void(0)" (click)='change($any(active)-1)'>
+                                    <i class="simple-icon-arrow-left" ></i>
+                                </a>
+                            </li>
+                            <li class="page-item "  *ngFor ="let page of paginationShortListed;">
+                                <a class="page-link " [ngClass]="page==active ? 'ActiveLink': ''" href="javascript:void(0)" (click)='change(page)' >{{page}}</a>
+                            </li>
+                            <li class="page-item ">
+                                <a class="page-link next" href="javascript:void(0)" aria-label="Next" (click)='change($any(active)+1)'>
+                                    <i class="simple-icon-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item ">
+                                <a class="page-link last" href="javascript:void(0)" (click)='change(pagination[pagination.length-1])'>
+                                    <i class="simple-icon-control-end"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary sfl-submit">Select</button>
+        </div>
+    </div>
+</div>
+</div>
+<!--End of Left Modal -->
+
+
+              <!--Order Session Modal-->
+              <div class="modal fade" id="Session" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title font-weight-bold text-center">Please provide Session name ?</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" [(ngModel)]="title" placeholder="Enter title" aria-label="Enter title" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary border-zero" type="button">Generate</button>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary " >
+                              <span *ngIf="!beingFormSubmit" (click)="createSession()">Submit</span>
+                              <preloader *ngIf="beingFormSubmit"></preloader>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End of Order Session Modal -->

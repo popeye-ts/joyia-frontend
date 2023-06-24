@@ -1,0 +1,74 @@
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Pending Payments</h5>
+
+            <div class="scroll dashboard-list-with-user">
+                <ng-container *ngIf="beingLoaded">
+                <div class="d-flex flex-row mb-3 pb-3 border-bottom" *ngFor ="let i of [1,2,4,5]">
+                    <a href="javascript:void(0)">
+                        <my-img
+                            [src]="'spinning-img'"
+                            [alt]="'Card image cap'"
+                            [width]="'100px'"
+                            [height]="'85px'"
+                            [maxHeight]="'100px'"
+                            [borderRadius]="'0.55rem'"
+                            [class]="'card-img-top'">
+                        </my-img>
+    
+                    </a>
+                    <div class="pl-3">
+                        <a href="javascript:void(0)">
+                            <p class="font-weight-medium mb-0 ">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                    width: '120px',
+                                    'border-radius': '0',
+                                    height: '20px'
+                                }"
+                                >
+                                </ngx-skeleton-loader>
+                            </p>
+                            <p class="text-muted mb-0 text-small">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                    width: '40px',
+                                    'border-radius': '0',
+                                    height: '20px'
+                                }"
+                                >
+                                </ngx-skeleton-loader>
+                            </p>
+                            <p class="text-muted mb-0 text-small font-weight-bold">
+                                <ngx-skeleton-loader
+                                [theme]="{
+                                    width: '80px',
+                                    'border-radius': '0',
+                                    height: '20px'
+                                }"
+                                >
+                                </ngx-skeleton-loader>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+                </ng-container>
+                <ng-container *ngIf="!beingLoaded">
+                <div class="d-flex flex-row mb-3 pb-3 border-bottom" *ngFor ="let order of pendingData">
+                    <a href="javascript:void(0)">
+                        <img [src]="serverImagesPath+order.image" 
+                        alt="Image Alt" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
+                    </a>
+                    <div class="pl-3">
+                        <a href="javascript:void(0)">
+                            <p class="font-weight-medium mb-0 ">{{order.client_name}}</p>
+                            <p class="text-muted mb-0 text-small">{{order.amountRemaining | currency : 'Rs '}}</p>
+                            <p class="text-muted mb-0 text-small font-weight-bold">Expected Payment Date was <b>{{order.expectedPaymentDate | amTimeAgo}}</b></p>
+                        </a>
+                    </div>
+                </div>
+                </ng-container>
+            </div>
+
+        </div>
+    </div>

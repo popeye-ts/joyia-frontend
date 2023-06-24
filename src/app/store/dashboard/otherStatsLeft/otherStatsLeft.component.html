@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-xl-12 col-lg-4" *ngFor="let title of titles ;let i = index;">
+        <div class="card mb-4 progress-banner">
+            <div class="card-body justify-content-between d-flex flex-row align-items-center">
+                <div>
+                    <i class="iconsminds-file mr-2 text-white align-text-bottom d-inline-block"></i>
+                    <div>
+                        <p class="lead text-white">{{data[keys[i]].value}} {{title}}</p>
+                        <p class="text-small text-white">{{data[keys[i]].label}}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div role="progressbar"
+                        class="progress-bar-circle progress-bar-banner position-relative"
+                        data-color="white" data-trail-color="rgba(255,255,255,0.2)"
+                        aria-valuenow="5" aria-valuemax="12" data-show-percent="false">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

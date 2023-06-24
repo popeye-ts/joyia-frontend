@@ -1,0 +1,122 @@
+
+.form {
+    // position: relative;
+   
+}
+  
+  .chosen-guarantor1,
+  .chosen-guarantor2,
+  .value-list {
+    // position: absolute;
+    width: 90%;
+    background: ivory;
+    z-index: 5;
+  }
+  
+  .chosen-guarantor1,
+  .chosen-guarantor2
+  {
+    font-family: 'Ek Mukta';
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 4px;
+    font-size: 0.8rem;
+    background-color: #FAFCFD;
+    border: 3px solid transparent;
+    transition: .3s ease-in-out;
+    
+    &::-webkit-input-placeholder {
+      color: #333;
+    }
+    
+    &:hover {
+      background-color: #e5ebf1;
+      cursor: pointer;
+      
+      &::-webkit-input-placeholder {
+        color: #333;
+      }
+    }
+    
+    &:focus,
+    &.open {
+      box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.2);
+      outline: 0;
+      background-color: #e5ebf1;
+      color: #000;
+      
+      &::-webkit-input-placeholder {
+        color: #000;
+      }
+    }
+  }
+  
+  .value-list {
+    list-style: none;
+    margin-top: 5px;
+    box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.2);
+    overflow: hidden;
+    max-height: 0;
+    transition: .3s ease-in-out;
+    padding: 0%;
+    z-index: 5;
+    position: relative;
+    &.open {
+     max-height: 320px;
+     overflow: auto;
+    }
+    
+    li {
+      position: relative;
+      height: 4rem;
+      background-color: #FAFCFD;
+      padding: 1rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color .3s;
+      opacity: 1;
+      
+      &:hover {
+        background-color: #e5ebf1;
+      }
+      
+      &.closed {
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        opacity: 0;
+      }
+    }
+  }
+  .add-customer-btn{
+    position: absolute;
+    right:27px;
+    background: #145388;
+    color: white;
+    font-size: 1rem;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+  }
+  .remove-customer-btn{
+    position: absolute;
+    right:4px;
+    background: red;
+    color: white;
+    font-size: 1rem;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+  }
+  :host{
+    position: relative;
+  }
+  .guarantor2-select-container{
+    position: absolute;
+    top: 74px;
+    width: 100%;
+  }

@@ -1,0 +1,156 @@
+<div *ngIf="showSpinner;then noContent else content"></div>
+<div class="row allProductsContainer">
+    <ng-template #noContent>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-4 " *ngFor="let i of [1,2,3,5,6,7,8,3,5]" >
+                <figure class="card card-product">
+                    <div class="img-wrap"> 
+                        <ngx-skeleton-loader
+                        count="1"
+                        appearance="circle"
+                        [theme]="{
+                        width: '250px',
+                        'border-radius': '0.75rem',
+                        height: '178px',
+                        'max-height': '210px'
+                        }"
+                    >
+                    </ngx-skeleton-loader>
+                        <a class="btn-overlay" href="javascript:void(0)" >
+                            <ngx-skeleton-loader
+                            count="1"
+                            appearance="circle"
+                            [theme]="{
+                            width: '150px',
+                            'border-radius': '0rem',
+                            height: '18px',
+                            'max-height': '210px'
+                            }"
+                        >
+                        </ngx-skeleton-loader>
+                        </a>
+                    </div>
+                    <figcaption class="info-wrap">
+                        <a href="javascript:void(0)" class="title">
+                            <ngx-skeleton-loader
+                            count="1"
+                            appearance="circle"
+                            [theme]="{
+                            width: '100px',
+                            'border-radius': '0.75rem',
+                            height: '17px',
+                            'max-height': '210px'
+                            }"
+                        >
+                        </ngx-skeleton-loader>
+                        </a>
+                        <div class="action-wrap">
+                            <button  class="btn btn-sm float-right" > 
+                                <i class="fa fa-cart-plus"></i> 
+                            </button>
+                            <div class="price-wrap h5">
+                                <span class="price-new">
+                                    <ngx-skeleton-loader
+                                    count="1"
+                                    appearance="circle"
+                                    [theme]="{
+                                    width: '125px',
+                                    'border-radius': '0rem',
+                                    height: '28px',
+                                    'max-height': '210px'
+                                    }"
+                                >
+                                </ngx-skeleton-loader>
+            
+                                </span>
+                            </div> 
+                        </div> 
+                    </figcaption>
+                </figure> 
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #content>
+    <div class="row col-12 " id="products-lst">
+        <div [class]="'col-sm-6 col-md-6 col-lg-4 '+(product.hidden ? 'hide-product' : '') " *ngFor="let product of products$ | async;let ind = index;" >
+            <figure [class]="('card card-product ')+(activeX == ind ? 'product-active' : '')" >
+                <span [class]="'badge-new'+(product.quantity_available == 0 ? '' : ' badge-blue')"> {{product.quantity_available == 0 ? 'Out of stock' : product.quantity_available+' available'}} </span>
+                <div class="img-wrap"> 
+                    <my-img
+                        [src]="serverImagesPath+product?.image"
+                        [alt]="'Card image cap'"
+                        [width]="'97%'"
+                        [height]="'170px'"
+                        [maxHeight]="'170px'"
+                        [borderRadius]="'0.75rem'"
+                        [class]="'card-img-top'"></my-img>
+                    <a class="btn-overlay" href="javascript:void(0)" (click)="viewProduct(product._id)">
+                        <i class="fa fa-search-plus"></i> Quick view
+                    
+                    </a>
+                </div>
+                <figcaption class="info-wrap">
+                    <a href="javascript:void(0)" class="title">{{product?.name}}</a>
+                    <div class="action-wrap">
+                        <button  [class]="'btn btn-sm float-right ' + (currentlyAdded(product._id) ? 'btn-danger' : 'btn-primary')" (click)="currentlyAdded(product._id) ? removeProduct(product._id) : addProduct(product , $event.target)" > 
+                            <i class="fa fa-cart-plus"></i> 
+                            {{currentlyAdded(product._id) ? 'Remove' : 'Add'}}
+                        </button>
+                        <div class="price-wrap h5">
+                            <span class="price-new">Rs. {{(product?.price) | money}}</span>
+                        </div> <!-- price-wrap.// -->
+                    </div> <!-- action-wrap -->
+                </figcaption>
+            </figure> <!-- card // -->
+        </div> <!-- col // -->
+        
+          <div hidden data-relative-alignment="true" data-vertical-alignment="Relative to Element" id="pendo-g-66qhHryhRjIDbYYXWUAnVi8rv0A" style="z-index: 9;height: 175px;position: absolute;width: 350px;animation: 0s ease 0s 1 normal none running none;float: none;vertical-align: baseline;display: block;visibility: visible;margin-right: 0px;">
+            <div aria-modal="false" data-caret-enabled="true" data-caret-height="15px" data-caret-width="15px" id="pendo-guide-container" role="dialog" style="background-color: rgb(255, 255, 255); position: relative; border-radius: 16px; padding: 20px; border: 0px solid rgb(187, 187, 187); box-shadow: rgba(33, 33, 33, 0.2) 0px -2px 20px 0px; float: none; vertical-align: baseline; display: block; max-width: none; max-height: none;" tabindex="-1">
+                <div id="pendo-start-focus-bumper-1655917708613" tabindex="0"></div>
+                <button aria-label="Close"  id="pendo-close-guide-32941451" style="min-width: 0px; line-height: 1; padding: 0px; background-color: rgba(255, 255, 255, 0); border-radius: 0px; color: rgb(101, 111, 125); font-family: Helvetica; font-size: 24px; font-weight: 100; left: auto; position: absolute !important; right: 20px; top: 20px; z-index: 20; margin: 0px; border: 0px; float: none; vertical-align: baseline; white-space: pre-wrap;">
+                    ×
+                </button>
+                <div  data-pendo-display-flex="true" data-pendo-justify-content="flex-start" data-row-vertical-alignment="center" id="pendo-row-2591424d" style="background-color: rgba(255, 255, 255, 0); margin: 0px 15px 10px 0px; padding: 0px; position: static; float: none; vertical-align: baseline; display: block;">
+                    <div style="display: block; position: relative; width: 100%; min-height: 27px;">
+                        <div style="display: inline-block; position: absolute; vertical-align: top; left: 0px; top: 0px;">
+                            <div data-img-id="pendo-image-0af37c86" id="pendo-image-wrapper-6b82d4ec">
+                                <img  data-pendo-accessible-element="true" id="pendo-image-0af37c86" src="https://content.webproduct.clickup.com/3Re7s6Q8LzY2GlueRZLwaAoP_Pg/guide-media-9ada60b5-b54f-4aa0-8082-08788f553ba8" style="display: block; height: auto; margin: 0px 5px 0px 0px; width: 27px; box-shadow: rgba(255, 255, 255, 0) 0px 0px 0px 0px; float: none; vertical-align: baseline; max-width: none;">
+                            </div>
+                        </div>
+                        <div  style="display: inline-block; position: absolute; vertical-align: top; left: 32px; top: 4px;">
+                            <h3  id="pendo-text-cd119c6b" style="color: rgb(42, 46, 52); font-size: 16px; letter-spacing: 0px; line-height: 1.2; overflow-wrap: break-word; padding: 0px; position: relative; text-transform: none; font-weight: 700; text-decoration: none; display: block; text-align: left; margin: 0px 0px 0px 5px; width: 230px; float: none; vertical-align: baseline; max-width: none;">
+                            <div  id="pendo-text-c29384ad" style="font-size: inherit; text-align: inherit; color: inherit; padding: 0px; margin: 0px; line-height: inherit; font-style: inherit; text-transform: inherit; letter-spacing: inherit; position: relative; display: block; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline;">
+                                <p id="pendo-text-76936e8f" style="font-size: inherit; text-align: inherit; color: inherit; padding: 0px; margin: 0px; line-height: inherit; font-style: inherit; text-transform: inherit; letter-spacing: inherit; position: relative; display: block; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline; white-space: pre-wrap; max-width: none;">
+                                    View your sidebar info better! 
+                                </p>
+                            </div>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div  data-pendo-display-flex="true" data-pendo-justify-content="flex-start" id="pendo-row-919608ad" style="background-color: rgba(255, 255, 255, 0); margin: 0px; padding: 0px; position: static; float: none; vertical-align: baseline; display: block;">
+                    <div  id="pendo-text-974d2af2" style="color: rgb(79, 87, 98); font-size: 14px; letter-spacing: 0px; line-height: 1.4; overflow-wrap: break-word; padding: 0px; position: relative; text-transform: none; font-weight: 300; text-decoration: none; display: block; text-align: left; margin: 0px; width: inherit; float: none; vertical-align: baseline; max-width: 290px;">
+                        <div  id="pendo-text-2f0f26dc" style="font-size: inherit; text-align: inherit; color: inherit; padding: 0px; margin: 0px; line-height: inherit; font-style: inherit; text-transform: inherit; letter-spacing: inherit; position: relative; display: block; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline;">
+                            <p id="pendo-text-23e8f70f" style="font-size: inherit; text-align: inherit; color: inherit; padding: 0px; margin: 0px; line-height: inherit; font-style: inherit; text-transform: inherit; letter-spacing: inherit; position: relative; display: block; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline; max-width: 290px;">
+                            <span id="pendo-text-da5ebf01" style="font-size: inherit; text-align: inherit; color: inherit; padding: 0px; margin: 0px; line-height: inherit; font-style: inherit; text-transform: inherit; letter-spacing: inherit; position: initial; display: inline; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline; white-space: pre-wrap;">
+                                You can now 
+                            </span>
+                            <strong id="pendo-text-d37cb453" style="font-size: inherit; text-align: inherit; color: inherit; padding: 0px; margin: 0px; line-height: inherit; font-weight: 700; text-transform: inherit; letter-spacing: inherit; position: relative; display: inline; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline; max-width: none;">
+                                <p style="font-size: inherit; text-align: inherit; color: rgb(95, 85, 238); padding: 0px; margin: 0px; line-height: inherit; font-style: inherit; text-transform: inherit; letter-spacing: inherit; position: relative; display: inline; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline; white-space: pre-wrap; max-width: none;">
+                                    adjust the width
+                                </p>
+                            </strong>
+                            <span id="pendo-text-656e3df7" style="font-size: inherit; text-align: inherit; color: inherit; padding: 0px; margin: 0px; line-height: inherit; font-style: inherit; text-transform: inherit; letter-spacing: inherit; position: initial; display: inline; width: auto; overflow-wrap: break-word; float: none; vertical-align: baseline; white-space: pre-wrap;"> 
+                                on both sidebars for easier commenting &amp; subpage viewing. Simply drag this bar to adjust the sizing as needed.
+                            </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div  id="pendo-end-focus-bumper-1655917708613" tabindex="0"></div>
+            </div>
+            <div  style="position: absolute;z-index: 11;border-top: 15px solid transparent;border-bottom: 15px solid transparent;bottom: 47px;border-right: 15px solid rgb(255, 255, 255);left: -15px;"></div>
+        </div>
+    </div>
+    </ng-template>
+</div> <!-- row.// -->

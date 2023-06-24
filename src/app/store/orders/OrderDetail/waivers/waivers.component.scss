@@ -1,0 +1,33 @@
+.center{
+  text-align: center;
+  width: 100%;
+}
+
+.spaceTop{
+  border-top: 3px solid grey;
+  margin-top: 20px;
+  padding: 10px;
+
+}
+.btnSubmit{
+    width: 142px;
+    height: 37px;
+}
+
+.blur {
+ text-shadow: 1px 1px 5px #aaa;
+ color: transparent;
+}
+.highlight {
+ font-weight:bold;
+ background-color: #ddeedd;
+}
+.actions{
+  display: none;
+}
+.highlight .actions {
+  display: block;
+}
+#printInitializer{
+  display: none;
+}

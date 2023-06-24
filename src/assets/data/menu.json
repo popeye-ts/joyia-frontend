@@ -1,0 +1,225 @@
+[
+  {
+    "title": "Dashboard",
+    "icon" : "iconsminds-shop-4",
+    "id" : "dashboard",
+    "resource" : "Dashboard",
+    "sub" : [
+      {
+          "title" : "Dashboard" ,
+          "icon" : "simple-icon-pie-chart",
+          "route": "store.dashboard",
+          "resource" : "Dashboard"
+      } ,
+      {
+          "title" : "LoginTimeline" ,
+          "icon" : "simple-icon-pie-chart",
+          "route": "store.logintimeline",
+          "resource" : "Dashboard"
+      } ,
+      {
+          "title" : "Calendar" ,
+          "icon" : "simple-icon-pie-chart",
+          "route": "store.calendar-component",
+          "resource" : "Dashboard"
+      }
+    ]
+  },
+  {
+    "title" : "Products",
+    "id" : "products",
+    "resource" : "Products",
+    "icon" : "iconsminds-digital-drawing",
+    "sub" : [
+      {
+          "title" : "All products",
+          "icon" : "iconsminds-air-balloon-1",
+          "route" : "store.product",
+          "resource" : "Products"
+      } ,
+      {
+          "title" : "Add product" ,
+          "icon" : "simple-icon-rocket",
+          "route" : "store.productForm",
+          "resource" : "Products"
+      },
+      {
+        "title" : "View category" ,
+        "icon" : "simple-icon-note",
+        "route" : "store.category",
+        "resource" : "Category"
+      }
+    ]
+  } ,
+  {
+    "title" : "Inventory" ,
+    "id" : "inventory",
+    "icon" : "iconsminds-pantone",
+    "resource" : "Inventory",
+    "sub" : [
+      {
+          "title" : "View inventory",
+          "icon" : "iconsminds-air-balloon-1",
+          "route" : "store.inventory",
+          "resource" : "Inventory"
+      },
+      {
+          "title" : "Add inventory",
+          "icon" : "simple-icon-doc",
+          "route" : "store.inventoryform",
+          "resource" : "Inventory"
+      },
+      {
+          "title" : "QR Sessions",
+          "icon" : "iconsminds-qr-code",
+          "route" : "store.sessionlst",
+          "resource" : "Inventory"
+      },{        
+        "title" : "QR Session Form",
+        "icon" : "iconsminds-receipt-4",
+        "route" : "store.sessiondetail",
+        "resource" : "Inventory"
+      }
+    ]
+  },
+  {
+    "title" : "Orders",
+    "id" : "orders",
+    "icon" : "iconsminds-three-arrow-fork",
+    "resource" : "Installment Orders" ,
+    "sub" : [
+      {
+        "title" : "Pending orders" ,
+        "icon" : "iconsminds-bucket",
+        "route" : "store.order",
+        "resource" : "Installment Orders"
+      },{
+        "title" : "Completed orders" ,
+        "icon" : "iconsminds-bucket",
+        "route" : "store.order_completed",
+        "resource" : "Completed Orders"
+      },{
+        "title" : "Cash orders" ,
+        "icon" : "iconsminds-cash-register-2",
+        "route" : "store.cash_order",
+        "resource" : "Cash Orders"        
+      }
+      ,{
+        "title" : "Pending payments" ,
+        "icon" : "iconsminds-bucket",
+        "route" : "store.pendingPayment",
+        "resource" : "Pending payments"
+      },
+      {
+        "title" : "Add installment order",
+        "icon" : "simple-icon-pie-chart",
+        "route" : "store.orderform",
+        "resource" : "Installment Orders"
+      },
+      {
+        "title" : "Approve Waivers",
+        "icon" : "simple-icon-pie-chart",
+        "route" : "store.waivers",
+        "resource" : "Installment Orders"
+      },
+      {
+        "title" : "Add cash order",
+        "icon" : "simple-icon-doc",
+        "route" : "store.cashorder",
+        "resource" : "Cash Order"
+      },
+      {
+        "title" : "View clients",
+        "icon" : "iconsminds-library",
+        "route" : "store.client",
+        "resource" : "Clients"
+      },
+      {
+        "title" : "Add client",
+        "icon" : "simple-icon-rocket",
+        "route" : "store.clientform",
+        "resource" : "Clients"
+      },
+      {
+        "title" : "View guarantors",
+        "icon" : "iconsminds-library",
+        "route" : "store.guarantor",
+        "resource" : "Guarantors"
+      },
+      {
+        "title" : "Add guarantor",
+        "icon" : "iconsminds-library",
+        "route" : "store.guarantorform",
+        "resource" : "Guarantors"
+      }
+    ]
+  } ,
+  {
+    "title" : "Accounts" ,
+    "id" : "accounts" ,
+    "icon" : "iconsminds-financial" ,
+    "resource" : "accounts",
+    "sub" : [
+      {
+        "title" : "Accounts List" ,
+        "id" : "account" ,
+        "icon" : "iconsminds-receipt-4",
+        "route" : "store.account" ,
+        "resource" : "Accounts"
+      },
+      {
+        "title" : "Account types" ,
+        "id" : "accountType" ,
+        "icon" : "simple-icon-people" ,
+        "route" : "store.accountType" ,
+        "resource" : "Account Type"
+      }
+      ,
+      {
+        "title" : "Finances" ,
+        "id" : "finance" ,
+        "icon" : "iconsminds-money-bag" ,
+        "route" : "store.finance" ,
+        "resource" : "Finances"
+      },
+      {
+        "title" : "Tagged Finances" ,
+        "id" : "tagged-finance" , 
+        "icon" : "iconsminds-money-bag" ,
+        "route" : "store.taggedFinance" ,
+        "resource" : "Finances"
+      }
+
+    ]
+  },
+  {
+    "title" : "Reports" ,
+    "id" : "reports" ,
+    "icon" : "iconsminds-statistic" ,
+    "resource" : "reports",
+    "sub" : [
+      {
+        "title" : "Orders Assigned List" ,
+        "id" : "orders-assigned" ,
+        "icon" : "iconsminds-receipt-4",
+        "route" : "store.reports-orders-assigned" ,
+        "resource" : "Report Orders Assigned"
+      }
+    ]
+  },
+  {
+    "title" : "Settings" ,
+    "id" : "settings" ,
+    "icon" : "simple-icon-settings" ,
+    "resource" : "settings",
+    "sub" : [
+      {
+        "title" : "User Settings" ,
+        "id" : "users" ,
+        "icon" : "simple-icon-people" ,
+        "route" : "store.userSettings" ,
+        "resource" : "User Management"
+      }
+    ]
+  }
+]

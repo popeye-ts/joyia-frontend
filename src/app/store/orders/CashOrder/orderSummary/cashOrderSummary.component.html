@@ -1,0 +1,124 @@
+    <div class="card">
+        <div class="order-type">
+            <button [class]="'btn-order-type ' +(orderType.includes('Cash') ? 'active-type' : '')" (click)="changeOrderType('cash' , $event)">Cash Order</button>
+            <button [class]="'btn-order-type ' +(orderType.includes('Cash') ? '' : 'active-type')" (click)="changeOrderType('installment' , $event)">Installment Order</button>
+        </div>
+        <span id="cart">
+
+            <table class="table table-hover shopping-cart-wrap scroll">
+                <thead class="text-muted">
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col" width="120">Qty</th>
+                        <th scope="col" width="120">Price</th>
+                        <th scope="col" class="text-right" width="200">Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="scroll">
+                    <div *ngIf="someProductsSelected;then itemsList else noItemsUI">here is ignored</div>
+                    <ng-template #itemsList>
+                        <tr class="scroll-items" *ngFor="let product of products$ | async" >
+                            <td>
+                                <h6 class="title text-truncate">{{product?.name}} </h6>
+                            </td>
+                            <td class="text-center">
+                                <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..." *ngIf="product?.inventory_type == 'Barcoded'">
+                                    <button (click)="changeInventoryItemsModal(product)" class="btn btn-primary">Change</button>
+                                </div>
+                                <div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="..." *ngIf="product?.inventory_type != 'Barcoded'">
+                                    <button type="button" class="m-btn btn btn-default pr0" (click)="quantityChanged(product._id, 'subtract')">
+                                        <i class="glyph-icon simple-icon-minus"></i>                                
+                                    </button>
+    
+                                    <button type="button" class="m-btn btn btn-default" disabled>{{product?.quantity}}</button>
+                                    
+                                    <button type="button" class="m-btn btn btn-default pl0" (click)="quantityChanged(product._id, 'add')">
+                                        <i class="glyph-icon simple-icon-plus"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="price-column">
+                                <div class="price-wrap">
+                                    <var class="price">Rs. 
+                                        <span contenteditable="true" (keydown)="discountChanged($event, product._id)" >
+                                            {{(product?.recieved || product?.price_calculated) }}
+                                        </span>
+                                    </var>
+                                </div> <!-- price-wrap .// -->
+                            </td>
+                            <td class="text-right btn-action">
+                                <button class="btn btn-outline-danger" (click)="removeProduct(product._id)"> <i
+                                        class="glyph-icon simple-icon-trash"></i></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #noItemsUI>
+                        <div >
+                            <h3 class="center-heading">
+                                No items selected
+                            </h3>
+                        </div>
+                    </ng-template>
+                    
+                </tbody>
+            </table>
+            <div class="box">
+                <ng-container *ngIf="orderType == 'Installment Order' && !selectedOrder">
+                    <h4>Select Guarantor 1</h4>
+                    <order-guarantors-select [placeholder]="'Guarantor 1'" id="1"></order-guarantors-select>
+                    <h4 class="mt-3">Select Guarantor 2</h4>
+                    <order-guarantors-select [placeholder]="'Guarantor 2'" id="2"></order-guarantors-select>
+                </ng-container>
+                <ng-container *ngIf="orderType == 'Cash Order'">
+                    <dl class="summary-labels">
+                        <dt>Tax: </dt>
+                        <dd class="float-right">
+                            {{tax$ | async | money}}
+                        </dd>
+                    </dl>
+                    <dl class="summary-labels">
+                        <dt>Discount:</dt>
+                        <dd class="float-right">
+                            {{discount$ | async | money}}
+                        </dd>
+                    </dl>
+                    <dl class="summary-labels">
+                        <dt>Sub Total:</dt>
+                        <dd class="float-right">
+                            {{subTotal$  | async | money}}
+                        </dd>
+                    </dl>
+                    <dl class="summary-labels">
+                        <dt>Total: </dt>
+                        <dd class="float-right h4 b"> 
+                            {{total$ | async | money}} 
+                        </dd>
+                    </dl>
+                </ng-container>
+                <div class="btn-section">
+                        <button class="btn btn-error btn-lg btn-block btn-danger float-left w-50" (click)="resetCart()">
+                            <i  class="fa fa-times-circle "></i> Reset 
+                        </button>
+                        <button class="btn  btn-primary btn-lg btn-block float-right w-50" (click)="completeOrder()">
+                            <i class="fa fa-shopping-bag"></i>
+                            <span *ngIf="(orderSubmissionState$ | async) != 'SUBMITTING'">
+                                <span *ngIf="(orderSubmissionState$ | async) == 'PENDING'" >
+                                    Complete
+                                </span>
+                                <span class="icon success" *ngIf="(orderSubmissionState$ | async) == 'ORDER_COMPLETE'" data-toggle="tooltip" data-placement="top"
+                                    title="Everything went right!">
+                                    <i class="simple-icon-check"></i>
+                                </span>
+                                <span class="icon fail" *ngIf="(orderSubmissionState$ | async) == 'SUBMIT_ERROR'" data-toggle="tooltip" data-placement="top"
+                                    title="Something went wrong!">
+                                    <i class="simple-icon-exclamation"></i>
+                                </span>
+                            </span>
+                            <preloader *ngIf="(orderSubmissionState$ | async) =='SUBMITTING' "></preloader>
+                        </button>
+                </div>
+            </div> <!-- box.// -->
+        </span>
+    </div> <!-- card.// -->
+   
+    <order-complete-modal></order-complete-modal>

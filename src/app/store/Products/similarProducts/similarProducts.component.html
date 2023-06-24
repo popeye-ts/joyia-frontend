@@ -1,0 +1,35 @@
+<div class="card mb-4 d-none d-lg-block" *ngIf="similarProducts.length">
+    <div class="card-body">
+        <h5 class="card-title"><span>Similar Products</span><a
+                class="btn-link float-right text-small pt-1" uiSref="store.product">View All</a>
+        </h5>
+        <div class="row social-image-row gallery">
+            <div class="col-6" *ngFor="let p of similarProducts;">
+                <a  uiSref="store.productdetail" [uiParams]="{id:p?._id}" >
+
+                   <!-- <img class="img-fluid border-radius" src="{{serverImagesPath+'lg_'+p?.image[0]}}" *ngIf="p?.image" /> -->
+                   <my-img
+                      [src]="serverImagesPath+p?.image[0]"
+                      [alt]="'alt'"
+                      [width]="'100%'"
+                      [height]="'116px'"
+                      [maxHeight]="'280px'"
+                      [borderRadius]="'10px'"
+                      [class]="'img-fluid border-radius'"></my-img>
+                   <!-- <ngx-skeleton-loader
+                     count="1"
+                     appearance="circle"
+                     [theme]="{
+                       'width': '70%' ,
+                       'height':'150px',
+                       'max-height': '280px',
+                       'border-radius': '10px'
+                     }"
+                     *ngIf="!(p?.image)"
+                   >
+                   </ngx-skeleton-loader> -->
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

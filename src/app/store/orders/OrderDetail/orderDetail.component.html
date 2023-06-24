@@ -1,0 +1,375 @@
+              <!--Start of order Detail Section -->
+                          <div class="row">
+                              <div class="col-12">
+                                <!--Start of Navigation -->
+                                  <div class="mb-3">
+                                      <h1>{{pageData.title}}</h1>
+                                      <div class="text-zero top-right-button-container">
+                                          <!-- <a  uiSref="store.batchForm" [uiParams]="{ id: _id }" class="btn btn-primary btn-lg top-right-button mr-1"
+                                              *ngIf="(_permService.hasPermission('Installment Orders' , 'add' ) )">Add Batch
+                                          </a> -->
+                                          <div class="btn-group" *ngIf="orderData?.order_status != 'complete' && ((_permService.hasPermission('Installment Orders' , 'add' ) ) || (_permService.hasPermission('Order_Assignment' , 'assign_forward' ) ))">
+                                              <div class="btn btn-primary btn-lg pl-4 pr-0">
+                                                Actions
+                                              </div>
+                                              <button type="button"
+                                                  class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                                  <span class="sr-only">Actions</span>
+                                              </button>
+                                              <div class="dropdown-menu dropdown-menu-right">
+                                                  <a class="dropdown-item" href="javascript:void(0)" (click)="addBatch()" *ngIf="(_permService.hasPermission('Installment Orders' , 'add' ) )" >Add Batch</a>
+                                                  <a class="dropdown-item" href="javascript:void(0)" *ngIf="(_permService.hasPermission('Order_Assignment' , 'assign_forward' ) )" (click)="assignOrder()">Assign Order</a>
+                                                  <a class="dropdown-item" href="javascript:void(0)" *ngIf="(_permService.hasPermission('Installment Orders' , 'delete' ) )" (click)="deleteOrder()">Delete Order</a>
+                                                  <a class="dropdown-item" href="javascript:void(0)" *ngIf="(_permService.hasPermission('Installment Orders' , 'add' ) )" (click)="markComplete()">Mark Complete</a>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                                          <ol class="breadcrumb pt-0">
+                                            <li class="breadcrumb-item"  *ngFor = "let crumb of pageData.breadcrumbs;let l =last;" [ngClass]='l ? "active" : "" '>
+                                                  <a href="javascript:void(0)">{{crumb.title}}</a>
+                                              </li>
+
+                                          </ol>
+                                      </nav>
+
+                                  </div>
+
+
+                                  <div class="separator mb-5"></div>
+                              </div>
+                          </div>
+                          <!--End of Navigation -->
+              <!--Begin Main Section  -->
+              <div class="container-fluid">
+         <div class="row">
+               <div class="col-12 col-md-12 col-xl-8 col-left">
+                   <div class="card mb-4">
+                       <div class="card-body">
+
+                           <div class="glide details">
+                               <div class="glide__track" data-glide-el="track">
+                                   <ul class="glide__slides">
+                                       <li class="glide__slide" *ngFor="let img of productImages;">
+                                           <!-- <img alt="detail" src="{{serverImagesPath+'lg_'+img}}"
+                                               class="responsive border-0 border-radius img-fluid mb-3" /> -->
+                                           <my-img
+                                              [src]="serverImagesPath.large+img"
+                                              [alt]="'detail'"
+                                              [width]="'100%'"
+                                              [height]="'382px'"
+                                              [maxHeight]="'100%'"
+                                              [borderRadius]="'0.75rem'"
+                                              [class]="'responsive border-0 border-radius img-fluid mb-3'"
+                                              class="img"
+                                              ></my-img>
+                                       </li>
+                                   </ul>
+                               </div>
+                           </div>
+
+                           <div class="glide thumbs">
+                               <div class="glide__track" data-glide-el="track">
+                                   <ul class="glide__slides">
+                                       <li class="glide__slide" *ngFor="let img of productImages;">
+                                           <img alt="thumb" src="{{serverImagesPath.small+img}}"
+                                               class="responsive border-0 border-radius img-fluid" />
+                                       </li>
+                                   </ul>
+                               </div>
+                               <div class="glide__arrows" data-glide-el="controls">
+                                   <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><i
+                                           class="simple-icon-arrow-left"></i></button>
+                                   <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><i
+                                           class="simple-icon-arrow-right"></i></button>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="card">
+                    <!-- Start of Tabs Header Section -->
+                       <div class="card-header">
+                           <ul class="nav nav-tabs card-header-tabs " role="tablist">
+                               <li class="nav-item" *ngIf="!orderData?.on_full_payment">
+                                   <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab"
+                                       aria-controls="first" aria-selected="true">Installments</a>
+                               </li>
+                               <li class="nav-item" *ngIf="!orderData?.on_full_payment">
+                                   <a class="nav-link" id="second-tab" data-toggle="tab" href="#second" role="tab"
+                                       aria-controls="second" aria-selected="false" [class.active]="orderData?.on_full_payment">Batch List</a>
+                               </li>
+                               <li class="nav-item" *ngIf="!orderData?.on_full_payment">
+                                   <a class="nav-link" id="third-tab" data-toggle="tab" href="#third" role="tab"
+                                       aria-controls="third" aria-selected="false" [class.active]="orderData?.on_full_payment">Client Details</a>
+                               </li>
+                               <li class="nav-item" *ngIf="!orderData?.on_full_payment">
+                                   <a class="nav-link" id="fourth-tab" data-toggle="tab" href="#fourth" role="tab"
+                                       aria-controls="fourth" aria-selected="false">Guarantors Details</a>
+                               </li>
+                               <li class="nav-item">
+                                   <a class="nav-link" id="fifth-tab" data-toggle="tab" href="#fifth" role="tab"
+                                       aria-controls="fifth" aria-selected="false">Products Details</a>
+                               </li>
+                               <li class="nav-item">
+                                   <a class="nav-link" id="sixth-tab" data-toggle="tab" href="#sixth" role="tab"
+                                    aria-controls="sixth" aria-selected="false">Comments</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="seventh-tab" data-toggle="tab" href="#seventh" role="tab"
+                                     aria-controls="seventh" aria-selected="false">Waivers</a>
+                                 </li>
+                                 <li class="nav-item" *ngIf="orderData?.on_full_payment">
+                                    <a class="nav-link" id="eight-tab" data-toggle="tab" href="#eight" role="tab"
+                                     aria-controls="eight" aria-selected="false">CRM</a>
+                                 </li>
+
+                           </ul>
+                       </div>
+                    <!-- End of Tabs header Section    -->
+                       <div class="card-body">
+                           <div class="tab-content">
+                               <!-- First Tab i.e Installments  -->
+                               <div class="tab-pane fade show active" id="first" role="tabpanel"
+                                   aria-labelledby="first-tab" *ngIf="!orderData?.on_full_payment">
+                                   <installments [order]="orderData" [order_id]="_id" [showForm]="(orderData?.total_amount - orderData?.total_paid)" (dataUpdated)="newData($event)"></installments>
+
+                               </div>
+                               <!-- End of First Tab -->
+
+                               <!-- Second Tab i.e Batches  -->
+                               <div class="tab-pane fade" id="second" role="tabpanel"
+                                   aria-labelledby="second-tab" *ngIf="!orderData?.on_full_payment">
+                                   <batches [batches]="batches" ></batches>
+                               </div>
+                               <!-- End of Second Tab -->
+
+                               <!-- Start of third tab -->
+                               <div class="tab-pane fade" id="third" role="tabpanel" aria-labelledby="third-tab" *ngIf="!orderData?.on_full_payment">
+                                   <clientDetails [client_id]="client_id"></clientDetails>
+                               </div>
+                               <!-- End of third tab -->
+
+                               <!-- Start of fourth tab -->
+                               <div class="tab-pane fade" id="fourth" role="tabpanel" aria-labelledby="fourth-tab" *ngIf="!orderData?.on_full_payment">
+                                   <guarantorsDetail [ids]="g_ids"></guarantorsDetail>
+                               </div>
+                               <!-- End of fourth tab -->
+
+                               <!-- Start of fifth tab -->
+                               <div class="tab-pane fade " id="fifth" role="tabpanel" aria-labelledby="fifth-tab">
+                                   <productsDetail [products]="products" (imagesRecieved)="populateImages($event)"></productsDetail>
+                                   <div class="text-zero top-right-button-container">
+                                       <button type="button" class="btn btn-primary btn-lg top-right-button mr-1">Edit</button>
+                                   </div>
+                               </div>
+                               <!-- End of fifth tab -->
+
+                               <!-- Start of sixth Tab i.e comments-->
+                               <div class="tab-pane fade" id="sixth" role="tabpanel" aria-labelledby="sixth-tab" >
+                                    <orderComments [order_id]="orderData?._id"></orderComments>
+                                </div>
+                               <!-- End of sixth Tab -->
+
+                               <!-- Start of seventh Tab i.e Waivers -->
+                               <div class="tab-pane fade" id="seventh" role="tabpanel" aria-labelledby="seventh-tab" >
+                                    <orderWaivers [order]="orderData" [order_id]="_id" [showForm]="true"></orderWaivers>
+                                </div>
+                               <!-- End of seventh Tab -->
+
+                               <!-- Start of eight Tab i.e Waivers -->
+                                <div class="tab-pane fade" *ngIf="orderData?.on_full_payment" id="eight" role="tabpanel" aria-labelledby="eight-tab" >
+                                    <orderCRM [order_id]="_id" [client_id]="orderData?.client"></orderCRM>
+                                </div>
+                                <!-- End of eight Tab -->
+                            
+                           </div>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="col-12 col-md-12 col-xl-4 col-right">
+                   <div class="card mb-4">
+                       <div class="position-absolute card-top-buttons">
+                           <span class="badge badge-pill badge-outline-theme-2 position-absolute badge-top-left " *ngIf="assigned_to">
+                             {{assigned_to?.username}}
+                           </span>
+                           <button id="summarySpinner" class="btn btn-header-light icon-button spinning">
+                               <i class="simple-icon-refresh "></i>
+                           </button>
+                       </div>
+                       <div class="card-body">
+                          <!--Preloader while data is being fetched-->
+                          <div *ngIf="!orderData">
+                            <div class="mb-3 ">
+                                <div class="post-icon mr-3 d-inline-block topHeart">
+                                  <a href="javascript:void(0)">
+                                        <ngx-skeleton-loader ></ngx-skeleton-loader>
+                                   </a>
+                                 </div>
+                            </div>
+                            <div class="mb-3">
+                              <!--Summary stats -->
+                              <div class="row">
+                                      <span class="col-6 font-weight-bold"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                                      <span class="col-6"><ngx-skeleton-loader></ngx-skeleton-loader></span>
+                              </div>
+                              <div class="row">
+                                      <span class="col-6 font-weight-bold"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                                      <span class="col-6 ul"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                              </div>
+
+                              <hr>
+                              <div class="row">
+                                      <span class="col-6 font-weight-bold"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                                      <span class="col-6"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                              </div>
+
+                              <div class="row">
+                                      <span class="col-6 font-weight-bold"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                                      <span class="col-6"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                              </div>
+                              <br><br>
+                              <div class="row last">
+                                      <span class="col-4 font-weight-bold margin"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                                      <span class="col-8 margin"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                              </div>
+
+                              <br><br>
+                              <div class="row" *ngIf="rating!=-1">
+                                      <span class="col-6 font-weight-bold"><ngx-skeleton-loader ></ngx-skeleton-loader></span>
+                                      <span class="col-6 shownStars">
+                                              <ngx-skeleton-loader ></ngx-skeleton-loader>
+                                      </span>
+                              </div>
+                            </div>
+                          </div>
+                          <!--End of Preloader while data is being fetched -->
+                          <div *ngIf="orderData">
+                           <div class="mb-3">
+                               <div class="post-icon mr-3 d-inline-block"><a href="javascript:void(0)"><i
+                                           class="simple-icon-heart mr-1"></i></a>
+                                           <span>
+                                             {{orderData?.products?.length}} product{{orderData?.products?.length > 1 ? 's are' : ' is'}} in order
+                                           </span>
+                                </div>
+                           </div>
+                           <div class="">
+                             <!--Summary stats -->
+                             <div class="row">
+                                     <span class="col-6 font-weight-bold">Total Bill</span>
+                                     <span class="col-6">{{orderData?.total_amount}} /_</span>
+                             </div>
+                             <div class="row">
+                                     <span class="col-6 font-weight-bold">Total Remaining</span>
+                                     <span class="col-6 ul">{{(orderData?.grand_total || orderData?.total_amount) - orderData?.total_paid}} /_</span>
+                             </div>
+                             <hr>
+                             <div class="row">
+                                     <span class="col-6 font-weight-bold">Initial Payment</span>
+                                     <span class="col-6">{{orderData?.advance_amount }} /_</span>
+                             </div>
+
+                             <div class="row">
+                                     <span class="col-6 font-weight-bold">Total Recieved Through Installments</span>
+                                     <span class="col-6">{{orderData?.total_paid-orderData?.advance_amount }} /_</span>
+                             </div>
+                             <br><br>
+                             <div class="row ">
+                                     <span class="col-6 font-weight-bold">Total Amount</span>
+                                     <span class="col-6">{{orderData?.total_amount}} /_</span>
+                             </div>
+
+                             <div class="row ">
+                                     <span class="col-6 font-weight-bold">Total Waived</span>
+                                     <span class="col-6">{{orderData?.total_waived || '0'}} /_</span>
+                             </div>
+                             <div class="row last">
+                                     <span class="col-6 font-weight-bold">Grand Total</span>
+                                     <span class="col-6 ul">{{(orderData?.grand_total || orderData?.total_amount)}} /_</span>
+                             </div>
+                             <br><br>
+                             <div class="row" *ngIf="rating!=-1">
+                                     <span class="col-6 font-weight-bold">Rating</span>
+                                     <span class="col-6 shownStars">
+                                              <span *ngFor="let i of [1, 2 ,3 , 4, 5]">{{rating >= i ? '★' : '☆'}}</span>
+
+                                     </span>
+                             </div>
+                             <div class="card-date-div">
+                                     <span class="pull-right">Created At :&nbsp;{{orderData?.created_at | date}} </span>
+                             </div>
+                             <!--End of Summary stats -->
+                           </div>
+                          </div>
+                       </div>
+                   </div>
+
+                   <!-- Same client other orders -->
+                   <otherOrders  *ngIf="!orderData?.on_full_payment"></otherOrders>
+                   <!-- End of same client other orders -->
+
+                  <!-- similar products -->
+                    <!-- <similarProducts></similarProducts> -->
+                  <!-- end of similar products -->
+               </div>
+           </div>
+       </div>
+              <!--End of Main Menu -->
+
+              <!--Order feedback Modal-->
+              <div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h3 class="modal-title font-weight-bold text-center" id="exampleModalLabel">Please provide Feedback ?</h3>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="rating">
+                            <span class="ratingStar" (click)="setRating(0)">☆</span>
+                            <span class="ratingStar"  (click)="setRating(1)">☆</span>
+                            <span class="ratingStar" (click)="setRating(2)">☆</span>
+                            <span class="ratingStar" (click)="setRating(3)">☆</span>
+                            <span class="ratingStar" (click)="setRating(4)">☆</span>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal">Close</button>
+                              <button class="btn btn-primary" >
+                                <span *ngIf="!beingRatingFormSubmit" (click)="submitRating()">Submit</span>
+                                <preloader *ngIf="beingEditFormSubmit"></preloader>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--End of Order Feedback Modal -->
+
+              <!--Order assign Modal-->
+              <div class="modal fade" id="assign" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h3 class="modal-title font-weight-bold text-center" id="exampleModalLabel">Assign order</h3>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="">
+                            <select2  (valueChanged)="SelectAssignChange($event)" [options]="{'width':'100%','allowClear': true,
+                            'placeholder': '','ajax':assignUserAjax}" id="optionSelect"></select2>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal">Close</button>
+                              <button class="btn btn-primary" >
+                                <span *ngIf="!assignmentInProgress" (click)="assignUser()">Submit</span>
+                                <preloader *ngIf="assignmentInProgress"></preloader>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--End of Order assign Modal -->

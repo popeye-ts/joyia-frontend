@@ -1,0 +1,14 @@
+.modalArttrs :nth-child(even){
+  background-color: whitesmoke;
+}
+.modalArttrs :nth-child(odd){
+  font-weight: bold
+}
+.colors {
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+  margin-right: 0;
+  float: left;
+  border-radius: 5px;
+}

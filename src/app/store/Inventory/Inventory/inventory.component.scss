@@ -1,0 +1,57 @@
+.active{
+  font-weight: bold;
+  }
+.active a{
+  color: blue !important;
+
+}
+.container-tooltip{
+  cursor :help;
+}
+.ng-tooltip {
+  position: absolute;
+  max-width: 150px;
+  font-size: 14px;
+  text-align: center;
+  color: #f8f8f2;
+  padding: 3px 8px;
+  background: #282a36;
+  border-radius: 4px;
+  z-index: 1000;
+  opacity: 0;
+}
+.ng-tooltip:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+}
+.ng-tooltip-top:after {
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: black transparent transparent transparent;
+}
+.ng-tooltip-show {
+  opacity: 1;
+}
+.noinventory{
+  width: 100%;
+
+}
+.has-float-label{
+  display: block;
+  position: relative;
+}
+.has-float-label label , .has-float-label > span:last-of-type {
+  position: absolute;
+  cursor: text;
+  font-size: 90%;
+  opacity: 1;
+  top: -0.4em;
+  left: 0.75rem;
+  z-index: 3;
+  line-height: 1;
+  padding: 0 1px;
+  background: white;
+}

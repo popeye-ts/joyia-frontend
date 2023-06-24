@@ -1,0 +1,37 @@
+<ng-template [ngIf]="!cached">
+    <img
+        *ngIf="!error"
+        [hidden]="!loaded"
+        [src]="src"
+        [alt]="alt"
+        (load)="onLoad()"
+        (error)="onError()"
+        class="{{class}}"
+    >
+    <ng-template [ngIf]="theme">
+      <ngx-skeleton-loader
+
+        count="1"
+        appearance="circle"
+        [theme]="theme"
+        *ngIf="(error || !loaded  )"
+      >
+      </ngx-skeleton-loader>
+    </ng-template>
+</ng-template>
+
+<ng-template [ngIf]="cached">
+    <img
+        *ngIf="!error"
+        [src]="src"
+        [alt]="alt"
+        (error)="onError()"
+        class="{{class}}"
+    >
+    <img
+        *ngIf="error"
+        [src]="'default'"
+        [alt]="alt"
+        class="{{class}}"
+    >
+</ng-template>

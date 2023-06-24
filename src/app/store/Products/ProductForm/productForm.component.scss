@@ -1,0 +1,93 @@
+.ActiveLink{
+  background: lightblue;
+}
+.active{
+  font-weight: bold;
+  }
+.active a{
+  color: blue !important;
+
+}
+
+
+#searchLoader{
+  background-size: cover !important;
+    width: 35px;
+    height: 22px;
+    display: inline-block;
+}
+.container-tooltip{
+  cursor :help;
+}
+.ng-tooltip {
+  position: absolute;
+  max-width: 150px;
+  font-size: 14px;
+  text-align: center;
+  color: #f8f8f2;
+  padding: 3px 8px;
+  background: #282a36;
+  border-radius: 4px;
+  z-index: 1000;
+  opacity: 0;
+}
+.ng-tooltip:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+}
+.ng-tooltip-top:after {
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: black transparent transparent transparent;
+}
+.ng-tooltip-show {
+  opacity: 1;
+}
+
+//Selectr
+.selectr{
+  width : 100%  !important;
+}
+.selectr .clear-search{
+  top: -2px !important;
+  right : 20px !important;
+}
+.selectr .panel-footer{
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.reset {
+    display: inline-block !important;
+    border-radius: 4px;
+}
+.badge {
+    display: inline-block;
+    margin-top: 25px;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #999;
+    border-radius: 10px;
+}
+.selectr .list-group{
+  overflow-y: auto;
+}
+.selectr .list-group-item{
+  overflow: initial;
+}
+.selectr{
+  margin-top: 1.0rem;
+}

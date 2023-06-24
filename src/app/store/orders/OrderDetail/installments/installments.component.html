@@ -1,0 +1,207 @@
+<form [formGroup]="InstallmentForm" (ngSubmit)="formSubmitted()" *ngIf="(_permService.hasPermission(rsrcTitle , 'add' ) && showForm )">
+  <hr>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="installmentAmount">Installment Amount</label>
+        <input type="number" class="form-control" formControlName="installment_amount" id="installmentAmount" placeholder="Amount">
+        <div *ngIf="InstallmentForm.controls.installment_amount.invalid && (InstallmentForm.controls.installment_amount.dirty || InstallmentForm.controls.installment_amount.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="InstallmentForm.controls.installment_amount.errors.required">
+            Amount is required.
+          </div>
+          <div *ngIf="InstallmentForm.controls.installment_amount.errors.min">
+            Amount must be at least 1 or above.
+          </div>
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="nextInstallmentDate">Next Installment Date</label>
+        <input class="form-control datepicker" id="nextInstallmentDate" placeholder="Date" autocomplete="off" >
+    </div>
+    <div class="form-group col-md-12">
+        <label for="nextInstallmentDate">Comment</label>
+        <input  type="text" class="form-control" formControlName="comment"
+            placeholder="Comment related to the installment">
+        <div *ngIf="InstallmentForm.controls.comment.invalid && (InstallmentForm.controls.comment.dirty || InstallmentForm.controls.comment.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="InstallmentForm.controls.comment.errors.required">
+            Comment is required.
+          </div>
+          <div *ngIf="InstallmentForm.controls.comment.errors.minlength">
+            Comment must be at least 3 characters long.
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-row">
+  <div class="col-md-9">
+
+  </div>
+  <div class="col-md-3">
+    <button type="submit" class="btn btn-primary mt-3 btnSubmit" [disabled]="!InstallmentForm.valid">
+        <span *ngIf="!beingAdded">
+          Add Installment
+        </span>
+      <preloader *ngIf="beingAdded"></preloader>
+    </button>
+  </div>
+</div>
+
+</form>
+<div class="text-center" *ngIf="!(_permService.hasPermission(rsrcTitle , 'view' ))">
+  You are not allowed to view {{rsrcTitle}}
+</div>
+<div class="row" *ngIf="(_permService.hasPermission(rsrcTitle , 'view' ))">
+                <div *ngIf="installmentList?.length ; then haveData ; else noData"></div>
+                <ng-template #noData>
+                  <div class="center spaceTop">
+                  <h3>No installments paid yet</h3>
+                  </div>
+                </ng-template>
+                <ng-template  #haveData>
+                <div class="col-12 mb-4 spaceTop">
+                    <table  class="table table-borderless"
+                         datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="instlmntTbl">
+                        <thead>
+                            <tr class="instmnt">
+                              <th scope="col">Sr</th>
+                              <th scope="col">Comment</th>
+                              <th scope="col">Time</th>
+                              <th scope="col">Amount</th>
+                              <th scope="col">Recieved By</th>
+                              <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                          <tr *ngFor="let installment of installmentList;index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{installment.comment}}</td>
+                            <td>{{installment.created_at | date}}</td>
+                            <td>{{installment.amount}}</td>
+                            <td>{{installment?.created_by?.username}}</td>
+                            <td class="actions">
+                              <button class="btn btn-primary" name="edit"
+                              [attr.data]="installment._id" (click)="editInstlmnt($event , installment)"
+                              *ngIf="(_permService.hasPermission(rsrcTitle , 'edit' )) && order_data?.order_status != 'complete'">
+                                <i class="simple-icon-pencil"  *ngIf="!beingEditInstlmnt"></i>
+                                <preloader *ngIf="beingEditInstlmnt"></preloader>
+                              </button>
+
+                              <button class="btn btn-primary btn-multiple-state" name="delete" [attr.data]="installment._id"
+                                (click)="deleteInstlmnt($event)"
+                                *ngIf="(_permService.hasPermission(rsrcTitle , 'delete' )) && order_data?.order_status != 'complete'" >
+                                <i class="simple-icon-trash" *ngIf="!beingDeletedInstlmnt"></i>
+                                <preloader *ngIf="beingDeletedInstlmnt"></preloader>
+                              </button>
+                              <!-- Start of print -->
+                              <div class="btn-group dropright mb-1" >
+                                  <button type="button" class="btn btn-primary" [disabled] = "printInProgress"
+                                  [attr.data]="installment._id"
+                                  (click)="printInstallment($event)" >
+                                    <i class="simple-icon-printer" *ngIf="!printInProgress"></i>
+                                    <preloader *ngIf="printInProgress"></preloader>
+                                  </button>
+
+                                  <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <span class="sr-only">Toggle Dropright</span>
+                                  </button>
+                                  <div class="dropdown-menu" x-placement="right-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(170px, 0px, 0px);">
+                                      <button class="dropdown-item"
+                                      [disabled] = "printAllInProgress"
+                                      [attr.data]="installment._id"
+                                      (click)="printAllPreviousInstallment($event)" >
+                                        <span *ngIf="!printAllInProgress">
+                                          Print all previous
+                                        </span>
+                                        <preloader *ngIf="printAllInProgress"></preloader>
+                                      </button>
+                                  </div>
+                              </div>
+                              <!-- End of print  -->
+                            </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </ng-template>
+</div>
+<!--Start of Modal to edit installment-->
+    <!-- Modal -->
+    <div class="modal fade" id="installmentEditModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Installment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--Edit installment form-->
+                <form [formGroup]="EditInstallmentForm" (ngSubmit)="editInstallmentFormSubmitted()" *ngIf="(_permService.hasPermission(rsrcTitle , 'edit' ) && showForm )">
+                <div class="modal-body">
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="installmentAmount">Installment Amount</label>
+                              <input type="number" class="form-control" formControlName="amount" id="installmentAmount" placeholder="Amount">
+                              <div *ngIf="EditInstallmentForm.controls.amount.invalid && (EditInstallmentForm.controls.amount.dirty || EditInstallmentForm.controls.amount.touched)"
+                                  class="alert alert-danger">
+
+                                <div *ngIf="EditInstallmentForm.controls.amount.errors.required">
+                                  Amount is required.
+                                </div>
+                                <div *ngIf="EditInstallmentForm.controls.amount.errors.min">
+                                  Amount must be at least 1 or above.
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="nextEditInstallmentDate">Next Installment Date</label>
+                              <input class="form-control datepicker" id="nextEditInstallmentDate" placeholder="Date">
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="nextInstallmentDate">Comment</label>
+                              <input  type="text" class="form-control" formControlName="comment"
+                                  placeholder="Comment related to the installment">
+                              <div *ngIf="EditInstallmentForm.controls.comment.invalid && (EditInstallmentForm.controls.comment.dirty || EditInstallmentForm.controls.comment.touched)"
+                                  class="alert alert-danger">
+
+                                <div *ngIf="EditInstallmentForm.controls.comment.errors.required">
+                                  Comment is required.
+                                </div>
+                                <div *ngIf="EditInstallmentForm.controls.comment.errors.minlength">
+                                  Comment must be at least 3 characters long.
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" >
+                      <span *ngIf="!beingEditFormSubmit">Save changes</span>
+                      <preloader *ngIf="beingEditFormSubmit"></preloader>
+                    </button>
+                </div>
+              </form>
+              <!--End of edit installment form-->
+
+            </div>
+        </div>
+    </div>
+<!--End of edit Modal installment-->
+
+<!--Start of print section for installment -->
+  <button type="button" name="buttonToPrint" id="printInitializer"
+  [printStyle]="{'#printReceipt' : {'margin-left':'20px' , 'padding':'32px'}}   "
+  [useExistingCss]="true"
+  printSectionId="printReceipt"
+  ngxPrint></button>
+  <installmentReceipt [data]="installmentData" (printNow)="goForPrint($event)"> </installmentReceipt>
+
+<!--End of print section for installments -->

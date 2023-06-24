@@ -1,0 +1,176 @@
+<div class="container-fluid library-app">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <h1>All Categories</h1>
+                        <div class="text-zero top-right-button-container">
+                            <button type="button"
+                            class="btn btn-primary btn-lg top-right-button mr-1"
+                            data-toggle="modal" data-target=".bd-example-modal-lg"
+                            *ngIf="(_permService.hasPermission(rsrcTitle , 'edit' ) )">
+                              Add new category
+                            </button>
+                            <div class="btn-group">
+                                <div class="btn btn-primary btn-lg pl-4 pr-0 check-button">
+                                    <label class="custom-control custom-checkbox mb-0 d-inline-block">
+                                        <input type="checkbox" class="custom-control-input" id="checkAll">
+                                        <span class="custom-control-label"></span>
+                                    </label>
+                                </div>
+                                <button type="button"
+                                    class="btn btn-lg btn-primary dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="javascript:void(0)" *ngIf="(_permService.hasPermission(rsrcTitle , 'edit' ) && singleSelected())" (click)="editCategory()">Edit</a>
+                                    <button class="dropdown-item" *ngIf="(_permService.hasPermission(rsrcTitle , 'delete' ) && itemSelected)" (click)="deleteCategory()">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                            <ol class="breadcrumb pt-0">
+                                <li class="breadcrumb-item">
+                                    <a href="javascript:void(0)">Home</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="javascript:void(0)">Categories List</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <div class="mb-2" *ngIf="!noCategories">
+                        <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions"
+                            role="button" aria-expanded="true" aria-controls="displayOptions">
+                            Display Options
+                            <i class="simple-icon-arrow-down align-middle"></i>
+                        </a>
+                        <div class="collapse d-md-block" id="displayOptions">
+                            <div class="d-block d-md-inline-block">
+                                <div class="btn-group float-md-left mr-1 mb-1">
+                                    <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Order By
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="javascript:void(0)">Action</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" >Another Action</a>
+                                    </div>
+                                </div>
+                                <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                                    <input placeholder="Search..." (keyup)="search($event)">
+                                </div>
+                            </div>
+                            <div class="float-md-right">
+                                <span class="text-muted text-small">Displaying 1-10 of 210 items </span>
+                                <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    20
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="javascript:void(0)">10</a>
+                                    <a class="dropdown-item active" href="javascript:void(0)">20</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">30</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">50</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">100</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="separator mb-5"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-xl-12 list disable-text-selection" data-check-all="checkAll">
+                    <div class="row text-center justify-content-center">
+                        <!--In case there are no categories -->
+                        <div class="NoDataDiv" *ngIf="noCategories"><h1>No categories yet.</h1></div>
+                        <!--End of incase -->
+                        <div *ngIf="showSpinner; then searchBlock; else dataBlock"></div>
+                        <ng-template #dataBlock>
+                        <div class="col-xxl-4 col-xl-6 col-12" *ngFor="let category of categoryList" >
+                            <div class="card d-flex flex-row mb-4 media-thumb-container">
+                                <a class="d-flex align-self-center media-thumbnail-icon"
+                                    href="javascript:void(0)">
+                                    <i class="{{category.icon}}"></i>
+                                </a>
+                                <div class="d-flex flex-grow-1 min-width-zero">
+                                    <div
+                                        class="card-body align-self-center d-flex flex-column justify-content-between min-width-zero align-items-lg-center">
+                                        <a href="javascript:void(0)" class="w-100">
+                                            <p class="list-item-heading mb-1 truncate">{{category.title}}</p>
+                                        </a>
+                                        <p class="mb-1 text-muted text-small w-100 truncate">{{category.created_at}}</p>
+                                    </div>
+                                    <div class="pl-1 align-self-center">
+                                        <label class="custom-control custom-checkbox mb-0">
+                                            <input type="checkbox" class="custom-control-input item catInp" [attr.data]="category._id">
+                                            <span class="custom-control-label"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </ng-template>
+                        <!--Start of spinner-->
+                        <preloader *ngIf="showSpinner" #searchBlock></preloader>
+                        <!--End of spinner -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal to select icon -->
+
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add category </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                         <div class="col-12">
+                             <div class="card mb-4">
+                                 <div class="card-body">
+                                   <!--Search bar -->
+                                   <h5 class="mb-4">
+                                      <form [formGroup]="CategoryForm" (ngSubmit)="addCategory()" class="input-group">
+                                       <input type="text" class="form-control" placeholder="Enter the label" id="Label" formControlName="title">
+                                       <input type="text" class="form-control" placeholder="Selected icon" id="iconSelected" formControlName="icon" disabled>
+                                       <div class="input-group-append">
+                                              <button class="btn btn-outline-secondary" type="submit" >Add category</button>
+                                       </div>
+                                      </form>
+                                   </h5>
+                                   <!-- End of search bar -->
+                                   <div class="card mb-4">
+                                       <div class="card-body">
+                                             <input type="text" class="form-control col-md-4 right" placeholder="Search icon" id="searchIcon" (keyup)="searchCatIcon($event)">
+                                          <ng-container *ngFor="let iGroup of allIcons">
+                                             <h6 class="mb-4">{{iGroup.title}}</h6>
+                                             <div class="mind-icons mb-5">
+                                                 <div class="glyph" *ngFor="let icon of iGroup.sub" (click)="selectIcon(icon.icon )">
+                                                     <div class="glyph-icon {{icon.icon}}"></div>
+                                                     <div class="class-name">{{icon.icon}}</div>
+                                                 </div>
+                                                 <div class="clearfix"></div>
+                                             </div>
+                                           </ng-container>
+                                       </div>
+                                   </div>
+                                 </div>
+                               </div>
+                        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+        <!--End of Modal to select icon -->

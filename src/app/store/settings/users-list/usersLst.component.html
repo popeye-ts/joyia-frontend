@@ -1,0 +1,69 @@
+<div class="scroll">
+  <div class="d-flex flex-row mb-3 pb-3 border-bottom header">
+    
+    <div class="col-2">
+        <p class="font-weight-bolder thead mb-0 ">Name</p>
+    </div>
+    <div class="col-2">
+      <p class="font-weight-bolder thead mb-0 ">Email</p>     
+    </div>
+    <div class="col-2">
+      <p class="font-weight-bolder thead mb-0 ">Phone#</p>      
+    </div>
+    <div class="col-2">
+      <p class="font-weight-bolder thead mb-0 ">Role Assigned</p>
+    </div>
+    <div class="col-2">
+        <p class="font-weight-bolder thead mb-0 ">
+          Status
+        </p>    
+    </div>
+    <div class="col-2">
+      <p class="font-weight-bolder thead mb-0 "> Actions </p>    
+    </div>
+  </div>
+  <div class="d-flex flex-row mb-3 pb-3 border-bottom pl-2" *ngFor="let user of usersLst;">
+
+    <img
+      [src]="serverImagesPath.small+(user.profile_pic || defaultProfilePic)"
+      alt="Profile Image" class="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
+  
+  <div class="col-2">
+      <p class="font-weight-medium mb-0 ">{{user.username}}</p>
+      <p class="text-muted mb-0 text-small">{{user.firstname}} {{user.lastname}}</p>
+  </div>
+  <div class="col-2">
+    <p class="font-weight-medium mb-0 ">{{user.email}}</p>     
+    <p class="text-muted mb-0 text-small">{{user.created_at | date:'dd.MM.yy' }}</p>
+
+  </div>
+  <div class="col-2">
+    <p class="font-weight-medium mb-0 ">{{user.phone}}</p>      
+  </div>
+  <div class="col-2">
+    <p class="font-weight-medium mb-0 ">{{user?.roles[0]?.role_name}}</p>
+  </div>
+  <div class="col-2">
+      <p class="font-weight-medium mb-0 ">
+        <span [class]="'badge badge-pill badge-'+(user.activation_status == 'Enabled' ? 'success' : 'secondary')">
+          {{user.activation_status}}
+        </span>          
+      </p>    
+  </div>
+  <div class="col-2">
+    <a href="javascript:void(0)" style="cursor:pointer;" (click)="viewDetail(user._id ? user._id : '')" class="badge badge-light mb-1 user-detail">
+      View &nbsp;
+      <span class="badge badge-light btn_order_loader spinner_{{user._id}}" style="display:none;">
+        <img src="assets/img/spinner.gif" class="btnorderLoader" style="width:10px;"/>
+      </span>
+    </a>
+    <br>
+  </div>
+
+</div>
+
+</div>
+
+<!-- Start of user modal -->
+<users-detail-modal [_id]="selectedUserId"></users-detail-modal>
+<!-- End of user modal -->
