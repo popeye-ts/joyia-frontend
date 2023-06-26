@@ -54,7 +54,7 @@ import { InventoryEffects } from './Redux/effects/inventory.effect';
 @NgModule({
   declarations: [
     LandingComponent ,
-    Page404Component
+    Page404Component,
     ],
   imports: [
     BrowserAnimationsModule,
