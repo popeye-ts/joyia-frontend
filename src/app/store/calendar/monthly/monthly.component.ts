@@ -80,7 +80,7 @@ export class MonthlyComponent implements OnInit {
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
-      // badgeTotal : 30,
+      // badgeTotal : 3
       title: 'A 3 day event',
       color: colors.blue,
       actions: this.actions,

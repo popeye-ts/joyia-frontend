@@ -38,6 +38,8 @@ export class CalendarComponent implements OnInit{
   // orders:any;
 
 
+
+
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
@@ -111,7 +113,7 @@ export class CalendarComponent implements OnInit{
   ];
 
   activeDayIsOpen: boolean = true;
-  ordersLst : any [];
+  ordersLst:any;
 
   constructor(private modal: NgbModal , private _calendarService  : CalendarService ,private orderData:OrdersApiService, private http : HttpClient) {
 
@@ -127,9 +129,11 @@ export class CalendarComponent implements OnInit{
   //   })
   // }
   ngOnInit(){
+    this.countOrders()
     this.orderData.getOrders().subscribe((res)=>{
-      console.log("tayyab:" , res);
-      this.ordersLst = res;
+     
+      this.ordersLst=res;
+      console.log("tayyab:" , this.ordersLst);
       // this.refresh.next(true)
       // alert("The last payment time is " + res[2].last_payment_time.$date)
       return res;
@@ -138,9 +142,10 @@ export class CalendarComponent implements OnInit{
     
     let that = this;
     this._calendarService.getAll().subscribe(resp=>{
-        console.log("Data fetched from activity" , resp)
-
-        resp.forEach(activity => {
+      console.log("Data fetched from activity" , resp)
+      
+     
+      resp.forEach(activity => {
           const random = Math.floor(Math.random() * 4);
           let i=0;
           let obj = {
@@ -170,6 +175,11 @@ export class CalendarComponent implements OnInit{
       console.log("Error occured in activity" , err)
 
     })
+  }
+  countOrders() : any{
+    const dateString : any = this.ordersLst.created_at.toISOString();
+    console.warn('dateString' , dateString);
+    
   }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
