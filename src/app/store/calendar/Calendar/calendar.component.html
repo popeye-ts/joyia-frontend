@@ -1,9 +1,9 @@
-<div class="container" *ngIf="ordersLst">
+<!-- <div class="container" *ngIf="ordersLst">
   <ul *ngFor="let orderObj of ordersLst">
-    <li>{{orderObj.created_at}}</li>
-    <!-- <li>{{orderObj._id.$oid}}</li> -->
+    <li>{{orderObj.created_at.split("T")}}</li>
+    <li>{{orderObj._id.$oid}}</li>
   </ul>
-</div>
+</div> -->
 
 <div class="row text-center">
   <div class="col-md-4">

@@ -1,6 +1,11 @@
+<!-- <div class="container-fluid" *ngIf="ordersLst">
+  <ul *ngFor="let order of ordersLst">
+    <li> {{order.order_id}} </li>
+  </ul>
+</div> -->
 <ng-template #customCellTemplate let-day="day" let-locale="locale">
-  <div class="cal-cell-top">
-    <span class="cal-day-badge"*ngIf="day.badgeTotal > 0">{{ day.badgeTotal }} </span>
+  <div class="cal-cell-top" *ngFor="let order of ordersLst">
+    <span class="cal-day-badge"*ngIf="day.badgeTotal > 0">{{ order.order_id }} </span>
     <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
   </div>
   <div class="cell-totals">

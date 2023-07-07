@@ -6,6 +6,10 @@ import { CalendarEvent,CalendarEventAction,CalendarEventTimesChangedEvent,Calend
 import { PermissionService } from "@services/permissions.service";
 import { CalendarService } from "@services/calendar.service";
 import { NotifierService } from "angular-notifier";
+import { CalendarComponent } from "../Calendar/calendar.component";
+import { OrdersApiService }  from '../../../service/orders-api.service';
+// import { DailyOrdersService } from "../../../service/daily-orders.service";
+
 
 const colors: any = {
   red: {
@@ -61,7 +65,7 @@ export class MonthlyComponent implements OnInit {
     event: CalendarEvent;
   };
   constructor( private notifier : NotifierService,
-              public _permService : PermissionService , private _calendarService : CalendarService , private modal: NgbModal ){
+              public _permService : PermissionService , private _calendarService : CalendarService , private modal: NgbModal, private calenderComponet : CalendarComponent, private orderData : OrdersApiService, ){
     this.pageData = {
       title: 'All Clients',
       loaded: true,
@@ -74,8 +78,10 @@ export class MonthlyComponent implements OnInit {
         }
       ]
     };
-
   }
+
+  ordersLst : [];
+  
   events: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),
@@ -121,6 +127,14 @@ export class MonthlyComponent implements OnInit {
 
 
   ngOnInit() {
+    // const date = new Date()
+    // this.dailyOrders.getTotalOrders(date).then((count)=>{
+    //   this.dailyOrders.TotalOrders = count;
+    // })
+    this.orderData.getOrders().subscribe((res)=>{
+      this.ordersLst = res;
+      return res;
+    })
   }
   eventTimesChanged({event,newStart,newEnd} :
                 CalendarEventTimesChangedEvent): void {

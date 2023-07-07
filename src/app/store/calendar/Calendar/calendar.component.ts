@@ -129,11 +129,11 @@ export class CalendarComponent implements OnInit{
   //   })
   // }
   ngOnInit(){
-    this.countOrders()
+    // this.countOrders()
     this.orderData.getOrders().subscribe((res)=>{
-     
       this.ordersLst=res;
       console.log("tayyab:" , this.ordersLst);
+      // this.ordersLst.created_at;
       // this.refresh.next(true)
       // alert("The last payment time is " + res[2].last_payment_time.$date)
       return res;
@@ -143,7 +143,6 @@ export class CalendarComponent implements OnInit{
     let that = this;
     this._calendarService.getAll().subscribe(resp=>{
       console.log("Data fetched from activity" , resp)
-      
      
       resp.forEach(activity => {
           const random = Math.floor(Math.random() * 4);
@@ -177,7 +176,7 @@ export class CalendarComponent implements OnInit{
     })
   }
   countOrders() : any{
-    const dateString : any = this.ordersLst.created_at.toISOString();
+    const dateString : any = this.ordersLst;
     console.warn('dateString' , dateString);
     
   }
